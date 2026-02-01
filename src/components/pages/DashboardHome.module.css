@@ -1,0 +1,330 @@
+.page {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--gray-50);
+}
+
+/* Header */
+.header {
+    padding: 24px 32px;
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 4px 0;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--gray-600);
+    margin: 0;
+}
+
+/* Status Row */
+.statusRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    padding: 24px 32px;
+}
+
+.statusCard {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--gray-200);
+}
+
+.sisCard {
+    background: #fffbeb;
+    border-color: #fcd34d;
+}
+
+.statusHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.statusLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.statusTime {
+    font-size: 12px;
+    color: var(--gray-500);
+}
+
+.statusBadge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.statusBadge.warning {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.statusBadge.success {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.statusMessage {
+    font-size: 13px;
+    color: var(--gray-700);
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+}
+
+.configureButton {
+    background: var(--clever-blue);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 150ms ease;
+}
+
+.configureButton:hover {
+    background: var(--clever-blue-dark);
+}
+
+/* SSO Stats */
+.ssoStats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ssoStat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-700);
+}
+
+.cardArrow {
+    text-align: right;
+    color: var(--clever-blue);
+    font-size: 18px;
+    margin-top: 12px;
+}
+
+/* Action Card */
+.actionCard {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--gray-200);
+}
+
+.actionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.actionLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.actionCount {
+    background: #ef4444;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.actionContent {
+    text-align: center;
+    padding: 20px;
+}
+
+.celebrationIcon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.actionMessage {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin: 0;
+}
+
+/* Applications Section */
+.applicationsSection {
+    margin: 0 32px 32px 32px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+    padding: 20px;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0;
+}
+
+.sectionActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.viewAllBtn {
+    color: var(--clever-blue);
+    font-size: 14px;
+    font-weight: 500;
+    background: none;
+    cursor: pointer;
+}
+
+.viewAllBtn:hover {
+    text-decoration: underline;
+}
+
+.pinBtn {
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* App Stats */
+.appStats {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.appStat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.appStatNumber {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.appStatLabel {
+    font-size: 13px;
+    color: var(--gray-600);
+}
+
+/* App Cards */
+.appCards {
+    display: flex;
+    gap: 16px;
+}
+
+.appCard {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 200px;
+}
+
+.appCardIcon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.printIcon {
+    background: #10b981;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.ssoIcon2 {
+    background: #6366f1;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.appName {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clever-blue);
+}
+
+.appArrow {
+    color: var(--clever-blue);
+    font-size: 14px;
+    align-self: flex-end;
+    margin-top: -20px;
+}
+
+.appCardStats {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.appCardStat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.statValue {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.statLabel {
+    font-size: 11px;
+    color: var(--gray-500);
+}

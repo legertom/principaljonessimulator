@@ -1,0 +1,185 @@
+.page {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--gray-50);
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 24px 32px;
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.headerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 12px;
+}
+
+.primaryButton {
+    background: var(--clever-blue);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 150ms ease;
+}
+
+.primaryButton:hover {
+    background: var(--clever-blue-dark);
+}
+
+.secondaryButton {
+    background: white;
+    color: var(--clever-blue);
+    padding: 10px 20px;
+    border: 1px solid var(--clever-blue);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.secondaryButton:hover {
+    background: var(--clever-blue-light);
+}
+
+/* LMS Logos */
+.lmsLogos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.supportedLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.logoRow {
+    display: flex;
+    gap: 24px;
+}
+
+.lmsLogo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--gray-700);
+}
+
+.logoIcon {
+    font-size: 20px;
+}
+
+/* Alert Banner */
+.alertBanner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 32px;
+    background: #f0f9ff;
+    border-bottom: 1px solid #bfdbfe;
+}
+
+.alertIcon {
+    font-size: 18px;
+}
+
+.alertBanner p {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin: 0 0 4px 0;
+}
+
+.link {
+    color: var(--clever-blue);
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* Benefits Section */
+.benefitsSection {
+    padding: 32px 32px;
+}
+
+.benefitsTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 8px 0;
+}
+
+.benefitsSubtitle {
+    font-size: 14px;
+    color: var(--gray-600);
+    margin: 0 0 24px 0;
+}
+
+.benefitsCards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.benefitCard {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.benefitIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.benefitCard p {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Partnership Section */
+.partnershipSection {
+    padding: 0 32px 32px 32px;
+}
+
+.partnershipTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 8px 0;
+}
+
+.partnershipText {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin: 0 0 4px 0;
+}

@@ -1,0 +1,224 @@
+.page {
+    padding: 2rem;
+    color: #333;
+}
+
+.header {
+    margin-bottom: 3rem;
+}
+
+.searchContainer {
+    position: relative;
+    width: 300px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 8px 8px 8px 32px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.heroSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4rem;
+    padding-right: 2rem;
+}
+
+.heroContent {
+    max-width: 500px;
+}
+
+.heroTitle {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.heroActions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.primaryBtn {
+    background: #0077c8;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.secondaryBtn {
+    background: white;
+    border: 1px solid #0077c8;
+    color: #0077c8;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.setupLink {
+    font-size: 14px;
+    color: #555;
+}
+
+.setupLink a {
+    color: #0077c8;
+    text-decoration: none;
+}
+
+.pricingCard {
+    background: white;
+    border: 3px solid #333;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 10px 10px 0px #ffe58f;
+    min-width: 200px;
+}
+
+.price {
+    font-size: 48px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.priceUnit {
+    font-size: 14px;
+    color: #666;
+}
+
+.sectionTitle {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.sectionSubtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.featureRow,
+.featureRowReverse {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 4rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.featureRowReverse {
+    flex-direction: row-reverse;
+}
+
+.videoPlaceholder {
+    width: 400px;
+    height: 225px;
+    background: #e0e0e0;
+    /* Fallback */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playButton {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.videoTime {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.featureText {
+    flex: 1;
+}
+
+.featureText h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.featureText ul {
+    padding-left: 20px;
+}
+
+.featureText li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    color: #444;
+}
+
+.bottomCta {
+    background: #002e6d;
+    color: white;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 4rem;
+    border-radius: 8px;
+}
+
+.bottomCta h3 {
+    font-size: 24px;
+    margin-bottom: 1.5rem;
+}
+
+.contactBtn {
+    background: white;
+    color: #0077c8;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}

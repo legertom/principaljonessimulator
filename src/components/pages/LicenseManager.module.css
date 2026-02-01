@@ -1,0 +1,314 @@
+.page {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--gray-50);
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 32px;
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.heroContent {
+    max-width: 500px;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 12px 0;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: var(--gray-600);
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.primaryButton {
+    background: var(--clever-blue);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 150ms ease;
+}
+
+.primaryButton:hover {
+    background: var(--clever-blue-dark);
+}
+
+.secondaryButton {
+    background: white;
+    color: var(--clever-blue);
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: 1px solid var(--clever-blue);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.secondaryButton:hover {
+    background: var(--gray-50);
+}
+
+/* Price Tag */
+.priceTag {
+    position: relative;
+    background: #fef3c7;
+    padding: 24px 32px;
+    border-radius: 8px;
+    text-align: center;
+    margin-right: 48px;
+}
+
+.priceTag::before {
+    content: "";
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 100px;
+    background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 50%, #8b5cf6 100%);
+    border-radius: 0 60px 60px 0;
+    z-index: -1;
+}
+
+.priceText {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+/* Value Props */
+.valueProps {
+    padding: 48px 32px;
+    text-align: center;
+}
+
+.sectionTitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 48px 0;
+}
+
+.propsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.propCard {
+    text-align: center;
+}
+
+.propIcon {
+    color: var(--gray-600);
+    margin-bottom: 16px;
+}
+
+.propTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 12px 0;
+}
+
+.propDescription {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Feature Section */
+.featureSection {
+    display: flex;
+    gap: 48px;
+    padding: 48px 32px;
+    background: white;
+    margin: 0 32px 32px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+}
+
+.featureImage {
+    flex: 1;
+}
+
+.imagePlaceholder {
+    background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.mockupHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.cleverBrand {
+    background: var(--clever-navy);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.mockupTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.mockupContent {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.mockupLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-700);
+    margin-bottom: 16px;
+}
+
+.mockupTree {
+    font-size: 13px;
+    color: var(--gray-600);
+}
+
+.treeItem {
+    padding: 4px 0;
+    font-family: monospace;
+}
+
+.treeItemActive {
+    color: var(--clever-blue);
+    font-weight: 600;
+}
+
+.refreshLink {
+    color: var(--clever-blue);
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.featureContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.featureTitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 16px 0;
+}
+
+.featureDescription {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+}
+
+.learnMoreLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--clever-blue);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid var(--clever-blue);
+    border-radius: 6px;
+    width: fit-content;
+    transition: all 150ms ease;
+}
+
+.learnMoreLink:hover {
+    background: var(--gray-50);
+}
+
+/* Bottom CTA */
+.bottomCta {
+    padding: 48px 32px;
+    text-align: center;
+    border-top: 1px solid var(--gray-200);
+    background: white;
+}
+
+.ctaTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 24px 0;
+}
+
+.logoRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.googleLogo {
+    width: 48px;
+    height: 48px;
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #4285f4;
+}
+
+.plusSign {
+    font-size: 24px;
+    color: var(--gray-400);
+}
+
+.cleverLogo {
+    width: 48px;
+    height: 48px;
+    background: var(--clever-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+}

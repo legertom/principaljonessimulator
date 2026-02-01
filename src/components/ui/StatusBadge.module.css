@@ -1,0 +1,38 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.default {
+    background: #e9eaeb;
+    color: #333;
+}
+
+.success {
+    background: #b8ebd5;
+    color: #166534;
+}
+
+.warning {
+    background: #ffeeba;
+    color: #856404;
+}
+
+.error {
+    background: #fbbfc3;
+    color: #991b1b;
+}
+
+.mfa {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.info {
+    background: #daebff;
+    color: #1e40af;
+}

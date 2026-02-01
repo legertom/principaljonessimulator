@@ -1,0 +1,178 @@
+.page {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--gray-50);
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px;
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0;
+}
+
+.addButton {
+    background: var(--clever-blue);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 150ms ease;
+}
+
+.addButton:hover {
+    background: var(--clever-blue-dark);
+}
+
+/* Info Banner */
+.infoBanner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.infoIcon {
+    font-size: 16px;
+}
+
+.infoBanner p {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin: 0;
+}
+
+.link {
+    color: var(--clever-blue);
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* Table */
+.tableContainer {
+    padding: 24px 32px;
+}
+
+.table {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table th {
+    text-align: left;
+    padding: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-600);
+    border-bottom: 1px solid var(--gray-200);
+    background: var(--gray-50);
+}
+
+.table th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.table td {
+    padding: 16px;
+    font-size: 14px;
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+.table tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
+}
+
+/* Name Cell */
+.nameCell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.appIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+}
+
+.appName {
+    color: var(--clever-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.appName:hover {
+    text-decoration: underline;
+}
+
+/* Status Badge */
+.statusBadge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #059669;
+}
+
+/* Login Stats */
+.loginStat {
+    text-align: center;
+}
+
+.statGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.statValue {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.statLabel {
+    font-size: 11px;
+    color: var(--gray-500);
+}

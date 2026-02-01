@@ -1,66 +1,111 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import Sidebar from "@/components/layout/Sidebar";
+import TopNav from "@/components/layout/TopNav";
+import ChatPanel from "@/components/chat/ChatPanel";
+
+// Pages
+import DashboardHome from "@/components/pages/DashboardHome";
+import MyApplications from "@/components/pages/MyApplications";
+import AddApplications from "@/components/pages/AddApplications";
+import LMSConnect from "@/components/pages/LMSConnect";
+import Library from "@/components/pages/Library";
+import PeoplePage from "@/components/dashboard/pages/PeoplePage";
+import PlaceholderPage from "@/components/dashboard/pages/PlaceholderPage";
+
+// New Pages
+import SISSync from "@/components/pages/SISSync";
+import CustomData from "@/components/pages/CustomData";
+import IDM from "@/components/pages/IDM";
+import LicenseManager from "@/components/pages/LicenseManager";
+import AdminTeam from "@/components/pages/AdminTeam";
+import AccessLogs from "@/components/pages/AccessLogs";
+import SSOSettings from "@/components/pages/SSOSettings";
+import Badges from "@/components/pages/Badges";
+import ClassroomMFA from "@/components/pages/ClassroomMFA";
+import PortalSettings from "@/components/pages/PortalSettings";
+import DataBrowser from "@/components/pages/DataBrowser";
+import Profile from "@/components/pages/Profile";
+
 import styles from "./page.module.css";
 
+// Page configuration - maps nav IDs to components
+const pageComponents = {
+  // Dashboard
+  "dashboard": DashboardHome,
+
+  // Applications
+  "my-applications": MyApplications,
+  "add-applications": AddApplications,
+  "lms-connect": LMSConnect,
+  "library-controls": Library,
+
+  // Data Sources
+  "sis-sync": SISSync,
+  "custom-data": CustomData,
+  "data-browser": DataBrowser,
+
+  // User Management
+  "idm": IDM,
+  "license-manager": LicenseManager,
+  "admin-team": AdminTeam,
+
+  // Authentication
+  "access-logs": AccessLogs,
+  "sso-settings": SSOSettings,
+  "badges": Badges,
+  "classroom-mfa": ClassroomMFA,
+
+  // People
+  "people": PeoplePage,
+
+  // Portal
+  "portal-settings": PortalSettings,
+
+  // User Profile
+  "profile": Profile,
+};
+
 export default function Home() {
+  const [activeNav, setActiveNav] = useState("dashboard");
+
+  const renderPage = () => {
+    const PageComponent = pageComponents[activeNav];
+
+    if (PageComponent) {
+      return <PageComponent />;
+    }
+
+    // For pages without a component, show placeholder
+    return (
+      <PlaceholderPage
+        title={activeNav.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+        icon="📄"
+      />
+    );
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className={styles.appContainer}>
+      {/* Dashboard Simulation */}
+      <div className={styles.dashboardContainer}>
+        {/* Sidebar now controls the full height left column */}
+        <Sidebar activeNav={activeNav} onNavChange={setActiveNav} />
+
+        {/* Content Column: TopNav + Main Content */}
+        <div className={styles.contentColumn}>
+          <TopNav onNavChange={setActiveNav} />
+          <main className={styles.dashboardMain}>
+            {renderPage()}
+          </main>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+
+      {/* Chat Panel */}
+      <div className={styles.chatPanelContainer}>
+        <ChatPanel />
+      </div>
     </div>
   );
 }

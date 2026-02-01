@@ -1,0 +1,257 @@
+.container {
+    padding: 24px 40px;
+    background-color: #ffffff;
+    min-height: 100%;
+}
+
+.pageTitleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.titleSection h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #111827;
+}
+
+.districtId {
+    font-size: 12px;
+    color: #6b7280;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.districtIdValue {
+    display: block;
+    font-size: 14px;
+    color: #111827;
+    margin-top: 4px;
+    font-family: monospace;
+}
+
+.exportButton {
+    background-color: #4351e8;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.exportButton:hover {
+    background-color: #3b46d1;
+}
+
+.infoBanner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f0f7ff;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 32px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.infoIcon {
+    color: #111827;
+}
+
+.infoLink {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.infoLink:hover {
+    text-decoration: underline;
+}
+
+.tabsContainer {
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.tab {
+    padding: 12px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4b5563;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.activeTab {
+    color: #4351e8;
+    border-bottom-color: #4351e8;
+}
+
+.tableActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.addFilterButton {
+    background-color: #4351e8;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.countText {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.learnMoreStaff {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #374151;
+    margin-left: auto;
+}
+
+.staffLinkIcon {
+    color: #374151;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.table th {
+    text-align: left;
+    padding: 12px 16px;
+    color: #6b7280;
+    font-weight: 500;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.headerCell {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.table td {
+    padding: 16px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+    vertical-align: top;
+}
+
+.schoolName {
+    font-weight: 500;
+    color: #111827;
+}
+
+.link {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.lastModified {
+    color: #374151;
+    line-height: 1.4;
+}
+
+.modifiedDate {
+    display: block;
+    font-weight: 500;
+}
+
+.modifiedTime {
+    font-size: 12px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.pageButton {
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    border: 1px solid transparent;
+    color: #374151;
+}
+
+.pageButton:hover:not(.activePage) {
+    background-color: #f9fafb;
+}
+
+.activePage {
+    background-color: #4351e8;
+    color: white;
+}
+
+.navButton {
+    color: #6b7280;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+
+.warningBanner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.5;
+}
+
+.warningIcon {
+    color: #ef4444;
+    margin-top: 2px;
+}
+
+.inlineIcon {
+    color: #ef4444;
+}

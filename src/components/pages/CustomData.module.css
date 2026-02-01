@@ -1,0 +1,87 @@
+.page {
+    padding: 2rem;
+    color: #333;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.uploadBtn {
+    background: #2358c2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.description {
+    color: #555;
+    margin-bottom: 3rem;
+    max-width: 600px;
+}
+
+.emptyState {
+    background: #f9f9f9;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 4rem 2rem;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.icon {
+    font-size: 48px;
+    margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.emptyState p {
+    color: #666;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.primaryBtn {
+    background: #2358c2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.secondaryBtn {
+    background: white;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}

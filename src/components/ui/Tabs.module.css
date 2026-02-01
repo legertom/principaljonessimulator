@@ -1,0 +1,36 @@
+.tabs {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem;
+}
+
+.tab {
+    background: none;
+    border: none;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+    font-family: inherit;
+}
+
+.tab:hover {
+    color: #333;
+}
+
+.activeTab {
+    color: #0077c8;
+}
+
+.activeTab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #0077c8;
+}
