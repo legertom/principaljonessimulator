@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./AccessLogs.module.css";
+import { demoUsers } from "@/data/demoIdentity";
 
 export default function AccessLogs() {
     return (
@@ -62,9 +63,9 @@ export default function AccessLogs() {
                                 Jan 31, 2026; 06:58:57 p.m. EST
                             </td>
                             <td>Clever Admin</td>
-                            <td>Tom Leger</td>
+                            <td>{demoUsers.primaryAdmin.firstName} {demoUsers.primaryAdmin.lastName}</td>
                             <td>District Admin</td>
-                            <td>84.17.35.67</td>
+                            <td>203.0.113.42</td>
                         </tr>
                     </tbody>
                 </table>

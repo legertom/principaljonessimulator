@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import { useInstructional } from "@/context/InstructionalContext";
 import styles from "./ChatPanel.module.css";
 import GuidancePanel from "../guidance/GuidancePanel";
+import { demoCustomer } from "@/data/demoIdentity";
 
 export default function ChatPanel() {
     const {
@@ -99,10 +100,10 @@ export default function ChatPanel() {
                         <span>👩🏽‍💼</span>
                     </div>
                     <div className={styles.customerDetails}>
-                        <div className={styles.customerName}>Principal Jones</div>
+                        <div className={styles.customerName}>{demoCustomer.title} {demoCustomer.lastName}</div>
                         <div className={styles.customerStatus}>
                             <span className={styles.statusDot}></span>
-                            Lincoln Heights Elementary
+                            {demoCustomer.schoolName}
                         </div>
                     </div>
                 </div>

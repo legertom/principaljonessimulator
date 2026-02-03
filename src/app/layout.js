@@ -1,9 +1,10 @@
 import { InstructionalProvider } from "@/context/InstructionalContext";
 import CoachMark from "@/components/guidance/CoachMark";
 import "./globals.css";
+import { demoCustomer } from "@/data/demoIdentity";
 
 export const metadata = {
-  title: "Principal Jones Simulator | Clever CS Training",
+  title: `${demoCustomer.title} ${demoCustomer.lastName} Simulator | Clever CS Training`,
   description: "Customer Support training simulator for Clever Dashboard",
 };
 

@@ -3,10 +3,12 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./TopNav.module.css";
 import { Icon } from "@/components/ui/Icons";
+import { demoUsers } from "@/data/demoIdentity";
 
 export default function TopNav({ onNavChange }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const fullName = `${demoUsers.primaryAdmin.firstName} ${demoUsers.primaryAdmin.lastName}`;
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -53,7 +55,7 @@ export default function TopNav({ onNavChange }) {
                         className={`${styles.userButton} ${isDropdownOpen ? styles.userButtonActive : ""}`}
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     >
-                        <span className={styles.userName}>Tom Leger</span>
+                        <span className={styles.userName}>{fullName}</span>
                         <span className={styles.chevron}>
                             <Icon name={isDropdownOpen ? "chevronUp" : "chevronDown"} size={10} />
                         </span>
@@ -62,9 +64,9 @@ export default function TopNav({ onNavChange }) {
                     {isDropdownOpen && (
                         <div className={styles.dropdownMenu}>
                             <div className={styles.dropdownHeader}>
-                                <h2 className={styles.hiUser}>Hi, Tom</h2>
+                                <h2 className={styles.hiUser}>Hi, {demoUsers.primaryAdmin.firstName}</h2>
                                 <div className={styles.userRole}>Admin</div>
-                                <div className={styles.userEmail}>tomleger+printdemo@gmail.com</div>
+                                <div className={styles.userEmail}>{demoUsers.primaryAdmin.email}</div>
                             </div>
                             <div className={styles.dropdownDivider} />
                             <div className={styles.dropdownItems}>

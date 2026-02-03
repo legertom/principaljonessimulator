@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "./Sidebar.module.css";
 import { Icons } from "@/components/ui/Icons";
 import { useInstructional } from "@/context/InstructionalContext";
+import { demoDistrict } from "@/data/demoIdentity";
 
 const navItems = [
     {
@@ -131,7 +132,7 @@ export default function Sidebar({ activeNav, onNavChange }) {
 
             {/* District Info */}
             <div className={styles.districtInfo}>
-                <span className={styles.districtName}>#DEMO Store Code (Dev) Sand...</span>
+                <span className={styles.districtName}>{demoDistrict.sidebarName}</span>
             </div>
 
             {/* Navigation */}

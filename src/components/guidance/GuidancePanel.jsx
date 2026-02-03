@@ -3,6 +3,7 @@
 import { useInstructional } from "@/context/InstructionalContext";
 import styles from "./GuidancePanel.module.css";
 import { Icon } from "@/components/ui/Icons";
+import { demoCustomer } from "@/data/demoIdentity";
 
 export default function GuidancePanel() {
     const { currentStep, showHint, toggleHint, advanceStep } = useInstructional();
@@ -22,7 +23,7 @@ export default function GuidancePanel() {
 
             <div className={styles.content}>
                 <p className={styles.objective}>
-                    {currentStep.guideMessage || (currentStep.type === "task" ? "Navigate to the correct page." : "Find the answer and reply to Jones.")}
+                    {currentStep.guideMessage || (currentStep.type === "task" ? "Navigate to the correct page." : `Find the answer and reply to ${demoCustomer.lastName}.`)}
                 </p>
 
                 <div className={styles.actions}>

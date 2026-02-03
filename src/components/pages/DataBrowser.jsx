@@ -3,6 +3,7 @@
 import { useState } from "react";
 import styles from "./DataBrowser.module.css";
 import { Icon } from "@/components/ui/Icons";
+import { demoDistrict } from "@/data/demoIdentity";
 
 const TABS = [
     "Schools",
@@ -82,44 +83,44 @@ const STUDENTS_DATA = [
 ];
 
 const TEACHERS_DATA = [
-    { school: "Treutelside Middle School", first: "Betty", last: "Bauch", title: "Ms.", dataSource: "SIS", email: "betty_bauch@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Earnest", last: "Rolfson", title: "Dr.", dataSource: "SIS", email: "earnest_rolfson82@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Rogelio", last: "Welch", title: "Ms.", dataSource: "SIS", email: "rogelio.welch93@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Uriah", last: "Connelly", title: "Dr.", dataSource: "SIS", email: "uriah_connelly17@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Walter", last: "Krajcik", title: "Ms.", dataSource: "SIS", email: "walter.krajcik@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Gerardo", last: "Erdman", title: "Mrs.", dataSource: "SIS", email: "gerardo_erdman91@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Lorelne", last: "Brakus", title: "Dr.", dataSource: "SIS", email: "lorelne_brakus@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Freeman", last: "Koney", title: "Dr.", dataSource: "SIS", email: "freeman.koney1@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Treutelside Middle School", first: "Jalen", last: "Reinger", title: "Dr.", dataSource: "SIS", email: "jalen.reinger61@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Sierra", last: "Hintz", title: "Mrs.", dataSource: "SIS", email: "sierra_hintz@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Claudie", last: "Cummings", title: "Mr.", dataSource: "SIS", email: "claudie_cummings22@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Anibal", last: "Hand-Schroeder", title: "Dr.", dataSource: "SIS", email: "anibal.hand-schroeder@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Skylar", last: "Corwin", title: "Ms.", dataSource: "SIS", email: "skylar_corwin74@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Gregory", last: "Crist", title: "Mr.", dataSource: "SIS", email: "gregory.crist57@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Malcolm", last: "Reynolds", title: "Mr.", dataSource: "SIS", email: "malcolm_reynolds43@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Destiny", last: "Kunze", title: "Ms.", dataSource: "SIS", email: "destiny_kunze@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Alexane", last: "Hyatt", title: "Mrs.", dataSource: "SIS", email: "alexanne_hyatt@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Fort Virgilfield Elementary School", first: "Erna", last: "Keeling", title: "Dr.", dataSource: "SIS", email: "erna.keeling71@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Santa Rosa Elementary School", first: "Armen", last: "Yost", title: "Mr.", dataSource: "SIS", email: "armen.yost@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
-    { school: "Santa Rosa Elementary School", first: "Drake", last: "Keiser", title: "Dr.", dataSource: "SIS", email: "drake_keiser@exampledistrict.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } }
+    { school: "Treutelside Middle School", first: "Betty", last: "Bauch", title: "Ms.", dataSource: "SIS", email: "betty_bauch@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Earnest", last: "Rolfson", title: "Dr.", dataSource: "SIS", email: "earnest_rolfson82@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Rogelio", last: "Welch", title: "Ms.", dataSource: "SIS", email: "rogelio.welch93@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Uriah", last: "Connelly", title: "Dr.", dataSource: "SIS", email: "uriah_connelly17@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Walter", last: "Krajcik", title: "Ms.", dataSource: "SIS", email: "walter.krajcik@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Gerardo", last: "Erdman", title: "Mrs.", dataSource: "SIS", email: "gerardo_erdman91@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Lorelne", last: "Brakus", title: "Dr.", dataSource: "SIS", email: "lorelne_brakus@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Freeman", last: "Koney", title: "Dr.", dataSource: "SIS", email: "freeman.koney1@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Treutelside Middle School", first: "Jalen", last: "Reinger", title: "Dr.", dataSource: "SIS", email: "jalen.reinger61@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Sierra", last: "Hintz", title: "Mrs.", dataSource: "SIS", email: "sierra_hintz@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Claudie", last: "Cummings", title: "Mr.", dataSource: "SIS", email: "claudie_cummings22@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Anibal", last: "Hand-Schroeder", title: "Dr.", dataSource: "SIS", email: "anibal.hand-schroeder@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Skylar", last: "Corwin", title: "Ms.", dataSource: "SIS", email: "skylar_corwin74@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Gregory", last: "Crist", title: "Mr.", dataSource: "SIS", email: "gregory.crist57@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Malcolm", last: "Reynolds", title: "Mr.", dataSource: "SIS", email: "malcolm_reynolds43@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Destiny", last: "Kunze", title: "Ms.", dataSource: "SIS", email: "destiny_kunze@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Alexane", last: "Hyatt", title: "Mrs.", dataSource: "SIS", email: "alexanne_hyatt@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Fort Virgilfield Elementary School", first: "Erna", last: "Keeling", title: "Dr.", dataSource: "SIS", email: "erna.keeling71@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Santa Rosa Elementary School", first: "Armen", last: "Yost", title: "Mr.", dataSource: "SIS", email: "armen.yost@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } },
+    { school: "Santa Rosa Elementary School", first: "Drake", last: "Keiser", title: "Dr.", dataSource: "SIS", email: "drake_keiser@cedarridgek12.org", lastModified: { date: "Feb 1, 2026", time: "9:45 a.m." } }
 ];
 
 const STAFF_DATA = [
-    { first: "Maegan", last: "Fadel", title: "Principal", email: "maegan.fadel73@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Shyanne", last: "Kuhic", title: "Librarian", email: "shyanne.kuhic@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Jaycee", last: "O'Hara", title: "Assistant Principal", email: "jaycee.ohara@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Donavon", last: "Johnson", title: "Principal", email: "donavon_johnson5@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Andy", last: "Willms", title: "Counselor", email: "andy.willms36@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Tess", last: "Heaney", title: "Special Education Coordinator", email: "tess.heaney@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Fanny", last: "Stracke", title: "Librarian", email: "fanny.stracke@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Percival", last: "Beier", title: "Teaching Assistant", email: "percival_beier23@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Leland", last: "Greenholt", title: "Counselor", email: "leland_greenholt@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Arvid", last: "Crooks", title: "Teaching Assistant", email: "arvid_crooks31@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Irving", last: "Labadie", title: "Assistant Principal", email: "irving_labadie22@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Seth", last: "Roberts", title: "Nurse", email: "seth.roberts@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Penelope", last: "Goyette", title: "Custodian", email: "penelope.goyette@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Carolina", last: "Parker", title: "Secretary", email: "carolina_parker2@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
-    { first: "Tyrel", last: "McGlynn", title: "Nurse", email: "tyrel.mcglynn38@exampledistrict.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } }
+    { first: "Maegan", last: "Fadel", title: "Principal", email: "maegan.fadel73@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Shyanne", last: "Kuhic", title: "Librarian", email: "shyanne.kuhic@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Jaycee", last: "O'Hara", title: "Assistant Principal", email: "jaycee.ohara@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Donavon", last: "Johnson", title: "Principal", email: "donavon_johnson5@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Andy", last: "Willms", title: "Counselor", email: "andy.willms36@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Tess", last: "Heaney", title: "Special Education Coordinator", email: "tess.heaney@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Fanny", last: "Stracke", title: "Librarian", email: "fanny.stracke@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Percival", last: "Beier", title: "Teaching Assistant", email: "percival_beier23@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Leland", last: "Greenholt", title: "Counselor", email: "leland_greenholt@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Arvid", last: "Crooks", title: "Teaching Assistant", email: "arvid_crooks31@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Irving", last: "Labadie", title: "Assistant Principal", email: "irving_labadie22@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Seth", last: "Roberts", title: "Nurse", email: "seth.roberts@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Penelope", last: "Goyette", title: "Custodian", email: "penelope.goyette@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Carolina", last: "Parker", title: "Secretary", email: "carolina_parker2@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } },
+    { first: "Tyrel", last: "McGlynn", title: "Nurse", email: "tyrel.mcglynn38@cedarridgek12.com", dataSource: "SIS", lastModified: { date: "Feb 1, 2026", time: "10:52 a.m." } }
 ];
 
 const SECTIONS_DATA = [
@@ -488,7 +489,7 @@ export default function DataBrowser() {
                     <h1>Data browser</h1>
                     <div className={styles.districtId}>
                         DISTRICT ID:
-                        <span className={styles.districtIdValue} id="district-id-val">68759062d10d9a9ab79dbe04</span>
+                        <span className={styles.districtIdValue} id="district-id-val">{demoDistrict.id}</span>
                     </div>
                 </div>
                 <button className={styles.exportButton}>

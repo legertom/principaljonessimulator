@@ -3,16 +3,17 @@
 import { useState } from "react";
 import styles from "./Profile.module.css";
 import { Icon } from "@/components/ui/Icons";
+import { demoDistrict, demoUsers } from "@/data/demoIdentity";
 
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("Overview");
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [profileData, setProfileData] = useState({
-        firstName: "Tom",
-        lastName: "Leger",
-        jobTitle: "Dev Dude",
+        firstName: demoUsers.primaryAdmin.firstName,
+        lastName: demoUsers.primaryAdmin.lastName,
+        jobTitle: demoUsers.primaryAdmin.jobTitle,
         phoneNumber: "",
-        email: "tomleger+printdemo@gmail.com"
+        email: demoUsers.primaryAdmin.email,
     });
     const [emailPrefs, setEmailPrefs] = useState({
         sync: true,
@@ -65,7 +66,7 @@ export default function Profile() {
                     </div>
                     <div className={styles.infoGroup}>
                         <label>District ID:</label>
-                        <div className={styles.infoValue}>68759062d10d9a9ab79dbe04</div>
+                        <div className={styles.infoValue}>{demoDistrict.id}</div>
                     </div>
                 </div>
                 <button className={styles.editButton} onClick={() => setIsEditModalOpen(true)}>Edit</button>

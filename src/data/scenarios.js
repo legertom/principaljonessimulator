@@ -1,8 +1,10 @@
+import { demoCustomer, demoDistrict } from "@/data/demoIdentity";
+
 export const scenarios = [
     {
         id: "scenario_find_district_id",
         title: "Finding District ID",
-        description: "Help Principal Jones find the District ID.",
+        description: `Help ${demoCustomer.title} ${demoCustomer.lastName} find the District ID.`,
         steps: [
 
             {
@@ -41,10 +43,10 @@ export const scenarios = [
             {
                 id: "step_locate_id",
                 type: "input",
-                text: null, // Jones is silent, waiting for answer.
+                text: null, // The customer is silent, waiting for answer.
                 sender: "customer",
                 guideMessage: "Enter the District ID to continue", // Meta instruction
-                correctAnswer: "68759062d10d9a9ab79dbe04",
+                correctAnswer: demoDistrict.id,
                 successStep: "step_success",
                 hint: {
                     target: "district-id-val",
@@ -59,7 +61,7 @@ export const scenarios = [
                 sender: "customer",
                 actions: [
                     { label: "Happy to help!", nextStep: null },
-                    { label: "You're welcome, Principal Jones.", nextStep: null }
+                    { label: `You're welcome, ${demoCustomer.title} ${demoCustomer.lastName}.`, nextStep: null }
                 ]
             }
         ]

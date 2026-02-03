@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./PortalSettings.module.css";
+import { demoDistrict } from "@/data/demoIdentity";
 
 // Icons
 const Icons = {
@@ -28,7 +29,7 @@ const Icons = {
 
 export default function PortalSettings() {
     const [activeTab, setActiveTab] = useState("URL");
-    const [shortname, setShortname] = useState("print-center");
+    const [shortname, setShortname] = useState(demoDistrict.portalShortname);
     const [customizationEnabled, setCustomizationEnabled] = useState(true);
 
     const tabs = [

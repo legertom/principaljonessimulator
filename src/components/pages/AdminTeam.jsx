@@ -3,23 +3,24 @@
 import { useState } from "react";
 import styles from "./AdminTeam.module.css";
 import { Icons, Icon } from "@/components/ui/Icons";
+import { demoUsers } from "@/data/demoIdentity";
 
 const teamMembers = [
     {
         id: 1,
-        name: "Tom Leger",
+        name: `${demoUsers.primaryAdmin.firstName} ${demoUsers.primaryAdmin.lastName}`,
         nickname: "🖊️",
-        email: "tomleger+printdemo@gmail.com",
+        email: demoUsers.primaryAdmin.email,
         roles: "Clever Admin (Owner)",
-        title: "Dev Dude",
+        title: demoUsers.primaryAdmin.jobTitle,
         mfaStatus: "Unactivated MFA",
         isOwner: true,
     },
     {
         id: 2,
-        name: "Jane Smith",
+        name: demoUsers.secondaryAdmin.name,
         nickname: "👤",
-        email: "detailed-textbook-3790@clever.com",
+        email: demoUsers.secondaryAdmin.email,
         roles: "Clever Admin",
         title: "",
         mfaStatus: "Unactivated MFA",

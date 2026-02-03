@@ -2,6 +2,7 @@
 
 import styles from "./SSOSettings.module.css";
 import { useState } from "react";
+import { demoDistrict } from "@/data/demoIdentity";
 
 export default function SSOSettings() {
     const [activeTab, setActiveTab] = useState("Access control");
@@ -15,7 +16,7 @@ export default function SSOSettings() {
             <div className={styles.contactInfo}>
                 <div className={styles.contactLabel}>TECH SUPPORT CONTACT ⓘ</div>
                 <div className={styles.contactEmail}>
-                    tomleger+storecode@gmail.com ✎
+                    {demoDistrict.techSupportEmail} ✎
                 </div>
             </div>
 
