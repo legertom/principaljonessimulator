@@ -5,6 +5,9 @@ export const scenarios = [
         id: "scenario_find_district_id",
         title: "Finding District ID",
         description: `Help ${demoCustomer.title} ${demoCustomer.lastName} find the District ID.`,
+        settings: {
+            idmPaidView: true
+        },
         steps: [
 
             {

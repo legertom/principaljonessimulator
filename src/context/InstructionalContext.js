@@ -15,6 +15,7 @@ export function InstructionalProvider({ children }) {
     // Derived state
     const activeScenario = scenarios.find(s => s.id === activeScenarioId);
     const currentStep = activeScenario?.steps.find(s => s.id === currentStepId);
+    const scenarioSettings = activeScenario?.settings ?? {};
 
     // Load initial step message on mount or scenario change
     useEffect(() => {
@@ -143,6 +144,7 @@ export function InstructionalProvider({ children }) {
 
     const value = {
         activeScenario,
+        scenarioSettings,
         currentStep,
         history,
         showHint,
