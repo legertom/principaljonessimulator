@@ -1,39 +1,7 @@
 "use client";
 
+import { Icons } from "@/components/ui";
 import styles from "./IDM.module.css";
-
-const ChevronDown = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="6 9 12 15 18 9" />
-    </svg>
-);
-
-const LockIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-);
-
-const ClockIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-    </svg>
-);
-
-const ShieldIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    </svg>
-);
-
-const CheckCircle = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1464ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-        <polyline points="22 4 12 14.01 9 11.01" />
-    </svg>
-);
 
 const features = [
     "Provision, manage, and archive students, teachers, and staff",
@@ -55,7 +23,7 @@ export default function IDM() {
                     </p>
                     <div className={styles.buttons}>
                         <button className={styles.primaryButton}>
-                            Get started <ChevronDown />
+                            Get started {Icons.chevronDown}
                         </button>
                         <button className={styles.secondaryButton}>Purchase</button>
                     </div>
@@ -73,7 +41,7 @@ export default function IDM() {
                 <div className={styles.propsGrid}>
                     <div className={styles.propCard}>
                         <div className={styles.propIcon}>
-                            <LockIcon />
+                            {Icons.authentication}
                         </div>
                         <h3 className={styles.propTitle}>Secure up-to-date accounts</h3>
                         <p className={styles.propDescription}>
@@ -82,7 +50,7 @@ export default function IDM() {
                     </div>
                     <div className={styles.propCard}>
                         <div className={styles.propIcon}>
-                            <ClockIcon />
+                            {Icons.clock}
                         </div>
                         <h3 className={styles.propTitle}>Get time back with automation</h3>
                         <p className={styles.propDescription}>
@@ -91,7 +59,7 @@ export default function IDM() {
                     </div>
                     <div className={styles.propCard}>
                         <div className={styles.propIcon}>
-                            <ShieldIcon />
+                            {Icons.shield}
                         </div>
                         <h3 className={styles.propTitle}>Reduce disruptions in learning</h3>
                         <p className={styles.propDescription}>
@@ -124,7 +92,7 @@ export default function IDM() {
                     <ul className={styles.features}>
                         {features.map((feature, index) => (
                             <li key={index} className={styles.featureItem}>
-                                <CheckCircle />
+                                {Icons.checkCircle}
                                 <span>{feature}</span>
                             </li>
                         ))}

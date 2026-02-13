@@ -1,10 +1,24 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useScenario } from "@/context/ScenarioContext";
+import { useSession, signOut } from "next-auth/react";
 import styles from "./TopNav.module.css";
 import { Icon } from "@/components/ui/Icons";
 
 export default function TopNav({ onNavChange }) {
+    const { scenario } = useScenario();
+    const { data: session } = useSession();
+    const { searchPlaceholder, userInfo: defaultUserInfo } = scenario.topNav;
+
+    // Use session data if available (real login), otherwise fall back to scenario default (simulated env)
+    const userInfo = session?.user ? {
+        name: session.user.name,
+        firstName: session.user.name.split(' ')[0], // Simple split for display
+        email: session.user.email,
+        role: session.user.role || defaultUserInfo.role
+    } : defaultUserInfo;
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -23,6 +37,10 @@ export default function TopNav({ onNavChange }) {
         setIsDropdownOpen(false);
     };
 
+    const handleLogout = async () => {
+        await signOut({ callbackUrl: "/login" });
+    }
+
     return (
         <header className={styles.topnav}>
             {/* Search */}
@@ -32,7 +50,7 @@ export default function TopNav({ onNavChange }) {
                 </span>
                 <input
                     type="text"
-                    placeholder="Search for users or applications"
+                    placeholder={searchPlaceholder}
                     className={styles.searchInput}
                 />
             </div>
@@ -53,7 +71,7 @@ export default function TopNav({ onNavChange }) {
                         className={`${styles.userButton} ${isDropdownOpen ? styles.userButtonActive : ""}`}
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     >
-                        <span className={styles.userName}>Tom Leger</span>
+                        <span className={styles.userName}>{userInfo.name}</span>
                         <span className={styles.chevron}>
                             <Icon name={isDropdownOpen ? "chevronUp" : "chevronDown"} size={10} />
                         </span>
@@ -62,9 +80,9 @@ export default function TopNav({ onNavChange }) {
                     {isDropdownOpen && (
                         <div className={styles.dropdownMenu}>
                             <div className={styles.dropdownHeader}>
-                                <h2 className={styles.hiUser}>Hi, Tom</h2>
-                                <div className={styles.userRole}>Admin</div>
-                                <div className={styles.userEmail}>tomleger+printdemo@gmail.com</div>
+                                <h2 className={styles.hiUser}>Hi, {userInfo.firstName}</h2>
+                                <div className={styles.userRole}>{userInfo.role}</div>
+                                <div className={styles.userEmail}>{userInfo.email}</div>
                             </div>
                             <div className={styles.dropdownDivider} />
                             <div className={styles.dropdownItems}>
@@ -72,7 +90,7 @@ export default function TopNav({ onNavChange }) {
                                     <Icon name="profile" size={18} className={styles.itemIcon} />
                                     <span>Profile</span>
                                 </button>
-                                <button className={styles.dropdownItem}>
+                                <button className={styles.dropdownItem} onClick={handleLogout}>
                                     <Icon name="logout" size={18} className={styles.itemIcon} />
                                     <span>Log out</span>
                                 </button>

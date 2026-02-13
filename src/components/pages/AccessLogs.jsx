@@ -1,12 +1,49 @@
 "use client";
 
+import { useScenario } from "@/context/ScenarioContext";
+import { DataTable } from "@/components/ui";
 import styles from "./AccessLogs.module.css";
 
 export default function AccessLogs() {
+    const { scenario } = useScenario();
+    const accessData = scenario.accessLogs.data;
+
+
+    const columns = [
+        {
+            key: "expand",
+            header: "",
+        },
+        {
+            key: "statusTime",
+            header: "Status and time",
+            render: (row) => (
+                <>
+                    <span className={styles.successIcon}>✓</span>
+                    {row.statusTime}
+                </>
+            ),
+        },
+        {
+            key: "finalAction",
+            header: "Final action",
+        },
+        {
+            key: "userName",
+            header: "User name",
+        },
+        {
+            key: "userType",
+            header: "User type",
+        },
+        {
+            key: "ipAddress",
+            header: "IP address",
+        },
+    ];
+
     return (
         <div className={styles.page}>
-
-
             <h1 className={styles.title}>Access logs</h1>
 
             <div className={styles.summaryCards}>
@@ -43,31 +80,7 @@ export default function AccessLogs() {
             </div>
 
             <div className={styles.tableContainer}>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Status and time</th>
-                            <th>Final action</th>
-                            <th>User name</th>
-                            <th>User type</th>
-                            <th>IP address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>▼</td>
-                            <td>
-                                <span className={styles.successIcon}>✓</span>
-                                Jan 31, 2026; 06:58:57 p.m. EST
-                            </td>
-                            <td>Clever Admin</td>
-                            <td>Tom Leger</td>
-                            <td>District Admin</td>
-                            <td>84.17.35.67</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <DataTable columns={columns} data={accessData} />
             </div>
         </div>
     );

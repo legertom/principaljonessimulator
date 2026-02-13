@@ -4,29 +4,7 @@
     gap: 24px;
 }
 
-/* Page Header */
-.pageHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.pageTitle {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--gray-900);
-    margin-bottom: 4px;
-}
-
-.pageDescription {
-    font-size: 14px;
-    color: var(--gray-500);
-}
-
-.headerActions {
-    display: flex;
-    gap: 10px;
-}
+/* Header actions - used in PageHeader */
 
 .primaryButton {
     display: inline-flex;
@@ -134,55 +112,7 @@
     background: var(--gray-50);
 }
 
-/* Table */
-.tableContainer {
-    background: white;
-    border-radius: 12px;
-    border: 1px solid var(--gray-200);
-    overflow: hidden;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th,
-.table td {
-    padding: 14px 16px;
-    text-align: left;
-}
-
-.table th {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background: var(--gray-50);
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.table tbody tr {
-    transition: background var(--transition-fast);
-}
-
-.table tbody tr:hover {
-    background: var(--gray-50);
-}
-
-.table td {
-    border-bottom: 1px solid var(--gray-100);
-    font-size: 14px;
-    color: var(--gray-700);
-}
-
-.checkbox {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-}
+/* Table cell customization */
 
 .personCell {
     display: flex;
@@ -262,8 +192,8 @@
     color: var(--gray-700);
 }
 
-/* Pagination */
-.pagination {
+/* Pagination wrapper */
+.paginationWrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -272,36 +202,4 @@
 .paginationInfo {
     font-size: 13px;
     color: var(--gray-500);
-}
-
-.paginationButtons {
-    display: flex;
-    gap: 4px;
-}
-
-.paginationButton {
-    padding: 8px 12px;
-    border: 1px solid var(--gray-300);
-    border-radius: 6px;
-    font-size: 13px;
-    color: var(--gray-600);
-    background: white;
-    min-width: 36px;
-    transition: all var(--transition-fast);
-}
-
-.paginationButton:hover:not(:disabled) {
-    background: var(--gray-50);
-    border-color: var(--gray-400);
-}
-
-.paginationButton:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.paginationButton.active {
-    background: var(--clever-blue);
-    color: white;
-    border-color: var(--clever-blue);
 }

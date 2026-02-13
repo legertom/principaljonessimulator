@@ -1,38 +1,7 @@
 "use client";
 
+import { Icons } from "@/components/ui";
 import styles from "./LicenseManager.module.css";
-
-const EyeIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-        <circle cx="12" cy="12" r="3" />
-    </svg>
-);
-
-const UsersIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
-);
-
-const XCircleIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="15" y1="9" x2="9" y2="15" />
-        <line x1="9" y1="9" x2="15" y2="15" />
-    </svg>
-);
-
-const ExternalLinkIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-        <polyline points="15 3 21 3 21 9" />
-        <line x1="10" y1="14" x2="21" y2="3" />
-    </svg>
-);
 
 export default function LicenseManager() {
     return (
@@ -61,7 +30,7 @@ export default function LicenseManager() {
                 <div className={styles.propsGrid}>
                     <div className={styles.propCard}>
                         <div className={styles.propIcon}>
-                            <EyeIcon />
+                            {Icons.eye}
                         </div>
                         <h3 className={styles.propTitle}>Preview</h3>
                         <p className={styles.propDescription}>
@@ -70,7 +39,7 @@ export default function LicenseManager() {
                     </div>
                     <div className={styles.propCard}>
                         <div className={styles.propIcon}>
-                            <UsersIcon />
+                            {Icons.userManagement}
                         </div>
                         <h3 className={styles.propTitle}>Assign</h3>
                         <p className={styles.propDescription}>
@@ -79,7 +48,7 @@ export default function LicenseManager() {
                     </div>
                     <div className={styles.propCard}>
                         <div className={styles.propIcon}>
-                            <XCircleIcon />
+                            {Icons.xCircle}
                         </div>
                         <h3 className={styles.propTitle}>Remove</h3>
                         <p className={styles.propDescription}>
@@ -119,7 +88,7 @@ export default function LicenseManager() {
                         Plus, get automated Google account creation and archival, giving you even more time back.
                     </p>
                     <a href="#" className={styles.learnMoreLink}>
-                        <ExternalLinkIcon />
+                        {Icons.externalLink}
                         Learn more about Clever IDM
                     </a>
                 </div>

@@ -34,28 +34,7 @@
     background-color: #9b2c2c;
 }
 
-.tabs {
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    gap: 32px;
-    margin-bottom: 32px;
-}
-
-.tab {
-    padding: 12px 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: #4b5563;
-    border-bottom: 3px solid transparent;
-    cursor: pointer;
-    background: none;
-    border: none;
-}
-
-.activeTab {
-    color: #4351e8;
-    border-bottom-color: #4351e8;
-}
+/* Tabs are now handled by shared Tabs component */
 
 .section {
     background: #ffffff;
@@ -254,60 +233,7 @@
     justify-content: center;
 }
 
-/* Modal Styles */
-.modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-}
-
-.modalContent {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 8px;
-    padding: 40px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.modalHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
-}
-
-.modalHeader h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #111827;
-    margin: 0;
-}
-
-.closeModal {
-    background: none;
-    border: none;
-    color: #4b5563;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    transition: background-color 150ms ease;
-    position: absolute;
-    top: 24px;
-    right: 24px;
-}
-
-.closeModal:hover {
-    background-color: #f3f4f6;
-}
+/* Modal is now handled by shared Modal component */
 
 .modalForm {
     display: flex;

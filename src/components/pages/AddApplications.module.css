@@ -4,40 +4,6 @@
     background: var(--gray-50);
 }
 
-/* Header */
-.header {
-    padding: 24px 32px;
-    background: white;
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.title {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--gray-900);
-    margin: 0;
-}
-
-/* Info Banner */
-.infoBanner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 32px;
-    background: var(--gray-100);
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.infoIcon {
-    font-size: 16px;
-}
-
-.infoBanner p {
-    font-size: 14px;
-    color: var(--gray-700);
-    margin: 0;
-}
-
 .link {
     color: var(--clever-blue);
     text-decoration: none;
@@ -47,101 +13,8 @@
     text-decoration: underline;
 }
 
-/* Filters */
-.filters {
-    display: flex;
-    align-items: flex-end;
-    gap: 24px;
-    padding: 24px 32px;
-    background: white;
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.filterGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.filterLabel {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.filterSelect {
-    padding: 10px 16px;
-    border: 1px solid var(--gray-300);
-    border-radius: 6px;
-    font-size: 14px;
-    color: var(--gray-700);
-    background: white;
-    min-width: 150px;
-    cursor: pointer;
-}
-
-.searchFilter {
-    flex: 1;
-}
-
-.searchInput {
-    padding: 10px 16px;
-    border: 1px solid var(--gray-300);
-    border-radius: 6px;
-    font-size: 14px;
-    width: 200px;
-}
-
-.searchInput::placeholder {
-    color: var(--gray-400);
-    font-size: 11px;
-    letter-spacing: 0.5px;
-}
-
-/* Table */
 .tableContainer {
     padding: 24px 32px;
-}
-
-.table {
-    width: 100%;
-    background: white;
-    border: 1px solid var(--gray-200);
-    border-radius: 8px;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.table th {
-    text-align: left;
-    padding: 16px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-600);
-    border-bottom: 1px solid var(--gray-200);
-    background: var(--gray-50);
-}
-
-.table th:first-child {
-    border-top-left-radius: 8px;
-}
-
-.table th:last-child {
-    border-top-right-radius: 8px;
-}
-
-.table td {
-    padding: 16px;
-    font-size: 14px;
-    color: var(--gray-700);
-    border-bottom: 1px solid var(--gray-100);
-    vertical-align: top;
-}
-
-.table tr:last-child td {
-    border-bottom: none;
 }
 
 /* App Cell */

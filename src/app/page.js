@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ScenarioProvider } from "@/context/ScenarioContext";
 import Sidebar from "@/components/layout/Sidebar";
 import TopNav from "@/components/layout/TopNav";
 import ChatPanel from "@/components/chat/ChatPanel";
@@ -87,25 +88,28 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.appContainer}>
-      {/* Dashboard Simulation */}
-      <div className={styles.dashboardContainer}>
-        {/* Sidebar now controls the full height left column */}
-        <Sidebar activeNav={activeNav} onNavChange={setActiveNav} />
+    <ScenarioProvider>
+      <div className={styles.appContainer}>
+        {/* Dashboard Simulation */}
+        <div className={styles.dashboardContainer}>
+          {/* Sidebar now controls the full height left column */}
+          <Sidebar activeNav={activeNav} onNavChange={setActiveNav} />
 
-        {/* Content Column: TopNav + Main Content */}
-        <div className={styles.contentColumn}>
-          <TopNav onNavChange={setActiveNav} />
-          <main className={styles.dashboardMain}>
-            {renderPage()}
-          </main>
+          {/* Content Column: TopNav + Main Content */}
+          <div className={styles.contentColumn}>
+            <TopNav onNavChange={setActiveNav} />
+            <main className={styles.dashboardMain}>
+              {renderPage()}
+            </main>
+          </div>
+        </div>
+
+        {/* Chat Panel */}
+        <div className={styles.chatPanelContainer}>
+          <ChatPanel />
         </div>
       </div>
-
-      {/* Chat Panel */}
-      <div className={styles.chatPanelContainer}>
-        <ChatPanel />
-      </div>
-    </div>
+    </ScenarioProvider>
   );
 }
+

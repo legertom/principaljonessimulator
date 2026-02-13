@@ -1,8 +1,12 @@
 "use client";
 
+import { useScenario } from "@/context/ScenarioContext";
 import styles from "./DashboardHome.module.css";
 
 export default function DashboardHome() {
+    const { scenario } = useScenario();
+    const { stats, sisSync, ssoStatus, awaitingAction, applicationStats, pinnedApplications } = scenario.dashboard;
+
     return (
         <div className={styles.page}>
             {/* Page Header */}
@@ -10,7 +14,7 @@ export default function DashboardHome() {
                 <div>
                     <h1 className={styles.title}>Dashboard Home</h1>
                     <p className={styles.subtitle}>
-                        Take control of identity, access, and security for 14 students, 7 teachers, and 6 staff
+                        Take control of identity, access, and security for {stats.students} students, {stats.teachers} teachers, and {stats.staff} staff
                     </p>
                 </div>
             </div>
@@ -21,12 +25,11 @@ export default function DashboardHome() {
                 <div className={`${styles.statusCard} ${styles.sisCard}`}>
                     <div className={styles.statusHeader}>
                         <span className={styles.statusLabel}>SIS Sync</span>
-                        <span className={styles.statusTime}>⏱️ 7 months ago</span>
-                        <span className={`${styles.statusBadge} ${styles.warning}`}>● Sync out of date</span>
+                        <span className={styles.statusTime}>⏱️ {sisSync.lastSync}</span>
+                        <span className={`${styles.statusBadge} ${styles[sisSync.status]}`}>● {sisSync.statusLabel}</span>
                     </div>
                     <p className={styles.statusMessage}>
-                        Your authorized applications may have outdated student rosters.
-                        Please start another sync to refresh your data.
+                        {sisSync.message}
                     </p>
                     <button className={styles.configureButton}>Configure data sync</button>
                 </div>
@@ -35,17 +38,17 @@ export default function DashboardHome() {
                 <div className={styles.statusCard}>
                     <div className={styles.statusHeader}>
                         <span className={styles.statusLabel}>SSO</span>
-                        <span className={styles.statusTime}>last 5d</span>
-                        <span className={`${styles.statusBadge} ${styles.success}`}>● Operational</span>
+                        <span className={styles.statusTime}>{ssoStatus.timeframe}</span>
+                        <span className={`${styles.statusBadge} ${styles[ssoStatus.status]}`}>● {ssoStatus.statusLabel}</span>
                     </div>
                     <div className={styles.ssoStats}>
                         <div className={styles.ssoStat}>
                             <span className={styles.ssoIcon}>👁️</span>
-                            <span>— successful student logins</span>
+                            <span>{ssoStatus.studentLogins} successful student logins</span>
                         </div>
                         <div className={styles.ssoStat}>
                             <span className={styles.ssoIcon}>👤</span>
-                            <span>— successful teacher + staff logins</span>
+                            <span>{ssoStatus.teacherStaffLogins} successful teacher + staff logins</span>
                         </div>
                     </div>
                     <div className={styles.cardArrow}>→</div>
@@ -55,11 +58,11 @@ export default function DashboardHome() {
                 <div className={styles.actionCard}>
                     <div className={styles.actionHeader}>
                         <span className={styles.actionLabel}>Awaiting your action</span>
-                        <span className={styles.actionCount}>0</span>
+                        <span className={styles.actionCount}>{awaitingAction.count}</span>
                     </div>
                     <div className={styles.actionContent}>
                         <div className={styles.celebrationIcon}>🎉</div>
-                        <p className={styles.actionMessage}>All action items have been addressed.</p>
+                        <p className={styles.actionMessage}>{awaitingAction.message}</p>
                     </div>
                 </div>
             </div>
@@ -77,56 +80,40 @@ export default function DashboardHome() {
                 {/* Application Stats */}
                 <div className={styles.appStats}>
                     <div className={styles.appStat}>
-                        <span className={styles.appStatNumber}>2</span>
+                        <span className={styles.appStatNumber}>{applicationStats.appsWithDataShared}</span>
                         <span className={styles.appStatLabel}>Apps with data shared</span>
                     </div>
                     <div className={styles.appStat}>
-                        <span className={styles.appStatNumber}>0</span>
+                        <span className={styles.appStatNumber}>{applicationStats.pendingAppInvites}</span>
                         <span className={styles.appStatLabel}>Pending app invites</span>
                     </div>
                     <div className={styles.appStat}>
-                        <span className={styles.appStatNumber}>0</span>
+                        <span className={styles.appStatNumber}>{applicationStats.appsWithNoDataShared}</span>
                         <span className={styles.appStatLabel}>Apps with no data shared</span>
                     </div>
                 </div>
 
                 {/* Application Cards */}
                 <div className={styles.appCards}>
-                    <div className={styles.appCard}>
-                        <div className={styles.appCardIcon}>
-                            <div className={styles.printIcon}>Print</div>
-                        </div>
-                        <span className={styles.appName}>Print Center (Dev)</span>
-                        <span className={styles.appArrow}>→</span>
-                        <div className={styles.appCardStats}>
-                            <div className={styles.appCardStat}>
-                                <span className={styles.statValue}>—</span>
-                                <span className={styles.statLabel}>Students</span>
+                    {pinnedApplications.map((app, index) => (
+                        <div key={index} className={styles.appCard}>
+                            <div className={styles.appCardIcon}>
+                                <div className={app.iconType === 'print' ? styles.printIcon : styles.ssoIcon2}>{app.icon}</div>
                             </div>
-                            <div className={styles.appCardStat}>
-                                <span className={styles.statValue}>0</span>
-                                <span className={styles.statLabel}>Teachers</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.appCard}>
-                        <div className={styles.appCardIcon}>
-                            <div className={styles.ssoIcon2}>SSO</div>
-                        </div>
-                        <span className={styles.appName}>SSO Explorer</span>
-                        <span className={styles.appArrow}>→</span>
-                        <div className={styles.appCardStats}>
-                            <div className={styles.appCardStat}>
-                                <span className={styles.statValue}>0</span>
-                                <span className={styles.statLabel}>Students</span>
-                            </div>
-                            <div className={styles.appCardStat}>
-                                <span className={styles.statValue}>0</span>
-                                <span className={styles.statLabel}>Teachers</span>
+                            <span className={styles.appName}>{app.name}</span>
+                            <span className={styles.appArrow}>→</span>
+                            <div className={styles.appCardStats}>
+                                <div className={styles.appCardStat}>
+                                    <span className={styles.statValue}>{app.students}</span>
+                                    <span className={styles.statLabel}>Students</span>
+                                </div>
+                                <div className={styles.appCardStat}>
+                                    <span className={styles.statValue}>{app.teachers}</span>
+                                    <span className={styles.statLabel}>Teachers</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>

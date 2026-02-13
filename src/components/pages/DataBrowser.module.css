@@ -155,13 +155,6 @@
     border-bottom: 1px solid #e5e7eb;
 }
 
-.headerCell {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-}
-
 .table td {
     padding: 16px;
     border-bottom: 1px solid #f3f4f6;

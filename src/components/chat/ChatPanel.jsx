@@ -1,27 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useScenario } from "@/context/ScenarioContext";
 import styles from "./ChatPanel.module.css";
 
-const initialMessages = [
-    {
-        id: 1,
-        sender: "customer",
-        text: "Hi, I just started as the new Principal at Lincoln Heights Elementary and I've been assigned to manage Clever for our district.",
-        timestamp: "2:30 PM",
-    },
-    {
-        id: 2,
-        sender: "customer",
-        text: "I'm completely lost 😅 I need to add a new teacher to the system but I have no idea where to start. Can you help me?",
-        timestamp: "2:31 PM",
-    },
-];
-
 export default function ChatPanel() {
-    const [messages, setMessages] = useState(initialMessages);
+    const { scenario } = useScenario();
+    const { initialMessages: scenarioInitialMessages, customerInfo, scenarioContext } = scenario.chat;
+
+    const [messages, setMessages] = useState(scenarioInitialMessages);
     const [inputValue, setInputValue] = useState("");
     const messagesEndRef = useRef(null);
+
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -58,26 +48,26 @@ export default function ChatPanel() {
             <div className={styles.header}>
                 <div className={styles.customerInfo}>
                     <div className={styles.avatar}>
-                        <span>👩🏽‍💼</span>
+                        <span>{customerInfo.avatar}</span>
                     </div>
                     <div className={styles.customerDetails}>
-                        <div className={styles.customerName}>Principal Jones</div>
+                        <div className={styles.customerName}>{customerInfo.name}</div>
                         <div className={styles.customerStatus}>
                             <span className={styles.statusDot}></span>
-                            Lincoln Heights Elementary
+                            {customerInfo.school}
                         </div>
                     </div>
                 </div>
                 <div className={styles.headerActions}>
-                    <span className={styles.badge}>Clever Admin</span>
+                    <span className={styles.badge}>{customerInfo.badge}</span>
                 </div>
             </div>
 
             {/* Context Banner */}
             <div className={styles.contextBanner}>
-                <div className={styles.contextIcon}>📋</div>
+                <div className={styles.contextIcon}>{scenarioContext.icon}</div>
                 <div className={styles.contextText}>
-                    <strong>Scenario:</strong> Help Principal Jones add a new teacher to the district.
+                    <strong>Scenario:</strong> {scenarioContext.text}
                 </div>
             </div>
 
@@ -89,7 +79,7 @@ export default function ChatPanel() {
                         className={`${styles.message} ${styles[msg.sender]}`}
                     >
                         {msg.sender === "customer" && (
-                            <div className={styles.messageAvatar}>👩🏽‍💼</div>
+                            <div className={styles.messageAvatar}>{customerInfo.avatar}</div>
                         )}
                         <div className={styles.messageBubble}>
                             <div className={styles.messageText}>{msg.text}</div>

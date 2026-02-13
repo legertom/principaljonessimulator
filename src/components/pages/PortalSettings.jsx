@@ -1,67 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import { useScenario } from "@/context/ScenarioContext";
+import { Tabs, InfoBanner, Icons } from "@/components/ui";
 import styles from "./PortalSettings.module.css";
 
-// Icons
-const Icons = {
-    info: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="16" x2="12" y2="12" />
-            <line x1="12" y1="8" x2="12.01" y2="8" />
-        </svg>
-    ),
-    copy: (
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-        </svg>
-    ),
-    user: (
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-        </svg>
-    )
-};
-
 export default function PortalSettings() {
-    const [activeTab, setActiveTab] = useState("URL");
-    const [shortname, setShortname] = useState("print-center");
-    const [customizationEnabled, setCustomizationEnabled] = useState(true);
+    const { scenario } = useScenario();
+    const { tabs } = scenario.portalSettings;
 
-    const tabs = [
-        "URL",
-        "Customization",
-        "Substitute Access",
-        "Digital Learning Directory",
-        "Teacher Page Settings"
-    ];
+    const [activeTab, setActiveTab] = useState("URL");
+    const [shortname, setShortname] = useState(scenario.portalSettings.shortname);
+    const [customizationEnabled, setCustomizationEnabled] = useState(scenario.portalSettings.customizationEnabled);
 
     return (
         <div className={styles.page}>
             <h1 className={styles.title}>Portal settings</h1>
 
-            <div className={styles.tabs}>
-                {tabs.map(tab => (
-                    <button
-                        key={tab}
-                        className={`${styles.tab} ${activeTab === tab ? styles.activeTab : ""}`}
-                        onClick={() => setActiveTab(tab)}
-                    >
-                        {tab}
-                    </button>
-                ))}
-            </div>
+            <Tabs
+                tabs={tabs}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+            />
 
-            {/* Info Banner */}
-            <div className={styles.banner}>
-                <span className={styles.bannerIcon}>{Icons.info}</span>
-                <span>
-                    Learn about setting up a stellar, well-organized portal in this <a href="#" className={styles.link}>Quick Start Guide</a> or learn more in our <a href="#" className={styles.link}>Help Center</a>.
-                </span>
-            </div>
+            <InfoBanner variant="info">
+                Learn about setting up a stellar, well-organized portal in this <a href="#" className={styles.link}>Quick Start Guide</a> or learn more in our <a href="#" className={styles.link}>Help Center</a>.
+            </InfoBanner>
 
             {/* URL Content */}
             {activeTab === "URL" && (
@@ -77,7 +41,7 @@ export default function PortalSettings() {
 
                     <div className={styles.urlPreview}>
                         <span>https://clever.com/in/<strong>{shortname}</strong></span>
-                        <span className={styles.copyLink}>{Icons.user} Copy Link</span>
+                        <span className={styles.copyLink}>{Icons.profile} Copy Link</span>
                     </div>
 
                     <div className={styles.formGroup}>

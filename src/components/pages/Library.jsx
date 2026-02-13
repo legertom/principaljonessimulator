@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Tabs, DataTable, Pagination } from "@/components/ui";
 import styles from "./Library.module.css";
 
 // Tab components
@@ -75,6 +76,9 @@ function SettingsTab() {
 }
 
 function ApplicationsTab() {
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = 47;
+
     const apps = [
         { name: "ABCmouse for Teachers", grades: "Elementary", subjects: "ELA & ELL, Math, Science, Social Studies", status: "Allowed" },
         { name: "CodeMonkey", grades: "Elementary, Middle", subjects: "Technology & 21st Century Skills", status: "Allowed" },
@@ -100,53 +104,59 @@ function ApplicationsTab() {
                     <input type="text" placeholder="Search" className={styles.tableSearch} />
                 </div>
 
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" /></th>
-                            <th>Application Name ↕</th>
-                            <th>Grades</th>
-                            <th>Subjects</th>
-                            <th>Status ↕</th>
-                            <th>Actions</th>
-                            <th>Teacher Installs</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {apps.map((app, i) => (
-                            <tr key={i}>
-                                <td><input type="checkbox" /></td>
-                                <td>
-                                    <div className={styles.appCellContent}>
-                                        <div className={styles.appIconSmall}>📱</div>
-                                        <a href="#" className={styles.link}>{app.name}</a>
-                                    </div>
-                                </td>
-                                <td>{app.grades}</td>
-                                <td className={styles.subjectsCell}>{app.subjects}</td>
-                                <td><span className={styles.allowedBadge}>{app.status}</span></td>
-                                <td><a href="#" className={styles.blockLink}>Block</a></td>
-                                <td>—</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <DataTable
+                    columns={[
+                        {
+                            key: "name",
+                            header: "Application Name ↕",
+                            sortable: true,
+                            render: (row) => (
+                                <div className={styles.appCellContent}>
+                                    <div className={styles.appIconSmall}>📱</div>
+                                    <a href="#" className={styles.link}>{row.name}</a>
+                                </div>
+                            )
+                        },
+                        {
+                            key: "grades",
+                            header: "Grades",
+                            sortable: true
+                        },
+                        {
+                            key: "subjects",
+                            header: "Subjects",
+                            render: (row) => <span className={styles.subjectsCell}>{row.subjects}</span>
+                        },
+                        {
+                            key: "status",
+                            header: "Status ↕",
+                            sortable: true,
+                            render: (row) => <span className={styles.allowedBadge}>{row.status}</span>
+                        },
+                        {
+                            key: "actions",
+                            header: "Actions",
+                            render: () => <a href="#" className={styles.blockLink}>Block</a>
+                        },
+                        {
+                            key: "installs",
+                            header: "Teacher Installs",
+                            render: () => "—"
+                        }
+                    ]}
+                    data={apps}
+                    selectable
+                />
 
                 <div className={styles.tableFooter}>
                     <select className={styles.rowsSelect}>
                         <option>Show 8 rows</option>
                     </select>
-                    <div className={styles.pagination}>
-                        <button className={styles.pageBtn}>←</button>
-                        <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-                        <button className={styles.pageBtn}>2</button>
-                        <button className={styles.pageBtn}>3</button>
-                        <button className={styles.pageBtn}>4</button>
-                        <button className={styles.pageBtn}>5</button>
-                        <span>...</span>
-                        <button className={styles.pageBtn}>47</button>
-                        <button className={styles.pageBtn}>→</button>
-                    </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                    />
                 </div>
             </div>
 
@@ -191,17 +201,11 @@ export default function Library() {
             {/* Page Header */}
             <div className={styles.header}>
                 <h1 className={styles.title}>Library</h1>
-                <div className={styles.tabs}>
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            className={`${styles.tab} ${activeTab === tab.id ? styles.activeTab : ""}`}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
+                <Tabs
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                />
             </div>
 
             {/* Tab Content */}

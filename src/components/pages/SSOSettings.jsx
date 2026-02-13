@@ -1,9 +1,14 @@
 "use client";
 
-import styles from "./SSOSettings.module.css";
 import { useState } from "react";
+import { useScenario } from "@/context/ScenarioContext";
+import { Tabs } from "@/components/ui";
+import styles from "./SSOSettings.module.css";
 
 export default function SSOSettings() {
+    const { scenario } = useScenario();
+    const { techSupportContact, accessControlData } = scenario.ssoSettings;
+
     const [activeTab, setActiveTab] = useState("Access control");
 
     return (
@@ -15,21 +20,15 @@ export default function SSOSettings() {
             <div className={styles.contactInfo}>
                 <div className={styles.contactLabel}>TECH SUPPORT CONTACT ⓘ</div>
                 <div className={styles.contactEmail}>
-                    tomleger+storecode@gmail.com ✎
+                    {techSupportContact} ✎
                 </div>
             </div>
 
-            <div className={styles.tabs}>
-                {["Access control", "Login method", "Password Settings", "SSO Policy", "Customize"].map(tab => (
-                    <button
-                        key={tab}
-                        className={`${styles.tab} ${activeTab === tab ? styles.activeTab : ""}`}
-                        onClick={() => setActiveTab(tab)}
-                    >
-                        {tab}
-                    </button>
-                ))}
-            </div>
+            <Tabs
+                tabs={["Access control", "Login method", "Password Settings", "SSO Policy", "Customize"]}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+            />
 
             <div className={styles.content}>
                 <h2>Access Control</h2>
@@ -51,14 +50,14 @@ export default function SSOSettings() {
                         </tr>
                     </thead>
                     <tbody>
-                        {["Students", "Teachers", "Staff"].map(type => (
-                            <tr key={type}>
-                                <td>{type}</td>
+                        {accessControlData.map(item => (
+                            <tr key={item.userType}>
+                                <td>{item.userType}</td>
                                 <td>
-                                    <span className={styles.enabledBadge}>Enabled</span>
+                                    <span className={styles.enabledBadge}>{item.access}</span>
                                 </td>
-                                <td>None</td>
-                                <td>None</td>
+                                <td>{item.disableStart}</td>
+                                <td>{item.disableEnd}</td>
                             </tr>
                         ))}
                     </tbody>

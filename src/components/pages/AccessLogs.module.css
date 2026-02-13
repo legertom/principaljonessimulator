@@ -3,45 +3,12 @@
     color: #333;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.searchContainer {
-    position: relative;
-    width: 300px;
-}
-
 .searchIcon {
     position: absolute;
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
     color: #666;
-}
-
-.searchInput {
-    width: 100%;
-    padding: 8px 8px 8px 32px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.headerActions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.portalBtn {
-    color: #0077c8;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
 }
 
 .title {
@@ -168,27 +135,6 @@
     background: white;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th {
-    text-align: left;
-    padding: 12px;
-    background: #f9fafb;
-    border-bottom: 1px solid #e0e0e0;
-    font-size: 12px;
-    font-weight: 600;
-    color: #555;
-}
-
-.table td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
 }
 
 .successIcon {
