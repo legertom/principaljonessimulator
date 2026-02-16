@@ -1,0 +1,175 @@
+.page {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--gray-50);
+}
+
+.content {
+    padding: 0 32px 32px;
+}
+
+.link {
+    color: var(--clever-blue);
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* Layout */
+.mainLayout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.leftPanel {
+    flex: 1;
+}
+
+.rightPanel {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Section */
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 8px 0;
+}
+
+.sectionDesc {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+}
+
+/* Form Card */
+.formCard {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 24px;
+}
+
+.formRow {
+    display: flex;
+    gap: 16px;
+}
+
+.formGroup {
+    flex: 1;
+}
+
+.formLabel {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 8px;
+}
+
+.formSelect {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--gray-500);
+    background: white;
+    cursor: pointer;
+}
+
+/* Summary Card */
+.summaryCard {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.summaryTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 12px 0;
+}
+
+.summaryList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.summaryList li {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.5;
+}
+
+/* Details Card */
+.detailsCard {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.detailsTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 16px 0;
+}
+
+.detailRow {
+    margin-bottom: 16px;
+}
+
+.detailRow:last-child {
+    margin-bottom: 0;
+}
+
+.detailLabel {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 4px;
+}
+
+.detailValue {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.dashes {
+    font-size: 13px;
+    color: var(--gray-300);
+    letter-spacing: -1px;
+}
+
+.copyBtn {
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.copyBtn:hover {
+    color: var(--clever-blue);
+}

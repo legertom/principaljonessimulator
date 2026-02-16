@@ -75,7 +75,6 @@ export const navItems = [
             { id: "troubleshoot-login", label: "Troubleshoot login" },
             { id: "troubleshoot-sharing", label: "Troubleshoot sharing" },
             { id: "data-quality", label: "Data quality" },
-            { id: "clever-admin-checklist", label: "Clever admin checklist" },
         ]
     },
     {

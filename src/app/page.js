@@ -33,6 +33,12 @@ import OrganizeDistrictPortal from "@/components/pages/OrganizeDistrictPortal";
 import Communication from "@/components/pages/Communication";
 import DataBrowser from "@/components/pages/DataBrowser";
 import Profile from "@/components/pages/Profile";
+import TroubleshootLogin from "@/components/pages/TroubleshootLogin";
+import TroubleshootSharing from "@/components/pages/TroubleshootSharing";
+import DataQuality from "@/components/pages/DataQuality";
+import PortalAnalytics from "@/components/pages/PortalAnalytics";
+import EdtechAnalytics from "@/components/pages/EdtechAnalytics";
+import Reports from "@/components/pages/Reports";
 
 import styles from "./page.module.css";
 
@@ -55,6 +61,12 @@ const pageComponents = {
   "portal-settings": PortalSettings,
   "organize-district-portal": OrganizeDistrictPortal,
   communication: Communication,
+  "troubleshoot-login": TroubleshootLogin,
+  "troubleshoot-sharing": TroubleshootSharing,
+  "data-quality": DataQuality,
+  "portal-analytics": PortalAnalytics,
+  "edtech-analytics": EdtechAnalytics,
+  reports: Reports,
   profile: Profile,
 };
 
