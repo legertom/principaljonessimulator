@@ -11,7 +11,7 @@ export default function CustomData() {
             </div>
 
             <p className={styles.description}>
-                Manually upload CSV files to add fields to your district data that aren't in your SIS.
+                Manually upload CSV files to add fields to your district data that aren&apos;t in your SIS.
             </p>
 
             <div className={styles.emptyState}>
