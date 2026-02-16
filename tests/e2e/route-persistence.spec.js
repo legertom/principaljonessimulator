@@ -44,7 +44,7 @@ test("refresh persists IDM provisioning step route", async ({ page }) => {
 
 test("refresh persists portal route", async ({ page }) => {
     await page.goto("/dashboard/sis-sync");
-    await page.getByRole("button", { name: "Portal" }).click();
+    await page.getByRole("banner").getByRole("button", { name: "Portal" }).click();
 
     await expect(page).toHaveURL(/\/$/);
 
@@ -58,7 +58,7 @@ test("browser back and forward keeps portal/dashboard route history", async ({ p
     await page.goto("/dashboard/dashboard");
     await expect(page).toHaveURL(/\/dashboard\/dashboard$/);
 
-    await page.getByRole("button", { name: "Portal" }).click();
+    await page.getByRole("banner").getByRole("button", { name: "Portal" }).click();
     await expect(page).toHaveURL(/\/$/);
 
     await page.goBack();
