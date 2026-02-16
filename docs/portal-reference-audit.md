@@ -1182,7 +1182,7 @@
 | 2 | Add Destination confirmation modal | Click dropdown item | Modal: "Add new destination?" / bold name / [Add destination] [Cancel] | Implemented |
 | 3 | Pause Sync confirmation modal | Click "Pause Google sync" | Modal: "Pause syncs?" / warning text / [Pause syncs] [Cancel] | Implemented |
 | 4 | Resume Sync toggle | Click "Resume Google sync" | Button toggles back to "Pause Google sync" (no modal) | Implemented |
-| 5 | Edit Google Provisioning | Click "Edit Google provisioning" | Multi-step wizard (8 steps) at /identity-management/setup/* | Deferred — stub toast |
+| 5 | Edit Google Provisioning | Click "Edit Google provisioning" | Multi-step wizard (8 steps) at /identity-management/setup/* | **Implemented** — Full 8-step wizard with sidebar nav, state machine, localStorage persistence |
 | 6 | Download user emails | Click download link (Tasks tab) | Browser file download | Implemented — toast feedback |
 | 7 | Sync History tab | Click tab | DataTable: Destination, Date/Time, Creates, Matches, Updates, Archives, Issues, Log | Implemented |
 | 8 | Exports tab | Click tab | 3 sections: user emails, recent accounts, SFTP toggle | Implemented |
@@ -1194,6 +1194,48 @@
 
 | Gap | Severity | Rationale |
 |-----|----------|-----------|
-| Edit Google Provisioning wizard (8-step setup) | P1 | Separate epic — full multi-page wizard with Connect to Google, Select Management Level, Select Users, Set Login Credentials, Organize OUs, Configure Groups, Summary, Preview & Provision. Stub toast shown. |
+| ~~Edit Google Provisioning wizard (8-step setup)~~ | ~~P1~~ | **RESOLVED** — Full wizard implemented in Batch 8. All 8 steps: Connect to Google, Select Management Level, Select Users, Set Login Credentials (with sub-step editing), Organize OUs, Configure Groups, Summary, Preview & Provision. |
 | Real file downloads for CSVs | P2 | Toast feedback sufficient for training simulator |
 | Events date filter parsing | P2 | Basic date comparison; edge cases around timezone may differ from live |
+
+---
+
+## Google Provisioning Workflow Matrix
+
+> **Added**: 2026-02-16
+> **Live entry point**: Click "Edit Google provisioning" on IDM page
+> **Live URL pattern**: `https://schools.clever.com/identity-management/setup/<step>`
+
+### Step Routing
+
+| Step # | Step ID | Live URL Segment | Simulator Component | Status |
+|--------|---------|------------------|---------------------|--------|
+| 1 | connect | /setup/connect | ConnectStep.jsx | Implemented |
+| 2 | management-level | /setup/management-level | ManagementLevelStep.jsx | Implemented |
+| 3 | users | /setup/users | SelectUsersStep.jsx | Implemented |
+| 4 | credentials | /setup/credentials | SetCredentialsStep.jsx | Implemented |
+| 5 | ous | /setup/ous | OrganizeOUsStep.jsx | Implemented |
+| 6 | groups | /setup/groups | ConfigureGroupsStep.jsx | Implemented |
+| 7 | summary | /setup/summary | SummaryStep.jsx | Implemented |
+| 8 | preview | /setup/preview | PreviewStep.jsx | Implemented |
+
+### Step Detail Matrix
+
+| Step | Key Controls | State Mutated | Validation | Notes |
+|------|-------------|---------------|------------|-------|
+| Connect to Google | Connect/Disconnect buttons | `googleConnected` | Next disabled when disconnected | Shows connected status with green banner |
+| Management Level | Radio buttons (Full IDM / Password Only), transition checkbox | `managementLevel`, `transitionMode` | Always valid (one radio always selected) | "Clever recommendation" badge on Full IDM |
+| Select Users | Checkboxes (Students/Teachers/Staff) | `provisionStudents/Teachers/Staff` | Next disabled if none selected | Shows count per type (20/10/10) |
+| Set Credentials | Edit buttons → sub-step views | `credentials.{type}.completed/email/password` | Progress bar (N of M steps) | Sub-step: user preview, matching emails, create format with tokens |
+| Organize OUs | Edit buttons per OU type | `ous.{type}.completed/path` | Progress bar (N of M steps) | Student/Teacher/Staff/Archive/Ignored OUs |
+| Configure Groups | Configure buttons per type | `groups.{type}.rulesConfigured` | Optional step (always valid) | "Optional" badge shown |
+| Summary | Edit buttons → navigate to step | Read-only summary of all steps | N/A | Cards show all configured values |
+| Preview & Provision | Download/Check/Refresh/Provision buttons | Triggers exit on provision | N/A | Stats row, details table, red Provision button |
+
+### Credential Sub-Step Flow (Step 4)
+
+| Sub-Step | Route in Live | Content | Simulator |
+|----------|---------------|---------|-----------|
+| Students | /credentials/students-credentials | User preview + email matching + create format | CredentialEditView component |
+| Teachers | /credentials/teachers-credentials | Same structure as students | CredentialEditView component |
+| Staff | /credentials/staff-credentials | Same structure as students | CredentialEditView component |

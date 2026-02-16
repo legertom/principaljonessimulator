@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PageHeader, Tabs, DataTable, Modal, Pagination } from "@/components/ui";
 import { destinations, syncHistory, events as allEvents } from "@/data/defaults/idm";
+import GoogleProvisioningWizard from "./GoogleProvisioningWizard";
 import styles from "./IDM.module.css";
 
 /* ── Inline SVG helpers ─────────────────────── */
@@ -64,6 +65,7 @@ const CopyIcon = () => (
 /* ── Component ──────────────────────────────── */
 
 export default function IDM() {
+    const [showProvisioning, setShowProvisioning] = useState(false);
     const [activeTab, setActiveTab] = useState("tasks");
 
     // Add Destination dropdown + modal
@@ -162,9 +164,9 @@ export default function IDM() {
         setShowPauseModal(false);
     };
 
-    /* ── Edit Google Provisioning stub ──────── */
+    /* ── Edit Google Provisioning ──────────── */
     const handleEditProvisioning = () => {
-        setToast("Google Provisioning Setup wizard — coming soon");
+        setShowProvisioning(true);
     };
 
     /* ── Download helpers ────────────────────── */
@@ -258,6 +260,10 @@ export default function IDM() {
             ),
         },
     ];
+
+    if (showProvisioning) {
+        return <GoogleProvisioningWizard onExit={() => setShowProvisioning(false)} />;
+    }
 
     return (
         <div className={styles.page}>
