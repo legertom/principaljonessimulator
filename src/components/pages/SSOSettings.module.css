@@ -1,12 +1,22 @@
 .page {
-    padding: 2rem;
-    color: #333;
+    padding: 24px 40px;
+    color: var(--text-primary, #333);
+    background-color: var(--gray-50, #f8f9fb);
 }
 
-.title {
-    font-size: 24px;
+.addLoginBtn {
+    background-color: #1464ff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    border: none;
+    cursor: pointer;
+}
+
+.addLoginBtn:hover {
+    background-color: #1158e0;
 }
 
 .contactInfo {
@@ -18,11 +28,12 @@
     font-weight: 700;
     color: #666;
     margin-bottom: 4px;
+    text-transform: uppercase;
 }
 
 .contactEmail {
     font-size: 14px;
-    color: #333;
+    color: var(--text-primary, #333);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -40,20 +51,7 @@
     font-size: 14px;
     color: #555;
     margin-bottom: 1.5rem;
-}
-
-.infoBox {
-    background: #f0f8ff;
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 2rem;
-}
-
-.infoBox a {
-    color: #0077c8;
-    text-decoration: none;
+    line-height: 1.5;
 }
 
 .table {
@@ -89,7 +87,7 @@
 .editBtn {
     background: none;
     border: none;
-    color: #0077c8;
+    color: #1464ff;
     font-weight: 600;
     cursor: pointer;
     font-size: 14px;

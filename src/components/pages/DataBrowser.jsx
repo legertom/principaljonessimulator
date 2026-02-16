@@ -36,7 +36,7 @@ export default function DataBrowser() {
             {
                 key: "students",
                 header: "Students",
-                sortable: true,
+                sortable: false,
                 render: (row) => row.students.link ? (
                     <a href="#" className={styles.link}>{row.students.value}</a>
                 ) : (
@@ -47,7 +47,7 @@ export default function DataBrowser() {
             {
                 key: "sections",
                 header: "Sections",
-                sortable: true,
+                sortable: false,
                 render: (row) => row.sections.link ? (
                     <a href="#" className={styles.link}>{row.sections.value}</a>
                 ) : (
@@ -57,7 +57,7 @@ export default function DataBrowser() {
             {
                 key: "teachers",
                 header: "Teachers",
-                sortable: true,
+                sortable: false,
                 render: (row) => row.teachers.link ? (
                     <a href="#" className={styles.link}>{row.teachers.value}</a>
                 ) : (

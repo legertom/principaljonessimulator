@@ -70,21 +70,3 @@
     color: #059669;
 }
 
-/* Login Stats */
-.statGroup {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-}
-
-.statValue {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--gray-900);
-}
-
-.statLabel {
-    font-size: 11px;
-    color: var(--gray-500);
-}

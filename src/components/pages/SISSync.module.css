@@ -1,63 +1,7 @@
 .page {
-    padding: 2rem;
-    color: #333;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.headerRight {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.headerLink {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #0077c8;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.portalIcon {
-    font-size: 18px;
-}
-
-.userMenu {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    cursor: pointer;
-}
-
-.searchContainer {
-    position: relative;
-    width: 300px;
-}
-
-.searchIcon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-}
-
-.searchInput {
-    width: 100%;
-    padding: 8px 8px 8px 32px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 24px 40px;
+    color: var(--text-primary, #333);
+    background-color: var(--gray-50, #f8f9fb);
 }
 
 .titleRow {

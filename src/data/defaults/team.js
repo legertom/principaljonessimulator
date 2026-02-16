@@ -7,20 +7,20 @@ export const teamMembers = [
     {
         id: 1,
         name: "Tom Leger",
-        nickname: "🖊️",
-        email: "tomleger+printdemo@gmail.com",
+        userTypeIcon: "sync",
+        email: "tom@maytonlyceum.com",
         roles: "Clever Admin (Owner)",
-        title: "Dev Dude",
+        title: "",
         mfaStatus: "Unactivated MFA",
         isOwner: true,
     },
     {
         id: 2,
-        name: "Jane Smith",
-        nickname: "👤",
-        email: "detailed-textbook-3790@clever.com",
+        name: "Tom Leger",
+        userTypeIcon: "manual",
+        email: "tom.leger+mayton@clever.com",
         roles: "Clever Admin",
-        title: "",
+        title: "admin",
         mfaStatus: "Unactivated MFA",
         isOwner: false,
     },
@@ -29,7 +29,6 @@ export const teamMembers = [
 export const pageActionsMenu = [
     { label: "Add team member", isHighlighted: true },
     { label: "Create custom role" },
-    { label: "Change account owner" },
 ];
 
 export const rowActionsMenu = [

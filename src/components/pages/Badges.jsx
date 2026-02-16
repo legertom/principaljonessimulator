@@ -1,9 +1,18 @@
 "use client";
 
+/**
+ * Badges page.
+ *
+ * Live URL: https://schools.clever.com/badges/overview
+ * Live title: "Clever | Badges"
+ * Sidebar location: Authentication > Badges
+ * Live tabs: Overview | Chromebook | Windows | Settings | Badges+
+ */
+
 import styles from "./Badges.module.css";
 import { useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
-import { Tabs, InfoBanner, Icons, DataTable, Pagination } from "@/components/ui";
+import { Tabs, InfoBanner, Icons, DataTable, Pagination, PageHeader } from "@/components/ui";
 
 export default function Badges() {
     const { scenario } = useScenario();
@@ -12,6 +21,7 @@ export default function Badges() {
     const [activeTab, setActiveTab] = useState("Overview");
     const [currentPage, setCurrentPage] = useState(1);
 
+    const totalNew = badgeData.reduce((sum, row) => sum + row.new, 0);
 
     const columns = [
         {
@@ -21,15 +31,18 @@ export default function Badges() {
         },
         {
             key: "name",
-            header: "School name ↕",
+            header: "School name",
+            sortable: true,
         },
         {
             key: "downloaded",
-            header: "Downloaded Badges ↕",
+            header: "Downloaded Badges",
+            sortable: true,
         },
         {
             key: "new",
-            header: "New Badges ❓ ↕",
+            header: "New Badges",
+            sortable: true,
             render: (row) => <strong>{row.new}</strong>,
         },
         {
@@ -37,25 +50,27 @@ export default function Badges() {
             header: "Download",
             render: () => (
                 <>
-                    <span className={styles.downloadLink}>📥 New</span>
+                    <span className={styles.downloadLink}>{Icons.download} New</span>
                     <span className={styles.separator}>|</span>
-                    <span className={styles.downloadLink}>📥 All</span>
+                    <span className={styles.downloadLink}>{Icons.download} All</span>
                 </>
             ),
         },
         {
             key: "void",
             header: "Void Badges",
-            render: () => <span className={styles.voidLink}>🗑 Void</span>,
+            render: () => <span className={styles.voidLink}>{Icons.trash} Void</span>,
         },
     ];
 
     return (
         <div className={styles.page}>
-            <div className={styles.titleRow}>
-                <h1 className={styles.title}>Clever Badges</h1>
-                <button className={styles.downloadAllBtn}>Download all Badges ▼</button>
-            </div>
+            <PageHeader
+                title="Clever Badges"
+                actions={
+                    <button className={styles.downloadAllBtn}>Download all Badges</button>
+                }
+            />
 
             <div className={styles.metaInfo}>
                 <strong>GRADES WITH BADGES</strong>
@@ -68,17 +83,17 @@ export default function Badges() {
                 onTabChange={setActiveTab}
             />
 
-            <InfoBanner variant="info" icon={Icons.info}>
+            <InfoBanner variant="info">
                 Learn about setting up Badges in our <a href="#">Help Center</a>.
             </InfoBanner>
 
             <h2 className={styles.sectionTitle}>Downloaded Badges</h2>
 
             <div className={styles.tableActions}>
-                <button className={styles.actionBtn}>📥 14 New Badges</button>
-                <button className={styles.actionBtn}>📥 All Badges</button>
-                <button className={`${styles.actionBtn} ${styles.voidBtn}`}>🗑 Void all Badges</button>
-                <span className={styles.selectionCount}>3 of 3 schools selected</span>
+                <button className={styles.actionBtn}>{Icons.download} {totalNew} New Badges</button>
+                <button className={styles.actionBtn}>{Icons.download} All Badges</button>
+                <button className={`${styles.actionBtn} ${styles.voidBtn}`}>{Icons.trash} Void all Badges</button>
+                <span className={styles.selectionCount}>{badgeData.length} of {badgeData.length} schools selected</span>
             </div>
 
             <div className={styles.tableContainer}>

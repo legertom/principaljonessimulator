@@ -11,7 +11,8 @@ export default function MyApplications() {
     const columns = [
         {
             key: "name",
-            header: "Name ↑",
+            header: "Name",
+            sortable: true,
             render: (row) => (
                 <div className={styles.nameCell}>
                     <div
@@ -26,7 +27,8 @@ export default function MyApplications() {
         },
         {
             key: "status",
-            header: "App Status ↕",
+            header: "App Status",
+            sortable: true,
             render: (row) => (
                 <span
                     className={styles.statusBadge}
@@ -42,31 +44,20 @@ export default function MyApplications() {
         },
         {
             key: "appType",
-            header: "App Type ↕",
+            header: "App Type",
+            sortable: true,
         },
         {
-            key: "students",
-            header: "Students",
+            key: "totalLogins",
+            header: "Total logins last 7 days",
             render: (row) => (
-                <div className={styles.statGroup}>
-                    <span className={styles.statValue}>{row.students}</span>
-                    <span className={styles.statLabel}>Students</span>
-                </div>
-            ),
-        },
-        {
-            key: "teachers",
-            header: "Teachers",
-            render: (row) => (
-                <div className={styles.statGroup}>
-                    <span className={styles.statValue}>{row.teachers}</span>
-                    <span className={styles.statLabel}>Teachers</span>
-                </div>
+                <span>{row.totalLogins ?? "—"}</span>
             ),
         },
         {
             key: "sharing",
-            header: "Sharing ↕",
+            header: "Sharing",
+            sortable: true,
             render: (row) => (
                 <a href="#" className={styles.link}>{row.sharing}</a>
             ),

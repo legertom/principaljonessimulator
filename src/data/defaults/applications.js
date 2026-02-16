@@ -14,8 +14,7 @@ export const myApplications = [
         statusColor: "#d1fae5",
         nextStep: "",
         appType: "SSO",
-        students: "—",
-        teachers: 0,
+        totalLogins: 0,
         sharing: "Sharing district",
     },
     {
@@ -27,8 +26,7 @@ export const myApplications = [
         statusColor: "#d1fae5",
         nextStep: "",
         appType: "SSO",
-        students: 0,
-        teachers: 0,
+        totalLogins: 0,
         sharing: "Sharing district",
     },
 ];

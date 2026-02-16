@@ -1,8 +1,18 @@
 "use client";
 
+/**
+ * SSO Settings page.
+ *
+ * Live URL: https://schools.clever.com/instant-login/accesscontrol
+ * Live title: "Clever | SSO settings"
+ * Sidebar location: Authentication > SSO settings
+ * Live tabs: Access control | Login method | Password Settings | Customize
+ * Note: "SSO Policy" tab does NOT exist on live — removed for parity.
+ */
+
 import { useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
-import { Tabs } from "@/components/ui";
+import { Tabs, PageHeader, InfoBanner } from "@/components/ui";
 import styles from "./SSOSettings.module.css";
 
 export default function SSOSettings() {
@@ -14,8 +24,12 @@ export default function SSOSettings() {
     return (
         <div className={styles.page}>
 
-
-            <h1 className={styles.title}>SSO settings</h1>
+            <PageHeader
+                title="SSO settings"
+                actions={
+                    <button className={styles.addLoginBtn}>Add Login Method</button>
+                }
+            />
 
             <div className={styles.contactInfo}>
                 <div className={styles.contactLabel}>TECH SUPPORT CONTACT ⓘ</div>
@@ -25,7 +39,7 @@ export default function SSOSettings() {
             </div>
 
             <Tabs
-                tabs={["Access control", "Login method", "Password Settings", "SSO Policy", "Customize"]}
+                tabs={["Access control", "Login method", "Password Settings", "Customize"]}
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
             />
@@ -36,9 +50,9 @@ export default function SSOSettings() {
                     Configure access dates below to prevent users from logging into the Clever Portal and logging into any learning applications through Clever.
                 </p>
 
-                <div className={styles.infoBox}>
-                    ⓘ Learn more about <a href="#">access control</a>
-                </div>
+                <InfoBanner variant="info">
+                    Learn more about <a href="#">access control</a>
+                </InfoBanner>
 
                 <table className={styles.table}>
                     <thead>

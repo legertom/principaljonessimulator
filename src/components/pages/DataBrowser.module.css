@@ -35,7 +35,7 @@
 }
 
 .exportButton {
-    background-color: #4351e8;
+    background-color: #1464ff;
     color: white;
     padding: 8px 16px;
     border-radius: 4px;
@@ -46,7 +46,7 @@
 }
 
 .exportButton:hover {
-    background-color: #3b46d1;
+    background-color: #1158e0;
 }
 
 .infoBanner {
@@ -96,8 +96,8 @@
 }
 
 .activeTab {
-    color: #4351e8;
-    border-bottom-color: #4351e8;
+    color: #1464ff;
+    border-bottom-color: #1464ff;
 }
 
 .tableActions {
@@ -108,7 +108,7 @@
 }
 
 .addFilterButton {
-    background-color: #4351e8;
+    background-color: #1464ff;
     color: white;
     padding: 6px 14px;
     border-radius: 4px;
@@ -216,7 +216,7 @@
 }
 
 .activePage {
-    background-color: #4351e8;
+    background-color: #1464ff;
     color: white;
 }
 

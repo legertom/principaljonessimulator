@@ -3,13 +3,16 @@
 /**
  * SIS Sync page - main component.
  * Split into separate tab components for better maintainability.
+ *
+ * Live URL: https://schools.clever.com/sync
+ * Live title: "Clever | Sync Settings"
+ * Sidebar location: Data sources > SIS sync
  */
 
 import styles from "./SISSync.module.css";
 import { useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
-import { Icons, Tabs, InfoBanner, StatusBadge } from "@/components/ui";
-import { demoUsers } from "@/data/demoIdentity";
+import { Icons, Tabs, InfoBanner, StatusBadge, PageHeader } from "@/components/ui";
 import {
     LastAttemptedSyncTab,
     SettingsTab,
@@ -28,26 +31,6 @@ export default function SISSync() {
 
     return (
         <div className={styles.page}>
-
-            <div className={styles.header}>
-                <div className={styles.searchContainer}>
-                    <span className={styles.searchIcon}>{Icons.search}</span>
-                    <input
-                        type="text"
-                        placeholder="Search for users or applications"
-                        className={styles.searchInput}
-                    />
-                </div>
-                <div className={styles.headerRight}>
-                    <div className={styles.headerLink}>
-                        <span className={styles.portalIcon}>{Icons.grid}</span>
-                        Portal
-                    </div>
-                    <div className={styles.userMenu}>
-                        {demoUsers.primaryAdmin.firstName} {demoUsers.primaryAdmin.lastName} <span className={styles.chevronDown}>{Icons.chevronDown}</span>
-                    </div>
-                </div>
-            </div>
 
             <div className={styles.titleRow}>
                 <h1 className={styles.title}>Sync</h1>
@@ -81,7 +64,7 @@ export default function SISSync() {
                 </div>
             </div>
 
-            <InfoBanner variant="info" icon={Icons.xCircle}>
+            <InfoBanner variant="info">
                 Learn more about <a href="#">uploading data to Clever</a> in our Help Center.
             </InfoBanner>
 

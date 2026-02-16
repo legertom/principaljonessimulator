@@ -3,7 +3,7 @@
  * Extracted from: SSOSettings.jsx
  */
 
-export const techSupportContact = "tomleger+storecode@gmail.com";
+export const techSupportContact = "tom@maytonlyceum.com";
 
 export const accessControlData = [
     { userType: "Students", access: "Enabled", disableStart: "None", disableEnd: "None" },

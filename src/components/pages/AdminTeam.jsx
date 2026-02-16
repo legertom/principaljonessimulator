@@ -39,7 +39,7 @@ export default function AdminTeam() {
             sortable: true,
             render: (row) => (
                 <span className={styles.nameCell}>
-                    {row.name} {row.nickname}
+                    {row.name} <span className={styles.userTypeIcon}>{row.userTypeIcon === "sync" ? "🔄" : "📋"}</span>
                 </span>
             )
         },

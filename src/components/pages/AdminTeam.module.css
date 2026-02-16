@@ -1,7 +1,12 @@
 .page {
     padding: 24px 40px;
-    background-color: #ffffff;
+    background-color: var(--gray-50);
     min-height: 100%;
+}
+
+.userTypeIcon {
+    font-size: 12px;
+    margin-left: 4px;
 }
 
 .actionsWrapper {

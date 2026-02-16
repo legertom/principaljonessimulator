@@ -330,3 +330,595 @@
 4. **The portal top nav is NOT the same as the dashboard top bar**: These are completely separate UI surfaces. Portal = full-width top nav with 5 icon buttons. Dashboard = sidebar + minimal top bar with search + portal link + user menu.
 
 5. **Empty states are well-handled**: Both info banners (star icon, purple bg) and warning banners (triangle icon, yellow bg) provide contextual guidance.
+
+---
+
+## 9. My Applications (Batch 1)
+
+**URL**: `https://schools.clever.com/applications`
+**Page title**: "Clever | My applications"
+**Sidebar location**: Applications > My applications
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Apps ▾   │  h1: "My applications"         [Add applications]   │
+│  *My     │                                 (blue filled btn)   │
+│  apps*   ├──────────────────────────────────────────────────────┤
+│  Add     │  INFO BANNER (light blue bg, globe icon)            │
+│  apps    │  "Learn more about types of applications and        │
+│  LMS     │   adding applications in our Help Center."          │
+│  Library │                                                      │
+│          ├──────────────────────────────────────────────────────┤
+│ Data ▾   │  TABLE (full width, white bg)                       │
+│ Data     │  Columns: Name | App Status | Next step |           │
+│ browser  │           App Type | Total logins last 7 days |     │
+│          │           Sharing                                    │
+│ Users ▾  │  Empty state: "NO DATA" (centered, gray)            │
+│ Auth  ▾  │                                                      │
+│ Portal ▾ │  PAGINATION (bottom, numbered buttons)              │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value | Parity? |
+|---------|-----------|-----------------|---------|
+| Page title | "My applications" | "My applications" | Yes |
+| "Add applications" button | Blue filled, top-right | Blue filled, top-right | Yes |
+| Info banner | Globe icon, light blue bg, links to Help Center | Same structure | Yes |
+| Table columns | Name, App Status, Next step, App Type, Total logins last 7 days, Sharing | Name ↑, App Status ↕, Next step, App Type ↕, Students, Teachers, Sharing ↕ | Drift |
+| Column "Total logins last 7 days" | Single column | Simulator splits into "Students" + "Teachers" | Fix needed |
+| Empty state | "NO DATA" centered in table | "No data available" below table | Minor drift |
+| Sort indicators | ↕ on sortable columns (native browser) | Hardcoded ↑ ↕ in header text | Fix: remove from text |
+| Page background | `rgb(248, 249, 251)` | `var(--gray-50)` | Match |
+
+### Interaction Notes
+
+- "Add applications" button navigates to `/applications/add`
+- Table rows are clickable (navigate to app detail)
+- App name is a blue link
+- Sort by clicking column headers (Name, App Status, App Type, Sharing)
+- No pagination shown when empty
+
+### Parity Fixes (Batch 1)
+
+- [x] Rename "Students"/"Teachers" columns to single "Total logins last 7 days"
+- [x] Remove hardcoded sort arrows from column header text
+- [x] Update empty state text to "NO DATA"
+
+---
+
+## 10. Add Applications (Batch 1)
+
+**URL**: `https://schools.clever.com/applications/add`
+**Page title**: "Clever | Add applications"
+**Sidebar location**: Applications > Add applications
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Apps ▾   │  h1: "Add applications"                             │
+│  My apps │  (no action button in header)                       │
+│ *Add     ├──────────────────────────────────────────────────────┤
+│  apps*   │  INFO BANNER (globe icon, light blue)               │
+│  LMS     │  "Learn more about types of applications and        │
+│  Library │   adding applications in our Help Center."          │
+│          ├──────────────────────────────────────────────────────┤
+│          │  FILTER ROW                                          │
+│          │  [APP TYPE ▾] [APP SUBJECT ▾]  [SEARCH________]     │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABLE                                               │
+│          │  Columns: Application | Subjects | Description |    │
+│          │           Actions                                    │
+│          │  Rows: App icon + Name + Type | subjects | desc |   │
+│          │         "Request App" link                           │
+│          ├──────────────────────────────────────────────────────┤
+│          │  PAGINATION: Prev [1] [2] [3] [4] [5] ... [290] Next│
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value | Parity? |
+|---------|-----------|-----------------|---------|
+| Page title | "Add applications" | "Add applications" | Yes |
+| Info banner | Same as My Applications | Same | Yes |
+| Filter labels | "APP TYPE", "APP SUBJECT" (uppercase) | "APP TYPE", "APP SUBJECT" | Yes |
+| Search label | "SEARCH" (uppercase) | "SEARCH" | Yes |
+| Table columns | Application, Subjects, Description, Actions | Same | Yes |
+| App cell layout | Icon (48px square) + Name (blue link) + Type below | Same structure | Yes |
+| "Request App" link | Blue text link | Blue text link | Yes |
+| Pagination | Prev/1-5.../290/Next buttons | Not implemented | Gap |
+| App icon | Real brand icon images | Emoji placeholders | Acceptable for simulator |
+
+### Interaction Notes
+
+- Filter dropdowns (APP TYPE / APP SUBJECT) are combobox-style with search
+- SEARCH is a plain text input, filters table in real-time
+- Each row is clickable / expandable
+- "Request App" links to `/applications/add/{slug}`
+- Pagination: 290 pages of apps in library
+
+### Parity Fixes (Batch 1)
+
+- Structure is already at parity; no code changes needed for Batch 1
+- Pagination is a known gap — defer to later batch
+
+---
+
+## 11. Admin Team (Batch 1)
+
+**URL**: `https://schools.clever.com/team/members`
+**Page title**: "Clever | Team"
+**Sidebar location**: User management > Admin team
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Users ▾  │  h1: "Team"                   [Actions ▾]           │
+│  IDM     │                                (blue filled btn)    │
+│  License │                                                      │
+│ *Admin   ├──────────────────────────────────────────────────────┤
+│  team*   │  INFO BANNER (globe icon, light blue)               │
+│          │  "Clever requires Multi-Factor Authentication for    │
+│ Auth  ▾  │   all Clever Admin. Learn more about this feature   │
+│          │   here."                                             │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABS: Members | Roles | Access control |           │
+│          │        Role settings                                 │
+│          │  (active tab = blue text + blue underline)           │
+│          ├──────────────────────────────────────────────────────┤
+│          │  FILTER ROW                                          │
+│          │  [User Type ▾] [Role ▾]        [🔍 Search]          │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABLE                                               │
+│          │  Columns: Name ↕ | Email ↕ | Roles ⓘ ↕ |          │
+│          │           Title ↕ | MFA Status ⓘ ↕ | Actions       │
+│          │                                                      │
+│          │  Row: "Tom Leger 🔄" | email | role | title |       │
+│          │        ⚠ Unactivated MFA (orange badge) |           │
+│          │        (no actions for Owner)                        │
+│          ├──────────────────────────────────────────────────────┤
+│          │  PAGINATION: ◀ [1] ▶                                │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value | Parity? |
+|---------|-----------|-----------------|---------|
+| Page title | "Team" | "Team" | Yes |
+| Actions button | "Actions ▾" blue filled dropdown | "Actions ▾" blue filled dropdown | Yes |
+| Actions menu items | "Add team member", "Create custom role" | "Add team member", "Create custom role", "Change account owner" | Sim has extra item |
+| Info banner text | MFA requirement notice with "here" link | Same | Yes |
+| Tabs | Members, Roles, Access control, Role settings | Same | Yes |
+| Active tab style | Blue text + blue bottom border | Blue text + bottom border | Yes |
+| Filters | User Type, Role dropdowns + Search | Same structure | Yes |
+| Table columns | Name, Email, Roles (ⓘ), Title, MFA Status (ⓘ), Actions | Name, Email, Roles, Title, MFA Status, Actions | Missing ⓘ tooltips |
+| Sort indicators | ↕ on all columns except Actions | sortable prop on columns | Yes |
+| MFA badge | Orange triangle + "Unactivated MFA" in orange-bordered badge | Yellow bg badge with warning icon | Close |
+| Owner row | No Actions column button | `isOwner` check hides actions | Yes |
+| Sync icon on name | 🔄 icon for synced users | Emoji 🖊️ | Drift — use sync icon |
+| Pagination | ◀ [1] ▶ | Pagination component | Yes |
+| Page background | White | White (`#ffffff`) | Yes |
+
+### Interaction Notes
+
+- Actions dropdown: "Add team member" opens modal, "Create custom role" navigates
+- Row actions for non-owners: "Access Portal as user", "Access Dashboard as user"
+- Column sorts: click header to toggle asc/desc
+- Roles and MFA Status headers have info (ⓘ) tooltip icons
+- Tabs navigate to different sub-routes: `/team/members`, `/team/roles`, `/team/AccessControl`, `/team/settings`
+- Filter dropdowns are combobox-style (type to filter)
+
+### Parity Fixes (Batch 1)
+
+- [x] Update page background from `#ffffff` to `var(--gray-50)` for content area consistency
+- [x] Remove "Change account owner" from Actions menu (not in live)
+- [x] Replace emoji nickname icons with sync/user-type indicators
+
+---
+
+## 12. Access Logs (Batch 1)
+
+**URL**: `https://schools.clever.com/access-logs`
+**Page title**: "Clever | Access logs"
+**Sidebar location**: Authentication > Access logs
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER                                              │
+│ Auth  ▾  │  h1: "Access logs"                                  │
+│ *Access  │  (no header actions — title only, uses PageHeader)  │
+│  logs*   ├──────────────────────────────────────────────────────┤
+│  SSO     │  INFO BANNER (globe icon, light blue)               │
+│  Badges  │  "Discover how to make the most of your             │
+│  MFA     │   Access Logs here."                                │
+│          ├──────────────────────────────────────────────────────┤
+│          │  SUMMARY CARDS (2 side-by-side)                     │
+│          │  ┌─────────────────────┐ ┌─────────────────────┐    │
+│          │  │ Successful logins   │ │ Failed logins       │    │
+│          │  │ (last 5 days)       │ │ (last 5 days)       │    │
+│          │  │        4            │ │        0            │    │
+│          │  └─────────────────────┘ └─────────────────────┘    │
+│          ├──────────────────────────────────────────────────────┤
+│          │  FILTER ROW                                          │
+│          │  From [📅 02/10/2026]  To [📅 02/15/2026]           │
+│          │              [🔍 Reference ID] [Clear] [Search]     │
+│          ├──────────────────────────────────────────────────────┤
+│          │  ACTION ROW                                          │
+│          │  ⊕ Add filter                    ✉ Export CSV       │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABLE                                               │
+│          │  Columns: (expand) | Status and time |              │
+│          │    Final action | User name | User type |           │
+│          │    IP address                                        │
+│          │                                                      │
+│          │  Each row: ▾ | ✅ Feb 15, 2026; 08:54:29 p.m. EST |│
+│          │    Clever Admin | Tom Leger | District Admin |      │
+│          │    194.33.45.65                                      │
+│          ├──────────────────────────────────────────────────────┤
+│          │  PAGINATION: ◀ [1] ▶                                │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value | Parity? |
+|---------|-----------|-----------------|---------|
+| Page title | "Access logs" | "Access logs" | Yes |
+| Uses PageHeader? | No — plain h1 | No — plain h1 | Yes |
+| Info banner | "Discover how to make the most of your Access Logs here." | Missing | Fix needed |
+| Summary cards | 2 cards side-by-side, white bg, light border | 2 cards, same structure | Yes |
+| Card labels | "Successful logins (last 5 days)" / "Failed logins (last 5 days)" | Same | Yes |
+| Date filters | "From" / "To" with calendar icon date pickers (MM/DD/YYYY) | Date inputs (YYYY-MM-DD format) | Minor drift |
+| Reference ID search | 🔍 icon + text input + "Clear" button | Same structure | Yes |
+| Search button | Blue filled "Search" button | Blue filled, slightly different shade | Minor |
+| Add filter | "⊕ Add filter" blue text button | "+ Add filter" | Close |
+| Export CSV | "✉ Export CSV" blue text button | "✉ Export CSV" | Yes |
+| Table columns | (expand), Status and time, Final action, User name, User type, IP address | Same | Yes |
+| Status icon | Green filled circle ✅ (`check_circle` Material icon) | Green checkmark ✓ | Minor drift |
+| Expand button | ▾ chevron button per row | ▼ text | Fix: use button |
+| Pagination | ◀ [1] ▶ | Not present | Gap |
+| Page background | `var(--gray-50)` | Direct `#333` color text | Fix needed |
+
+### Interaction Notes
+
+- Expand row: clicking ▾ chevron reveals detailed login flow below the row
+- Date pickers use calendar popover (Material-style)
+- "Add filter" adds additional filter criteria (dropdowns for user type, etc.)
+- "Export CSV" triggers file download
+- Search button filters by date range + Reference ID
+- "Clear" button clears the Reference ID input only
+
+### Parity Fixes (Batch 1)
+
+- [x] Add InfoBanner with "Discover how to..." text
+- [x] Use PageHeader component for consistent header styling
+- [x] Fix page background color to use `var(--gray-50)` instead of hardcoded
+- [x] Fix page text color to use `var(--text-primary)` instead of `#333`
+- [x] Add Pagination component
+
+---
+
+## 13. SIS Sync (Batch 2)
+
+**URL**: `https://schools.clever.com/sync`
+**Page title**: "Clever | Sync Settings"
+**Sidebar location**: Data sources > SIS sync
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Data     │  h1: "Sync"  [Successful] badge (green/teal)        │
+│ sources▾ │                                                      │
+│ *SIS     ├──────────────────────────────────────────────────────┤
+│  sync*   │  STATUS ROW (4 items inline)                        │
+│  Custom  │  STATUS | LAST SYNC | SYNC TYPE | SYNC MANAGER      │
+│  data    │  (text)  | 18h ago  | SFTP      | District Admin    │
+│          ├──────────────────────────────────────────────────────┤
+│ Data     │  INFO BANNER (globe icon, light blue)               │
+│ browser  │  "Learn more about uploading data to Clever..."     │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABS: Last Attempted Sync | Settings | Upload |    │
+│          │        Staff Data                                    │
+│          ├──────────────────────────────────────────────────────┤
+│          │  WARNING BANNER (globe icon)                         │
+│          │  "If data is missing or incorrect..."               │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABLE                                               │
+│          │  Columns: Record Type | Existing | Created |        │
+│          │   Updated | Deleted | Errors | Download Changes |   │
+│          │   Download SIS File                                  │
+│          │  9 rows: Schools thru District Admins                │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value (Before) | Parity? |
+|---------|-----------|--------------------------|---------|
+| Page title | "Sync" | "Sync" | Yes |
+| Badge | Green/teal "Successful" pill | StatusBadge component | Yes |
+| Status row | 4 items: STATUS, LAST SYNC, SYNC TYPE, SYNC MANAGER | Same | Yes |
+| Info banner | Globe icon, "Learn more about uploading data to Clever" | Used `xCircle` icon | Fix |
+| Inline header | No — provided by dashboard layout | Had redundant search/portal/user | Fix |
+| Tabs | Last Attempted Sync, Settings, Upload, Staff Data | Same | Yes |
+| Table columns | Record Type, Existing, Created, Updated, Deleted, Errors, Download Changes, Download SIS File | Same | Yes |
+| Page background | `var(--gray-50)` | Hardcoded `#333` text, no bg | Fix |
+| Tab sub-URLs | /sync, /sync/settings, /sync/upload, /sync/staff | N/A (client-side tabs) | OK |
+
+### Screenshot References
+
+| View | Screenshot ID |
+|------|---------------|
+| SIS Sync full (Last Attempted Sync tab) | ss_931854b4t |
+| SIS Sync — Settings tab | ss_0695e9arn |
+| SIS Sync — Upload tab | ss_67929lsvp |
+| SIS Sync — Staff Data tab | ss_3503ngwy8 |
+| Title/badge zoomed | zoomed region (230,80)-(1140,200) |
+| Table header zoomed | zoomed region (230,340)-(1140,520) |
+
+### Parity Fixes (Batch 2)
+
+- [x] Remove redundant inline search/portal/user header (dashboard provides this)
+- [x] Fix InfoBanner to use default `info` icon instead of `xCircle`
+- [x] Fix page background to `var(--gray-50)` and text to `var(--text-primary)`
+- [x] Fix page padding to `24px 40px` (matching live)
+- [x] Remove unused `demoUsers` import
+
+### Deferred Gaps
+
+| Gap | Severity | Rationale |
+|-----|----------|-----------|
+| Tab sub-route URLs (e.g. /sync/settings) | P2 | Simulator uses client-side tab state, not routes |
+| SFTP Credentials section (Settings tab) | P2 | Read-only config data, not training-critical |
+| Download SIS File actions | P2 | Non-functional in simulator; icon presence is sufficient |
+
+---
+
+## 14. Data Browser (Batch 2)
+
+**URL**: `https://schools.clever.com/data-browser`
+**Page title**: "Clever | Data browser"
+**Sidebar location**: Data sources > Data browser
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Data     │  h1: "Data browser"    [Export schools] (blue btn)  │
+│ sources▾ │  DISTRICT ID:                                       │
+│  *Data   │  69179df5346c9d9bf7323d1e                           │
+│  browser*├──────────────────────────────────────────────────────┤
+│          │  INFO BANNER (globe icon, light blue)               │
+│          │  "Learn to effectively browse data here."           │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABS: Schools | Students | Teachers | Staff |      │
+│          │  Sections | Terms | Courses | Contacts              │
+│          ├──────────────────────────────────────────────────────┤
+│          │  ACTION ROW                                          │
+│          │  [Add Filter] (blue btn)  "4 schools found"         │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABLE (white bg)                                    │
+│          │  Schools tab columns: Name ↕ | City ↕ | State ↕ |  │
+│          │    Students | Data Source ⓘ | Sections | Teachers | │
+│          │    Last Modified ↕                                   │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value (Before) | Parity? |
+|---------|-----------|--------------------------|---------|
+| Page title | "Data browser" | "Data browser" | Yes |
+| Export button | Blue filled, text "Export {tab}" | Blue filled | Yes |
+| District ID | Shown below title, monospace | Same | Yes |
+| Tabs | 8 tabs matching | Same | Yes |
+| Add Filter | Blue filled button | Blue filled (was indigo) | Fix |
+| Active tab color | Blue (#1464ff) | Was indigo (#4351e8) | Fix |
+| Schools sortable cols | Name, City, State, Last Modified only | Students, Sections, Teachers were sortable | Fix |
+| Data Source header | Has ⓘ tooltip icon | No tooltip | Deferred |
+| Page background | White | White | Yes |
+
+### Screenshot References
+
+| View | Screenshot ID |
+|------|---------------|
+| Data Browser — Schools tab | ss_5953psybx |
+| Data Browser — Students tab | ss_50506gwpg |
+| Column headers zoomed | zoomed region (250,400)-(1140,460) |
+| Add Filter zoomed | zoomed region (250,340)-(600,410) |
+
+### Parity Fixes (Batch 2)
+
+- [x] Change all accent colors from indigo `#4351e8` to Clever blue `#1464ff`
+- [x] Change hover color from `#3b46d1` to `#1158e0`
+- [x] Fix Schools tab: Students, Sections, Teachers columns now non-sortable (matching live)
+
+### Deferred Gaps
+
+| Gap | Severity | Rationale |
+|-----|----------|-----------|
+| Data Source ⓘ tooltip icon on column header | P2 | Minor UI detail, non-interactive |
+| Tab sub-routes via query params (?collection=students) | P2 | Simulator uses client-side state |
+| Pagination on Students/Teachers/etc tabs | P1 | Already partially implemented; needs polish |
+
+---
+
+## 15. SSO Settings (Batch 2)
+
+**URL**: `https://schools.clever.com/instant-login/accesscontrol`
+**Page title**: "Clever | SSO settings"
+**Sidebar location**: Authentication > SSO settings
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Auth  ▾  │  h1: "SSO settings"    [Add Login Method] (blue)   │
+│ Access   │                                                      │
+│ logs     │  TECH SUPPORT CONTACT ⓘ                             │
+│ *SSO     │  tom@maytonlyceum.com ✎                             │
+│ settings*├──────────────────────────────────────────────────────┤
+│ Badges   │  TABS: Access control | Login method |              │
+│ MFA      │  Password Settings | Customize                      │
+│          ├──────────────────────────────────────────────────────┤
+│          │  SECTION: Access Control                             │
+│          │  Description paragraph                               │
+│          │  INFO BANNER: "Learn more about access control"     │
+│          │  TABLE: User Type | Access | Disable Start | End    │
+│          │  3 rows: Students, Teachers, Staff (all "Enabled")  │
+│          │  [Edit] link                                         │
+│          ├──────────────────────────────────────────────────────┤
+│          │  SECTION: Account Claiming                           │
+│          │  Toggle + "Copy URL to Claim Flow" button           │
+│          │  TABLE: User Type | Status | Actions | Destinations │
+│          ├──────────────────────────────────────────────────────┤
+│          │  SECTION: Account Notifications                     │
+│          │  TABLE: User Type | Notification Status | etc.      │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value (Before) | Parity? |
+|---------|-----------|--------------------------|---------|
+| Page title | "SSO settings" | "SSO settings" | Yes |
+| "Add Login Method" button | Blue filled, top-right | Missing | Fix |
+| Tabs | 4 tabs: Access control, Login method, Password Settings, Customize | 5 tabs (had "SSO Policy") | Fix |
+| Tech support contact | "tom@maytonlyceum.com" | Different email | Fix |
+| Access Control table | 4 columns, 3 rows, "Enabled" green badges | Same structure | Yes |
+| Info banner | Uses shared InfoBanner style | Inline `.infoBox` div | Fix |
+| Account Claiming section | Toggle + table + "Copy URL to Claim Flow" | Missing | Deferred |
+| Account Notifications section | Table with notification status | Missing | Deferred |
+| Page background | `var(--gray-50)` | Hardcoded `#333` | Fix |
+
+### Screenshot References
+
+| View | Screenshot ID |
+|------|---------------|
+| SSO Settings — Access control tab | ss_707594069 |
+| SSO Settings — Login method tab | ss_9111v3v0i |
+| SSO Settings — scrolled (Account Claiming) | ss_99316oc2m (scrolled) |
+
+### Parity Fixes (Batch 2)
+
+- [x] Remove "SSO Policy" tab (does not exist on live)
+- [x] Add "Add Login Method" blue filled button via PageHeader
+- [x] Replace inline `.infoBox` with shared InfoBanner component
+- [x] Fix page background to `var(--gray-50)` and text to `var(--text-primary)`
+- [x] Update tech support contact email to `tom@maytonlyceum.com`
+- [x] Fix Edit button color from `#0077c8` to `#1464ff`
+
+### Deferred Gaps
+
+| Gap | Severity | Rationale |
+|-----|----------|-----------|
+| Account Claiming section (toggle, URL, table) | P1 | Important feature but complex; needs dedicated implementation |
+| Account Notifications section | P2 | Admin config, not training-critical |
+| Login method tab content (Google Auth config) | P2 | Read-only config, not training flow |
+| Password Settings tab content | P2 | Admin config |
+| Customize tab content | P2 | Admin config |
+
+---
+
+## 16. Badges (Batch 2)
+
+**URL**: `https://schools.clever.com/badges/overview`
+**Page title**: "Clever | Badges"
+**Sidebar location**: Authentication > Badges
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Auth  ▾  │  h1: "Clever Badges"  [Download all Badges]        │
+│ Access   │                       (outlined blue btn)           │
+│ logs     │  GRADES WITH BADGES                                 │
+│ SSO      │  Infant/Toddler, Preschool, ... Post Graduate      │
+│ *Badges* ├──────────────────────────────────────────────────────┤
+│ MFA      │  TABS: Overview | Chromebook | Windows | Settings | │
+│          │        Badges+                                       │
+│          ├──────────────────────────────────────────────────────┤
+│          │  INFO BANNER: "Learn about setting up Badges..."    │
+│          ├──────────────────────────────────────────────────────┤
+│          │  h2: "Downloaded Badges"                             │
+│          │  ACTION ROW: ⬇ 0 New Badges | ⬇ All Badges |       │
+│          │  🗑 Void all Badges | "3 of 3 schools selected"     │
+│          ├──────────────────────────────────────────────────────┤
+│          │  TABLE                                               │
+│          │  Columns: ☑ | School name ↕ | Downloaded Badges ↕ | │
+│          │    New Badges ⓘ ↕ | Download | Void Badges          │
+│          │  3 rows with school data                             │
+│          ├──────────────────────────────────────────────────────┤
+│          │  PAGINATION: [1]                                     │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value (Before) | Parity? |
+|---------|-----------|--------------------------|---------|
+| Page title | "Clever Badges" | "Clever Badges" | Yes |
+| "Download all Badges" button | Outlined blue, no arrow | Had `▼` arrow | Fix |
+| Column headers | Sort arrows via sortable prop | Hardcoded `↕` in text | Fix |
+| Download links | Icon + "New" / "All" text | Emoji `📥` | Fix |
+| Void link | Trash icon + "Void" text in red | Emoji `🗑` | Fix |
+| Action row icons | SVG download/trash icons | Emoji `📥`/`🗑` | Fix |
+| School names | Fort Virgilfield, Santa Rosa, Treutelside | Generic names | Fix |
+| Badge counts | downloaded: 3/8/9, new: 0 | downloaded: 0, new: 1/6/7 | Fix |
+| Page background | `var(--gray-50)` | Hardcoded `#333` | Fix |
+| Tabs | 5 tabs matching | Same | Yes |
+
+### Screenshot References
+
+| View | Screenshot ID |
+|------|---------------|
+| Badges — Overview tab | ss_5210lqt40 |
+| Badges — Chromebook tab | ss_3709amc0g |
+| Badges — Settings tab | ss_4459atmf6 |
+| Table zoomed | zoomed region (260,340)-(1140,680) |
+| Header/button zoomed | zoomed region (260,80)-(1140,230) |
+
+### Parity Fixes (Batch 2)
+
+- [x] Remove `▼` arrow from "Download all Badges" button
+- [x] Use PageHeader for title + button layout
+- [x] Remove hardcoded `↕` sort arrows from column header text; use `sortable` prop
+- [x] Replace emoji icons (`📥`/`🗑`) with SVG Icons (Icons.download / Icons.trash)
+- [x] Add `Icons.trash` to shared Icons component
+- [x] Update badge data: use live school names (Fort Virgilfield, Santa Rosa, Treutelside)
+- [x] Update badge counts to match live (downloaded: 3/8/9, new: 0)
+- [x] Fix page background to `var(--gray-50)` and text to `var(--text-primary)`
+- [x] Dynamic "New Badges" count in action row (calculates from data)

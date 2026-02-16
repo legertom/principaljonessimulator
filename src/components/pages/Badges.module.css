@@ -1,28 +1,21 @@
 .page {
-    padding: 2rem;
-    color: #333;
-}
-
-.titleRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.title {
-    font-size: 24px;
-    font-weight: 600;
+    padding: 24px 40px;
+    color: var(--text-primary, #333);
+    background-color: var(--gray-50, #f8f9fb);
 }
 
 .downloadAllBtn {
     background: white;
-    border: 1px solid #0077c8;
-    color: #0077c8;
+    border: 1px solid #1464ff;
+    color: #1464ff;
     padding: 8px 16px;
     border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
+}
+
+.downloadAllBtn:hover {
+    background-color: #f0f7ff;
 }
 
 .metaInfo {
