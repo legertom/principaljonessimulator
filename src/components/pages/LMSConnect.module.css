@@ -89,18 +89,23 @@
     color: var(--gray-700);
 }
 
-.logoIcon {
-    font-size: 20px;
+.logoIconSvg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
 }
 
-/* Alert Banner */
+/* Alert Banner — live uses light purple/lavender bg */
 .alertBanner {
     display: flex;
     align-items: flex-start;
     gap: 12px;
     padding: 16px 32px;
-    background: #f0f9ff;
-    border-bottom: 1px solid #bfdbfe;
+    background: #ede9fe;
+    border-radius: 8px;
+    margin: 16px 32px 0 32px;
 }
 
 .alertIcon {
@@ -155,8 +160,16 @@
 }
 
 .benefitIcon {
-    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 16px;
+    color: var(--gray-500);
+}
+
+.benefitIcon svg {
+    width: 48px;
+    height: 48px;
 }
 
 .benefitCard p {

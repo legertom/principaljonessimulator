@@ -32,9 +32,9 @@ Track live Clever pages and simulator parity status.
 | Access Logs | https://schools.clever.com/access-logs | access-logs | P0 | Parity (UI) |  | 2026-02-15 | Batch 1 — URL confirmed, parity audit done |
 | SSO Settings | https://schools.clever.com/instant-login/accesscontrol | sso-settings | P1 | Parity (UI) |  | 2026-02-15 | Batch 2 — URL confirmed, parity fixes applied |
 | Badges | https://schools.clever.com/badges/overview | badges | P2 | Parity (UI) |  | 2026-02-15 | Batch 2 — URL confirmed, parity fixes applied |
-| Portal Settings | https://schools.clever.com/portal/settings/url | portal-settings | P1 | In progress |  |  | Captured in Thread D audit |
-| LMS Connect | TBD (capture via Browser Relay) | lms-connect | P2 | In progress |  |  | Add exact live URL during next audit pass |
-| Library Controls | TBD (capture via Browser Relay) | library-controls | P2 | In progress |  |  | Add exact live URL during next audit pass |
+| Portal Settings | https://schools.clever.com/portal/settings/url | portal-settings | P1 | Parity (UI) |  | 2026-02-15 | Batch 3 — URL confirmed, parity fixes applied |
+| LMS Connect | https://schools.clever.com/lms-connect | lms-connect | P2 | Parity (UI) |  | 2026-02-15 | Batch 3 — URL confirmed, parity fixes applied |
+| Library Controls | https://schools.clever.com/library/overview | library-controls | P2 | Parity (UI) |  | 2026-02-15 | Batch 3 — URL confirmed, parity fixes applied |
 
 ---
 
@@ -85,6 +85,28 @@ Track live Clever pages and simulator parity status.
 - Build passes
 
 **Result:** Completed — parity fixes applied across all 4 pages, build passing. Key fixes: removed redundant inline headers, fixed color scheme to Clever blue (#1464ff), corrected tab lists to match live, replaced emoji icons with SVGs, updated data to match live school names/counts.
+
+---
+
+### Batch 3 (2026-02-15)
+
+**Scope pages:**
+- Portal Settings
+- LMS Connect
+- Library Controls
+
+**Capture links:**
+- https://schools.clever.com/portal/settings/url
+- https://schools.clever.com/lms-connect
+- https://schools.clever.com/library/overview
+
+**Definition of done:**
+- UI parity reached for scoped pages
+- Behavior parity reached for critical interactions
+- Tracker statuses updated
+- Build passes
+
+**Result:** Completed — parity fixes applied across all 3 pages, build passing. Key fixes: updated Portal Settings to use PageHeader + Clever blue Update button + correct shortname "mayton", replaced LMS Connect emoji icons with SVG logos and fixed alert banner to live purple, rewrote Library Settings tab to match live single-toggle card layout, removed hardcoded sort arrows from column headers.
 
 ---
 

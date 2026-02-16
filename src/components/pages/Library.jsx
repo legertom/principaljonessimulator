@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Tabs, DataTable, Pagination } from "@/components/ui";
+import { Tabs, DataTable, Pagination, Icons } from "@/components/ui";
 import styles from "./Library.module.css";
 
 // Tab components
@@ -19,12 +19,14 @@ function OverviewTab() {
                     <span className={styles.previewTitle}>Library</span>
                     <div className={styles.previewSearch}>
                         <span className={styles.toggles}>○ ○</span>
-                        <span className={styles.searchIcon}>🔍</span>
+                        <span className={styles.searchIconWrap}>{Icons.search}</span>
                     </div>
                 </div>
                 <div className={styles.previewApps}>
                     <div className={styles.previewApp}>
-                        <div className={`${styles.appIcon} ${styles.edmodo}`}>👓</div>
+                        <div className={`${styles.appIcon} ${styles.edmodo}`}>
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="12" r="6" fill="white"/><circle cx="12" cy="11" r="2" fill="#4a90d9"/><circle cx="20" cy="11" r="2" fill="#4a90d9"/><path d="M12 16c0 2 2 4 4 4s4-2 4-4" stroke="white" strokeWidth="1.5" fill="none"/></svg>
+                        </div>
                         <span className={styles.appName}>Edmodo</span>
                         <button className={styles.addBtn}>ADD TO PORTAL</button>
                     </div>
@@ -55,21 +57,29 @@ function OverviewTab() {
 }
 
 function SettingsTab() {
+    const [libraryEnabled, setLibraryEnabled] = useState(true);
+
     return (
         <div className={styles.tabContent}>
-            <h3 className={styles.settingsTitle}>Library Settings</h3>
-            <p className={styles.description}>Configure library settings for your district.</p>
-            <div className={styles.settingRow}>
-                <label className={styles.settingLabel}>
-                    <input type="checkbox" defaultChecked />
-                    <span>Allow teachers to add apps from the Library</span>
-                </label>
-            </div>
-            <div className={styles.settingRow}>
-                <label className={styles.settingLabel}>
-                    <input type="checkbox" defaultChecked />
-                    <span>Show recommended apps in teacher portal</span>
-                </label>
+            <div className={styles.settingsCard}>
+                <div className={styles.settingsCardHeader}>
+                    Clever Library Access
+                </div>
+                <div className={styles.settingsCardContent}>
+                    <div className={styles.settingsDescription}>
+                        <p>To prevent your teachers from accessing the Clever Library, you may toggle the feature off.</p>
+                        <a href="#" className={styles.link}>Learn more about the Clever Library</a>
+                    </div>
+                    <label className={styles.toggleLabel}>
+                        <input
+                            type="checkbox"
+                            className={styles.toggleInput}
+                            checked={libraryEnabled}
+                            onChange={(e) => setLibraryEnabled(e.target.checked)}
+                        />
+                        <span className={styles.toggleSlider} />
+                    </label>
+                </div>
             </div>
         </div>
     );
@@ -108,11 +118,11 @@ function ApplicationsTab() {
                     columns={[
                         {
                             key: "name",
-                            header: "Application Name ↕",
+                            header: "Application Name",
                             sortable: true,
                             render: (row) => (
                                 <div className={styles.appCellContent}>
-                                    <div className={styles.appIconSmall}>📱</div>
+                                    <div className={styles.appIconSmall}>{Icons.applications}</div>
                                     <a href="#" className={styles.link}>{row.name}</a>
                                 </div>
                             )
@@ -120,7 +130,6 @@ function ApplicationsTab() {
                         {
                             key: "grades",
                             header: "Grades",
-                            sortable: true
                         },
                         {
                             key: "subjects",
@@ -129,7 +138,7 @@ function ApplicationsTab() {
                         },
                         {
                             key: "status",
-                            header: "Status ↕",
+                            header: "Status",
                             sortable: true,
                             render: (row) => <span className={styles.allowedBadge}>{row.status}</span>
                         },

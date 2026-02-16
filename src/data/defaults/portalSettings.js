@@ -3,7 +3,7 @@
  * Extracted from: PortalSettings.jsx
  */
 
-export const portalShortname = "print-center";
+export const portalShortname = "mayton";
 
 export const customizationEnabled = true;
 

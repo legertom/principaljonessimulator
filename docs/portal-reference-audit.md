@@ -922,3 +922,246 @@
 - [x] Update badge counts to match live (downloaded: 3/8/9, new: 0)
 - [x] Fix page background to `var(--gray-50)` and text to `var(--text-primary)`
 - [x] Dynamic "New Badges" count in action row (calculates from data)
+
+---
+
+## 17. Portal Settings (Batch 3)
+
+**URL**: `https://schools.clever.com/portal/settings/url`
+**Page title**: "Clever | Portal settings"
+**Sidebar location**: Portal > Portal settings
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW                                          │
+│ Portal ▾ │  h1: "Portal settings"  (no action button)          │
+│ Organize │                                                      │
+│ *Portal  ├──────────────────────────────────────────────────────┤
+│ settings*│  TABS: URL | Customization | Substitute Access |    │
+│ Communi- │  Digital Learning Directory | Teacher Page Settings  │
+│ cation   ├──────────────────────────────────────────────────────┤
+│          │  INFO BANNER (globe icon, light blue)               │
+│          │  "Learn about setting up a stellar... Quick Start   │
+│          │   Guide... Help Center"                              │
+│          ├──────────────────────────────────────────────────────┤
+│          │  CARD: "Your Clever Portal URL" (gray header bar)   │
+│          │  Description paragraphs                              │
+│          │  https://clever.com/in/mayton  ⬇ Copy Link          │
+│          │  District Shortname: [mayton]                        │
+│          │  [Update] (blue filled button)                       │
+│          │  Download login instructions link                    │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value (Before) | Parity? |
+|---------|-----------|--------------------------|---------|
+| Page title | "Portal settings" | "Portal settings" | Yes |
+| Uses PageHeader? | Yes — plain h1 above tabs | Raw `<h1>` with custom class | Fix |
+| Tabs | URL, Customization, Substitute Access, Digital Learning Directory, Teacher Page Settings | Same | Yes |
+| Info banner | Globe icon, light blue bg | Same (shared InfoBanner) | Yes |
+| URL section | White card with gray header bar "Your Clever Portal URL" | Gray `#f9f9f9` section, no header bar | Fix |
+| Shortname default | "mayton" | "print-center" | Fix |
+| Copy Link icon | Download/share icon (⬇) | `Icons.profile` (person icon) | Fix |
+| Update button | Blue filled (`#1464ff`) | Gray `#e0e0e0` | Fix |
+| Link color | `#1464ff` (Clever blue) | `#0077c8` | Fix |
+| Page background | `var(--gray-50)` | No explicit bg, hardcoded `#333` text | Fix |
+| Download row | Inline with section, proper text color | Inline `style` with `#333` | Fix |
+
+### Screenshot References
+
+| View | Screenshot ID |
+|------|---------------|
+| Portal Settings — URL tab | ss_3823zv76z |
+| Header/tabs zoomed | zoomed (230,80)-(1140,230) |
+| Content zoomed | zoomed (230,300)-(1140,700) |
+
+### Parity Fixes (Batch 3)
+
+- [x] Use `PageHeader` component for title
+- [x] Fix page background to `var(--gray-50)` and text to `var(--text-primary)` via CSS vars
+- [x] Update shortname default from "print-center" to "mayton" (matching live district)
+- [x] Replace `Icons.profile` with `Icons.download` for Copy Link icon
+- [x] Change Update button from gray `#e0e0e0` to blue `var(--clever-blue)`
+- [x] Fix all link colors from `#0077c8` to `var(--clever-blue)` (`#1464ff`)
+- [x] Replace section bg from `#f9f9f9` to white card with gray header bar (matching live)
+- [x] Remove inline style from download row, use CSS class
+- [x] Remove unused `customizationEnabled` state variable
+
+### Deferred Gaps
+
+| Gap | Severity | Rationale |
+|-----|----------|-----------|
+| Customization tab content (logo upload, theme settings) | P2 | Admin config, not training-critical |
+| Substitute Access tab content | P2 | Niche feature |
+| Digital Learning Directory tab content | P2 | Admin config |
+| Teacher Page Settings tab content | P2 | Admin config |
+| Copy Link button functionality | P2 | Non-functional in simulator, icon presence sufficient |
+
+---
+
+## 18. LMS Connect (Batch 3)
+
+**URL**: `https://schools.clever.com/lms-connect`
+**Page title**: "Clever | LMS Connect"
+**Sidebar location**: Applications > LMS Connect
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER ROW (white bg, border-bottom)               │
+│ Apps  ▾  │  h1: "LMS Connect"        Supported LMSs           │
+│  My apps │  [Join waitlist] (blue)    [Canvas] [Schoology]     │
+│  Add     │  [Submit app interest      [Google Classroom]       │
+│  *LMS    │   form] (outlined)                                  │
+│  Connect*├──────────────────────────────────────────────────────┤
+│  Library │  ALERT BANNER (light purple bg, star icon)          │
+│          │  "Your applications are not available on LMS        │
+│ Data  ▾  │   Connect... Learn more about LMS Connect."        │
+│          ├──────────────────────────────────────────────────────┤
+│          │  BENEFITS SECTION                                    │
+│          │  h2: "LMS and application connections made easy"    │
+│          │  3 illustration cards (SVG icons, not emojis)       │
+│          ├──────────────────────────────────────────────────────┤
+│          │  PARTNERSHIP SECTION                                 │
+│          │  h3: "In partnership with Edlink"                   │
+│          │  Description + link                                  │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value (Before) | Parity? |
+|---------|-----------|--------------------------|---------|
+| Page title | "LMS Connect" | "LMS Connect" | Yes |
+| Title layout | h1 + buttons left, "Supported LMSs" + logos right | Same structure | Yes |
+| "Join waitlist" | Blue filled button | Blue filled | Yes |
+| "Submit app interest form" | Outlined blue button | Outlined blue | Yes |
+| LMS logos | Real brand logos (Canvas red dots, Schoology S circle, Google Classroom green) | Emoji placeholders (`🎨`, `S`, `📚`) | Fix |
+| Alert banner bg | Light purple/lavender `#ede9fe` | Light blue `#f0f9ff` | Fix |
+| Alert icon | Black star (★) | Yellow star emoji (⭐) | Fix |
+| Benefit card icons | SVG illustrations (computer/device style) | Emojis (`📱`, `📊`, `✅`) | Fix |
+| Partnership section | Same text content | Same | Yes |
+| Page background | `var(--gray-50)` | `var(--gray-50)` | Yes |
+
+### Screenshot References
+
+| View | Screenshot ID |
+|------|---------------|
+| LMS Connect — full page | ss_0995wzj12 |
+| Header/logos zoomed | zoomed (230,80)-(1100,210) |
+| Alert banner zoomed | zoomed (260,260)-(1100,350) |
+
+### Parity Fixes (Batch 3)
+
+- [x] Replace emoji LMS logo placeholders with SVG brand icons (Canvas red dashed circle, Schoology S in blue circle, Google Classroom green card)
+- [x] Fix alert banner background from light blue `#f0f9ff` to light purple `#ede9fe`
+- [x] Fix alert banner layout: add border-radius, margin padding to match live card style
+- [x] Replace emoji alert icon `⭐` with text star `★`
+- [x] Replace emoji benefit icons (`📱`, `📊`, `✅`) with SVG Icons (applicationsGrid, analytics, checkCircle)
+- [x] Fix benefit icon sizing for SVG (48px, centered)
+
+### Deferred Gaps
+
+| Gap | Severity | Rationale |
+|-----|----------|-----------|
+| Real LMS brand logos (pixel-perfect) | P2 | SVG approximations acceptable for simulator |
+| Benefit card SVG illustrations (detailed device drawings) | P2 | Live uses complex multi-element illustrations; SVG icons are sufficient representation |
+| Waitlist/form submit button functionality | P2 | Non-functional in simulator, presence sufficient |
+
+---
+
+## 19. Library Controls (Batch 3)
+
+**URL**: `https://schools.clever.com/library/overview`
+**Page title**: "Clever | Library"
+**Sidebar location**: Applications > Library controls
+
+### Structural Breakdown
+
+```
+┌──────────┬──────────────────────────────────────────────────────┐
+│ SIDEBAR  │  TOP BAR: Search | Portal link | Tom Leger ▾        │
+│ 248px    ├──────────────────────────────────────────────────────┤
+│          │  HEADER (white bg, border-bottom)                   │
+│ Apps  ▾  │  h1: "Library"                                     │
+│  My apps │  TABS: Overview | Settings | Applications |        │
+│  Add     │         Recommended                                 │
+│  LMS     ├──────────────────────────────────────────────────────┤
+│ *Library │  OVERVIEW TAB:                                      │
+│ controls*│  Description text                                   │
+│          │  Library Preview Card (Clever Library mockup)       │
+│          │  - Blue gradient header "Clever Library"            │
+│          │  - 3 app cards: Edmodo, Code.org, Newsela           │
+│          │  - Real brand icons (not emojis)                    │
+│          │  - "ADD TO PORTAL" blue buttons                     │
+│          │  - Browse subjects: English/Tech/Math/Science/Other │
+│          │                                                      │
+│          │  SETTINGS TAB:                                      │
+│          │  Card: "Clever Library Access" (gray header bar)    │
+│          │  Toggle (green/teal) + description text             │
+│          │  "Learn more about the Clever Library" link         │
+│          │                                                      │
+│          │  APPLICATIONS TAB:                                  │
+│          │  "Block specific Library applications" header       │
+│          │  Search input | Table with sortable columns         │
+│          │  8 rows | Pagination (1-47) | Export button         │
+└──────────┴──────────────────────────────────────────────────────┘
+```
+
+### Key Observations from Live
+
+| Element | Live Value | Simulator Value (Before) | Parity? |
+|---------|-----------|--------------------------|---------|
+| Page title | "Library" | "Library" | Yes |
+| Tabs | Overview, Settings, Applications, Recommended | Same | Yes |
+| Overview description | Same text | Same | Yes |
+| Preview card | Real brand app icons | Emoji placeholders (`👓`, `CODE`, `N`) | Acceptable |
+| Search icon in preview | SVG search icon | Emoji `🔍` | Fix |
+| Settings tab | "Clever Library Access" card with single toggle + description | Two checkboxes with different labels | Fix |
+| Settings toggle | Green/teal toggle (on state) | Checkbox inputs | Fix |
+| Applications: sort arrows | Via sortable prop only | Hardcoded `↕` in header text | Fix |
+| Applications: app icon | Real brand icons | Emoji `📱` | Fix |
+| Applications: Grades column | Not sortable | `sortable: true` | Fix |
+| Export button | Outlined blue | Outlined blue | Yes |
+| Pagination | 1-47 pages | 1-47 pages | Yes |
+| Page background | `var(--gray-50)` | `var(--gray-50)` | Yes |
+
+### Screenshot References
+
+| View | Screenshot ID |
+|------|---------------|
+| Library — Overview tab | ss_5607iitpj |
+| Library — Applications tab | ss_5224rt0wc |
+| Library — Settings tab | ss_9624ansb6 |
+| Header/tabs zoomed | zoomed (230,80)-(1100,180) |
+| Preview card zoomed | zoomed (430,260)-(910,560) |
+
+### Parity Fixes (Batch 3)
+
+- [x] Rewrite Settings tab: replace two checkboxes with single "Clever Library Access" card matching live layout (gray header bar + toggle + description)
+- [x] Add toggle switch CSS (matching PortalSettings toggle pattern, green/teal `#278c75`)
+- [x] Remove hardcoded `↕` from "Application Name" and "Status" column headers
+- [x] Replace emoji `📱` app icon in table with `Icons.applications` SVG
+- [x] Replace emoji `🔍` search icon in preview card with `Icons.search` SVG
+- [x] Remove `sortable: true` from Grades column (not sortable on live)
+- [x] Add `searchIconWrap` CSS class for SVG search icon in preview
+- [x] Import `Icons` component
+
+### Deferred Gaps
+
+| Gap | Severity | Rationale |
+|-----|----------|-----------|
+| Preview card app icons (pixel-perfect brand logos) | P2 | Current SVG/text approximations acceptable for simulator |
+| Preview card left/right carousel arrows | P2 | Decorative, non-functional in simulator |
+| Recommended tab "Recommend a resource" search functionality | P2 | Empty state is sufficient for training |
+| Applications tab real search filtering | P1 | Would require client-side filter implementation; static table sufficient |
+| Settings tab "Learn more" link destination | P2 | Placeholder `#` link acceptable |

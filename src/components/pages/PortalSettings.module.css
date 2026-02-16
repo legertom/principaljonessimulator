@@ -1,57 +1,68 @@
 .page {
-    padding: 2rem;
-    color: #333;
-    max-width: 1200px;
+    flex: 1;
+    overflow-y: auto;
+    background: var(--gray-50);
 }
 
-.title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 2rem;
+/* PageHeader now handles the title */
+
+.content {
+    padding: 24px 40px;
 }
-
-/* Tabs are now handled by shared Tabs component */
-
-/* InfoBanner is now handled by shared InfoBanner component */
 
 .link {
-    color: #0077c8;
+    color: var(--clever-blue);
     text-decoration: none;
     font-weight: 600;
 }
 
+.link:hover {
+    text-decoration: underline;
+}
+
 .section {
-    background: #f9f9f9;
-    padding: 2rem;
+    background: white;
+    border: 1px solid var(--gray-200);
     border-radius: 4px;
-    margin-bottom: 2rem;
+    margin-top: 24px;
+    overflow: hidden;
 }
 
 .sectionTitle {
     font-size: 16px;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: #333;
+    padding: 16px 24px;
+    margin: 0;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
 }
 
 .text {
     font-size: 14px;
     line-height: 1.6;
-    margin-bottom: 1rem;
-    color: #333;
+    margin: 0 0 1rem 0;
+    padding: 0 24px;
+    color: var(--gray-700);
+}
+
+.text:first-of-type {
+    padding-top: 24px;
 }
 
 .urlPreview {
     font-size: 16px;
     font-weight: 600;
     margin: 1.5rem 0;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     gap: 1rem;
+    color: var(--gray-900);
 }
 
 .copyLink {
-    color: #0077c8;
+    color: var(--clever-blue);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -63,6 +74,7 @@
 .formGroup {
     margin-bottom: 1.5rem;
     max-width: 400px;
+    padding: 0 24px;
 }
 
 .label {
@@ -70,197 +82,42 @@
     font-size: 12px;
     font-weight: 700;
     margin-bottom: 8px;
-    color: #333;
+    color: var(--gray-700);
 }
 
 .input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--gray-300);
     border-radius: 4px;
     font-size: 14px;
 }
 
 .helperText {
     font-size: 12px;
-    color: #666;
+    color: var(--gray-500);
     margin-top: 8px;
 }
 
 .updateBtn {
-    background: #e0e0e0;
-    /* Disabled look by default or grey */
-    color: #333;
+    background: var(--clever-blue);
+    color: white;
     border: none;
     padding: 10px 24px;
     border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
     font-size: 14px;
-}
-
-.updateBtnPrimary {
-    background: #0077c8;
-    color: white;
+    margin: 0 24px;
 }
 
 .updateBtn:hover {
-    filter: brightness(0.95);
+    background: var(--clever-blue-dark);
 }
 
-/* Customization Tab Styles */
-.card {
-    border: 1px solid #eee;
-    border-radius: 4px;
-    margin-bottom: 24px;
-    overflow: hidden;
-    background: white;
-}
-
-.cardHeader {
-    background: #f9f9f9;
-    padding: 16px 24px;
-    font-weight: 700;
+.downloadRow {
+    margin-top: 1.5rem;
+    padding: 0 24px 24px 24px;
     font-size: 14px;
-    color: #333;
-    border-bottom: 1px solid #eee;
-}
-
-.cardContent {
-    padding: 24px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2rem;
-}
-
-.cardDescription {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
-    flex: 1;
-}
-
-.cardIllustration {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-/* Toggle Switch */
-.toggleLabel {
-    position: relative;
-    display: inline-block;
-    width: 44px;
-    height: 24px;
-    flex-shrink: 0;
-}
-
-.toggleInput {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.toggleSlider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 24px;
-}
-
-.toggleSlider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-.toggleInput:checked+.toggleSlider {
-    background-color: #278c75;
-    /* Green color from screenshot */
-}
-
-.toggleInput:checked+.toggleSlider:before {
-    transform: translateX(20px);
-}
-
-/* Upload Section */
-.uploadSection {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.iconPlaceholder {
-    width: 64px;
-    height: 64px;
-    background: #ddd;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.infoIcon {
-    display: inline-flex;
-    vertical-align: middle;
-    margin-left: 6px;
-    color: #666;
-}
-
-.uploadContent {
-    flex: 1;
-}
-
-.uploadTitle {
-    font-size: 14px;
-    margin-bottom: 12px;
-    color: #555;
-    display: flex;
-    align-items: center;
-}
-
-.uploadArea {
-    border: 2px dashed #ddd;
-    border-radius: 6px;
-    padding: 32px;
-    text-align: center;
-    background: #fcfcfc;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 16px;
-}
-
-.uploadArea:hover {
-    border-color: #0077c8;
-    background: #f0f7fc;
-}
-
-.uploadContext {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #888;
-}
-
-.uploadIcon {
-    font-size: 24px;
-    color: #999;
+    color: var(--gray-700);
 }
