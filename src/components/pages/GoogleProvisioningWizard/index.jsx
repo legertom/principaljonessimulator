@@ -35,16 +35,8 @@ const STEP_COMPONENTS = {
     preview: PreviewStep,
 };
 
-export default function GoogleProvisioningWizard({ onExit }) {
-    const [currentStep, setCurrentStep] = useState(() => {
-        try {
-            const savedStep = localStorage.getItem("idm-provisioning-step");
-            if (savedStep && WIZARD_STEPS.some((s) => s.id === savedStep)) return savedStep;
-        } catch {
-            // ignore
-        }
-        return "connect";
-    });
+export default function GoogleProvisioningWizard({ currentStep, onStepChange, onExit }) {
+    const [localStep, setLocalStep] = useState(WIZARD_STEPS[0].id);
     const [wizardState, setWizardState] = useState(() => {
         try {
             const saved = localStorage.getItem("idm-provisioning-state");
@@ -65,15 +57,6 @@ export default function GoogleProvisioningWizard({ onExit }) {
         }
     }, [wizardState]);
 
-    // Persist current step to localStorage
-    useEffect(() => {
-        try {
-            localStorage.setItem("idm-provisioning-step", currentStep);
-        } catch {
-            // ignore
-        }
-    }, [currentStep]);
-
     // Toast auto-dismiss
     useEffect(() => {
         if (toast) {
@@ -86,22 +69,28 @@ export default function GoogleProvisioningWizard({ onExit }) {
         setWizardState((prev) => ({ ...prev, ...updates }));
     }, []);
 
-    const currentStepIndex = WIZARD_STEPS.findIndex((s) => s.id === currentStep);
+    const setStep = onStepChange ?? setLocalStep;
+    const requestedStep = currentStep ?? localStep;
+    const activeStep = WIZARD_STEPS.some((step) => step.id === requestedStep)
+        ? requestedStep
+        : WIZARD_STEPS[0].id;
+
+    const currentStepIndex = WIZARD_STEPS.findIndex((s) => s.id === activeStep);
     const currentStepDef = WIZARD_STEPS[currentStepIndex];
 
-    const goToStep = (stepId) => setCurrentStep(stepId);
+    const goToStep = (stepId) => setStep(stepId);
 
     const goNext = () => {
         if (currentStepIndex < WIZARD_STEPS.length - 1) {
-            setCurrentStep(WIZARD_STEPS[currentStepIndex + 1].id);
+            setStep(WIZARD_STEPS[currentStepIndex + 1].id);
         }
     };
 
     const goBack = () => {
         if (currentStepIndex > 0) {
-            setCurrentStep(WIZARD_STEPS[currentStepIndex - 1].id);
+            setStep(WIZARD_STEPS[currentStepIndex - 1].id);
         } else {
-            onExit();
+            onExit?.();
         }
     };
 
@@ -120,7 +109,7 @@ export default function GoogleProvisioningWizard({ onExit }) {
         }
     };
 
-    const StepComponent = STEP_COMPONENTS[currentStep];
+    const StepComponent = STEP_COMPONENTS[activeStep];
 
     return (
         <div className={styles.wizardOverlay}>
@@ -130,7 +119,7 @@ export default function GoogleProvisioningWizard({ onExit }) {
                     <BackArrow /> Back
                 </button>
                 <span className={styles.topBarSeparator}>|</span>
-                <span className={styles.topBarTitle}>{currentStepDef.label}</span>
+                <span className={styles.topBarTitle}>{currentStepDef?.label}</span>
             </div>
 
             <div className={styles.wizardBody}>
@@ -139,8 +128,8 @@ export default function GoogleProvisioningWizard({ onExit }) {
                     <h2 className={styles.sidebarHeading}>Google Provisioning Setup</h2>
                     <ul className={styles.stepList}>
                         {WIZARD_STEPS.map((step) => {
-                            const completed = isStepCompleted(step.id) && step.id !== currentStep;
-                            const active = step.id === currentStep;
+                            const completed = isStepCompleted(step.id) && step.id !== activeStep;
+                            const active = step.id === activeStep;
                             return (
                                 <li key={step.id}>
                                     <button

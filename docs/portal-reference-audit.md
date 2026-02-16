@@ -5,6 +5,12 @@
 > **Browser**: Chrome via Browser Relay (MCP)
 > **Logged-in role**: District Admin (Tom Leger)
 
+## Simulator Routing Note
+
+The simulator's URL-persistent route model and normalization rules are documented in:
+
+- `docs/routing-persistence.md`
+
 ---
 
 ## 1. Portal Top-Level View (Admin Portal / Resources)

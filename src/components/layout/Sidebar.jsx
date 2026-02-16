@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
 import styles from "./Sidebar.module.css";
 import { Icons } from "@/components/ui/Icons";
@@ -9,15 +9,28 @@ export default function Sidebar({ activeNav, onNavChange }) {
     const { scenario } = useScenario();
     const { navItems, districtInfo } = scenario.sidebar;
 
-    const [expandedItems, setExpandedItems] = useState(["applications"]);
-    const [activeSubItem, setActiveSubItem] = useState("my-applications");
+    const parentByChild = useMemo(() => {
+        const map = new Map();
+
+        navItems.forEach((item) => {
+            item.children?.forEach((child) => {
+                map.set(child.id, item.id);
+            });
+        });
+
+        return map;
+    }, [navItems]);
+
+    const [expandedItem, setExpandedItem] = useState(() => {
+        const parentId = parentByChild.get(activeNav);
+        return parentId ?? "applications";
+    });
+
+    const activeParentId = parentByChild.get(activeNav);
+    const openItemId = activeParentId ?? expandedItem;
 
     const toggleExpand = (itemId) => {
-        setExpandedItems(prev =>
-            prev.includes(itemId)
-                ? [] // Close if already open
-                : [itemId] // Open this one and close others
-        );
+        setExpandedItem((prev) => (prev === itemId ? "" : itemId));
     };
 
     const handleNavClick = (item) => {
@@ -29,10 +42,9 @@ export default function Sidebar({ activeNav, onNavChange }) {
     };
 
     const handleSubItemClick = (parentId, subItem) => {
-        setActiveSubItem(subItem.id);
         onNavChange(subItem.id);
         // Ensure only parent is expanded
-        setExpandedItems([parentId]);
+        setExpandedItem(parentId);
     };
 
     return (
@@ -50,10 +62,10 @@ export default function Sidebar({ activeNav, onNavChange }) {
             {/* Navigation */}
             <nav className={styles.nav}>
                 {navItems.map((item) => {
-                    const isExpanded = expandedItems.includes(item.id);
+                    const isExpanded = openItemId === item.id;
                     const hasChildren = item.children && item.children.length > 0;
                     const isActive = activeNav === item.id ||
-                        (hasChildren && item.children.some(child => child.id === activeSubItem));
+                        (hasChildren && item.children.some((child) => child.id === activeNav));
 
                     return (
                         <div key={item.id} className={styles.navGroup}>
@@ -79,7 +91,7 @@ export default function Sidebar({ activeNav, onNavChange }) {
                                     {item.children.map((child) => (
                                         <button
                                             key={child.id}
-                                            className={`${styles.submenuItem} ${activeSubItem === child.id ? styles.active : ""}`}
+                                            className={`${styles.submenuItem} ${activeNav === child.id ? styles.active : ""}`}
                                             onClick={() => handleSubItemClick(item.id, child)}
                                             data-nav-id={child.id}
                                         >
