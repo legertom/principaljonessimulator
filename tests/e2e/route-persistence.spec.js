@@ -68,7 +68,7 @@ test("browser back and forward keeps portal/dashboard route history", async ({ p
     await expect(page).toHaveURL(/\/$/);
 });
 
-test("OU edit persists through page reload", async ({ page }) => {
+test("OU edit persists through page reload (Section 3 flow)", async ({ page }) => {
     // Navigate to provisioning wizard OUs step
     await page.goto("/dashboard/idm/provisioning/ous");
 
@@ -86,8 +86,17 @@ test("OU edit persists through page reload", async ({ page }) => {
     // Click on a different OU in the tree (e.g. "Devices")
     await page.getByText("Devices").click();
 
-    // Click Next step to return to overview
+    // Click "Next step" — this now reveals Section 3 in-place (does NOT return to overview)
     await page.getByRole("button", { name: "Next step" }).click();
+
+    // Section 3 should be visible with sub-OU format heading
+    await expect(page.getByText("Which sub-OUs do you want to create")).toBeVisible();
+
+    // Button label should have changed from "Next step" to "Save"
+    await expect(page.getByRole("button", { name: "Save" })).toBeVisible();
+
+    // Click "Save" to commit and return to overview
+    await page.getByRole("button", { name: "Save" }).click();
 
     // Verify we're back on the overview
     await expect(page.getByRole("heading", { name: "Organize OUs" })).toBeVisible();
@@ -101,4 +110,28 @@ test("OU edit persists through page reload", async ({ page }) => {
     // Verify the OU path persisted through reload
     await expect(page).toHaveURL(/\/dashboard\/idm\/provisioning\/ous$/);
     await expect(page.getByText("/Devices")).toBeVisible();
+});
+
+test("Section 3 expansion: Teacher OUs shows Build your format", async ({ page }) => {
+    await page.goto("/dashboard/idm/provisioning/ous");
+    await expect(page.getByRole("heading", { name: "Organize OUs" })).toBeVisible();
+
+    // Navigate to Teacher OUs
+    const teacherCards = page.locator("text=Teacher OUs");
+    await expect(teacherCards.first()).toBeVisible();
+    // Find the Edit button associated with Teacher OUs
+    const editBtns = page.getByRole("button", { name: "Edit" });
+    await editBtns.nth(1).click();
+
+    await expect(page.getByRole("heading", { name: "Teacher OUs" })).toBeVisible();
+
+    // Click Next step to reveal Section 3
+    await page.getByRole("button", { name: "Next step" }).click();
+
+    // Teacher OUs should show "Build your format" instead of template tags
+    await expect(page.getByRole("button", { name: "Build your format" })).toBeVisible();
+
+    // Save to return
+    await page.getByRole("button", { name: "Save" }).click();
+    await expect(page.getByRole("heading", { name: "Organize OUs" })).toBeVisible();
 });
