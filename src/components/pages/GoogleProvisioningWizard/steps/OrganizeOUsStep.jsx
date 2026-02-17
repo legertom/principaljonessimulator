@@ -8,6 +8,7 @@ import {
     SAMPLE_TEACHER,
     SAMPLE_STAFF,
 } from "@/data/defaults/idm-provisioning";
+import FormatEditorModal from "./FormatEditorModal";
 import styles from "../GoogleProvisioningWizard.module.css";
 
 /* ── Shared Icons ─────────────────────────────── */
@@ -70,6 +71,28 @@ function flattenOUTree(nodes) {
     }
     walk(nodes);
     return result;
+}
+
+/** Render a format segment array into a preview path string */
+function renderFormatPreview(format, sampleUser) {
+    if (!format?.length) return "";
+    return format.map((seg) => {
+        if (seg.type === "text") return seg.value;
+        if (seg.type === "variable") {
+            const varMap = {
+                "school_name": sampleUser.school,
+                "student.grade": sampleUser.grade?.replace(/[^0-9]/g, "") || "",
+                "student.student_number": sampleUser.studentNumber || "",
+                "student.graduation_year": sampleUser.graduationYear || "",
+                "staff.department": sampleUser.department || "",
+                "staff.title": sampleUser.title || "",
+                "teacher.title": sampleUser.title || "",
+            };
+            return varMap[seg.variable] || seg.variable;
+        }
+        if (seg.type === "function") return `[${seg.fn}]`;
+        return "";
+    }).join("");
 }
 
 /* ── Google Org Unit Tree ─────────────────────── */
@@ -255,6 +278,8 @@ function UserTypeOUEditView({ userType, title, state, updateState, onBack, setTo
     const sample = samples[userType];
     const ou = state.ous[userType];
     const [selectedOU, setSelectedOU] = useState(ou.selectedOU || "");
+    const [section3Visible, setSection3Visible] = useState(false);
+    const [formatEditorOpen, setFormatEditorOpen] = useState(false);
 
     const cleverDataFields = {
         students: [
@@ -271,6 +296,12 @@ function UserTypeOUEditView({ userType, title, state, updateState, onBack, setTo
         ],
     };
 
+    const section3Tips = {
+        students: "Clever will dynamically create sub-OUs based on student profile data or match existing sub-OUs (case insensitive) within Student Users.",
+        teachers: "Clever will dynamically create sub-OUs based on student profile data or match existing sub-OUs (case insensitive) within Teacher Users.",
+        staff: "Want to use another staff attribute for organizing OUs? Learn more about the extension fields supported for creating sub-OUs in this help center article.",
+    };
+
     const handleSelect = (id) => {
         setSelectedOU(id);
         const ouNode = findOUById(GOOGLE_ORG_UNITS, id);
@@ -285,8 +316,26 @@ function UserTypeOUEditView({ userType, title, state, updateState, onBack, setTo
     };
 
     const handleNextStep = () => {
-        onBack();
+        if (!section3Visible) {
+            setSection3Visible(true);
+        } else {
+            setToast(`${title} configuration saved.`);
+            onBack();
+        }
     };
+
+    const handleFormatSave = (newFormat) => {
+        updateState({
+            ous: {
+                ...state.ous,
+                [userType]: { ...state.ous[userType], subOUFormat: newFormat },
+            },
+        });
+        setFormatEditorOpen(false);
+    };
+
+    const currentFormat = state.ous[userType]?.subOUFormat || [];
+    const selectedOUPath = selectedOU ? (findOUById(GOOGLE_ORG_UNITS, selectedOU)?.path || "/") : "/";
 
     return (
         <div style={{ display: "flex", gap: 24 }}>
@@ -343,6 +392,48 @@ function UserTypeOUEditView({ userType, title, state, updateState, onBack, setTo
                     />
                 </div>
 
+                {/* Section 3: Sub-OU format (revealed on "Next step") */}
+                {section3Visible && (
+                    <div className={`${styles.card} ${styles.section3Container}`}>
+                        <h3 style={{ fontSize: 15, fontWeight: 600, margin: "0 0 12px 0" }}>
+                            3. Which sub-OUs do you want to create inside of {selectedOUPath} OU? (Optional)
+                        </h3>
+
+                        {currentFormat.length > 0 ? (
+                            <>
+                                <div className={styles.formatTagRow}>
+                                    {currentFormat.map((seg, i) => (
+                                        <span key={i} className={seg.type === "variable" ? styles.formatTag : styles.formatTagText}>
+                                            {seg.type === "variable" ? `{{${seg.variable}}}` : seg.value}
+                                        </span>
+                                    ))}
+                                </div>
+                                <button
+                                    className={styles.editFormatLink}
+                                    onClick={() => setFormatEditorOpen(true)}
+                                >
+                                    Edit your format
+                                </button>
+                            </>
+                        ) : (
+                            <button className={styles.buildFormatBtn} onClick={() => setFormatEditorOpen(true)}>
+                                Build your format
+                            </button>
+                        )}
+
+                        {/* OU placement preview */}
+                        <div className={styles.ouPlacementPreview}>
+                            <div style={{ fontSize: 14, fontWeight: 600, color: "var(--gray-900)" }}>
+                                🔵 {sample.name}&apos;s OU placement
+                            </div>
+                            <div style={{ fontSize: 13, color: "var(--gray-600)", marginTop: 4 }}>
+                                <span className={styles.ouPlacementLabel}>Example OU</span>{" "}
+                                {selectedOUPath}{renderFormatPreview(currentFormat, sample)}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className={styles.helpBanner}>
                     <span className={styles.helpBannerIcon}>⚙️</span>
                     <span className={styles.helpBannerText}>
@@ -356,7 +447,7 @@ function UserTypeOUEditView({ userType, title, state, updateState, onBack, setTo
 
                 <div className={styles.nextBtnRow}>
                     <button className={styles.nextBtn} onClick={handleNextStep}>
-                        Next step
+                        {section3Visible ? "Save" : "Next step"}
                     </button>
                 </div>
             </div>
@@ -366,8 +457,50 @@ function UserTypeOUEditView({ userType, title, state, updateState, onBack, setTo
                 {selectedOU && (
                     <OUPreviewPanel selectedOU={selectedOU} sampleUser={sample} userType={userType} />
                 )}
-                <CleverTipPanel userType={userType} />
+                {section3Visible ? (
+                    <div style={{
+                        border: "1px solid var(--gray-200)", borderRadius: 8, padding: 16,
+                        background: "white",
+                    }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8, fontSize: 14, fontWeight: 600 }}>
+                            ℹ️ Clever Tip
+                        </div>
+                        <p style={{ fontSize: 13, color: "var(--gray-600)", lineHeight: 1.5, margin: 0 }}>
+                            {section3Tips[userType]}
+                            {userType === "staff" && (
+                                <>
+                                    {" "}
+                                    <a href="#" className={styles.helpLink} onClick={(e) => e.preventDefault()}>
+                                        help center article
+                                    </a>.
+                                </>
+                            )}
+                            {userType !== "staff" && (
+                                <>
+                                    {" "}
+                                    <a href="#" className={styles.helpLink} onClick={(e) => e.preventDefault()}>
+                                        Learn more about sub-OUs
+                                    </a>.
+                                </>
+                            )}
+                        </p>
+                    </div>
+                ) : (
+                    <CleverTipPanel userType={userType} />
+                )}
             </div>
+
+            {/* Format Editor Modal */}
+            {formatEditorOpen && (
+                <FormatEditorModal
+                    userType={userType}
+                    format={currentFormat}
+                    sampleUser={sample}
+                    selectedOUPath={selectedOUPath}
+                    onSave={handleFormatSave}
+                    onCancel={() => setFormatEditorOpen(false)}
+                />
+            )}
         </div>
     );
 }

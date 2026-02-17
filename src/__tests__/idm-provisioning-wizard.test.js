@@ -13,6 +13,8 @@ import {
     SAMPLE_STUDENT,
     SAMPLE_TEACHER,
     SAMPLE_STAFF,
+    SIS_VARIABLES,
+    FORMAT_FUNCTIONS,
 } from "@/data/defaults/idm-provisioning";
 
 /* ── Helper: mirrors the isStepCompleted logic from the wizard ── */
@@ -425,5 +427,147 @@ describe("OU edit state mutations", () => {
 
     it("default ignored OUs has ignoredOUs array", () => {
         expect(Array.isArray(DEFAULT_PROVISIONING_STATE.ous.ignored.ignoredOUs)).toBe(true);
+    });
+});
+
+/* ── Sub-OU Format (Section 3) Data ───────────── */
+
+describe("Sub-OU format data model", () => {
+    it("students have a pre-built subOUFormat with 4 segments", () => {
+        const fmt = DEFAULT_PROVISIONING_STATE.ous.students.subOUFormat;
+        expect(fmt).toBeDefined();
+        expect(fmt).toHaveLength(4);
+    });
+
+    it("student format contains school_name and student.grade variables", () => {
+        const fmt = DEFAULT_PROVISIONING_STATE.ous.students.subOUFormat;
+        const vars = fmt.filter((s) => s.type === "variable").map((s) => s.variable);
+        expect(vars).toContain("school_name");
+        expect(vars).toContain("student.grade");
+    });
+
+    it("teachers have an empty subOUFormat (Build your format state)", () => {
+        const fmt = DEFAULT_PROVISIONING_STATE.ous.teachers.subOUFormat;
+        expect(fmt).toBeDefined();
+        expect(fmt).toHaveLength(0);
+    });
+
+    it("staff have a pre-built subOUFormat with 2 segments", () => {
+        const fmt = DEFAULT_PROVISIONING_STATE.ous.staff.subOUFormat;
+        expect(fmt).toBeDefined();
+        expect(fmt).toHaveLength(2);
+        const vars = fmt.filter((s) => s.type === "variable").map((s) => s.variable);
+        expect(vars).toContain("staff.department");
+    });
+
+    it("all format segments have a valid type", () => {
+        const validTypes = ["text", "variable", "function"];
+        for (const key of ["students", "staff"]) {
+            for (const seg of DEFAULT_PROVISIONING_STATE.ous[key].subOUFormat) {
+                expect(validTypes).toContain(seg.type);
+            }
+        }
+    });
+
+    it("text segments have a value property", () => {
+        for (const key of ["students", "staff"]) {
+            const textSegs = DEFAULT_PROVISIONING_STATE.ous[key].subOUFormat.filter((s) => s.type === "text");
+            for (const seg of textSegs) {
+                expect(seg).toHaveProperty("value");
+                expect(typeof seg.value).toBe("string");
+            }
+        }
+    });
+
+    it("variable segments have variable and label properties", () => {
+        for (const key of ["students", "staff"]) {
+            const varSegs = DEFAULT_PROVISIONING_STATE.ous[key].subOUFormat.filter((s) => s.type === "variable");
+            for (const seg of varSegs) {
+                expect(seg).toHaveProperty("variable");
+                expect(seg).toHaveProperty("label");
+            }
+        }
+    });
+
+    it("format can be mutated immutably (add segment)", () => {
+        const original = DEFAULT_PROVISIONING_STATE.ous.staff.subOUFormat;
+        const updated = [...original, { type: "text", value: "/extra" }];
+        expect(updated).toHaveLength(original.length + 1);
+        expect(original).toHaveLength(2); // unchanged
+    });
+
+    it("format can be mutated immutably (remove segment)", () => {
+        const original = DEFAULT_PROVISIONING_STATE.ous.students.subOUFormat;
+        const updated = original.filter((_, i) => i !== 0);
+        expect(updated).toHaveLength(original.length - 1);
+        expect(original).toHaveLength(4); // unchanged
+    });
+});
+
+/* ── SIS Variables ───────────────────────────── */
+
+describe("SIS_VARIABLES", () => {
+    it("has entries for students, teachers, and staff", () => {
+        expect(SIS_VARIABLES).toHaveProperty("students");
+        expect(SIS_VARIABLES).toHaveProperty("teachers");
+        expect(SIS_VARIABLES).toHaveProperty("staff");
+    });
+
+    it("each entry has variable and label", () => {
+        for (const key of Object.keys(SIS_VARIABLES)) {
+            for (const v of SIS_VARIABLES[key]) {
+                expect(v).toHaveProperty("variable");
+                expect(v).toHaveProperty("label");
+                expect(typeof v.variable).toBe("string");
+                expect(typeof v.label).toBe("string");
+            }
+        }
+    });
+
+    it("students have at least 5 SIS variables", () => {
+        expect(SIS_VARIABLES.students.length).toBeGreaterThanOrEqual(5);
+    });
+
+    it("all user types include school_name variable", () => {
+        for (const key of Object.keys(SIS_VARIABLES)) {
+            const vars = SIS_VARIABLES[key].map((v) => v.variable);
+            expect(vars).toContain("school_name");
+        }
+    });
+});
+
+/* ── FORMAT_FUNCTIONS ────────────────────────── */
+
+describe("FORMAT_FUNCTIONS", () => {
+    it("has exactly 15 functions", () => {
+        expect(FORMAT_FUNCTIONS).toHaveLength(15);
+    });
+
+    it("all entries are non-empty strings", () => {
+        for (const fn of FORMAT_FUNCTIONS) {
+            expect(typeof fn).toBe("string");
+            expect(fn.length).toBeGreaterThan(0);
+        }
+    });
+
+    it("includes expected key functions", () => {
+        expect(FORMAT_FUNCTIONS).toContain("Concatenate");
+        expect(FORMAT_FUNCTIONS).toContain("To Lowercase");
+        expect(FORMAT_FUNCTIONS).toContain("To Uppercase");
+        expect(FORMAT_FUNCTIONS).toContain("Substring");
+        expect(FORMAT_FUNCTIONS).toContain("Capitalize after Delimiter");
+    });
+});
+
+/* ── SAMPLE_STAFF department ─────────────────── */
+
+describe("SAMPLE_STAFF department field", () => {
+    it("has department property", () => {
+        expect(SAMPLE_STAFF).toHaveProperty("department");
+    });
+
+    it("department is a non-empty string", () => {
+        expect(typeof SAMPLE_STAFF.department).toBe("string");
+        expect(SAMPLE_STAFF.department.length).toBeGreaterThan(0);
     });
 });

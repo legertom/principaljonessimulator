@@ -58,9 +58,26 @@ export const DEFAULT_PROVISIONING_STATE = {
 
     /* Step 5 — Organize OUs */
     ous: {
-        students: { completed: true, path: "/Students/{{school_name}}/{{student.grade}}", selectedOU: "students" },
-        teachers: { completed: true, path: "/Users/Staff/Teachers", selectedOU: "users-staff-teachers" },
-        staff:    { completed: true, path: "/Users/Staff/{{staff.department}}", selectedOU: "users-staff" },
+        students: {
+            completed: true, path: "/Students/{{school_name}}/{{student.grade}}", selectedOU: "students",
+            subOUFormat: [
+                { type: "text", value: "/" },
+                { type: "variable", variable: "school_name", label: "School Name" },
+                { type: "text", value: "/" },
+                { type: "variable", variable: "student.grade", label: "Grade" },
+            ],
+        },
+        teachers: {
+            completed: true, path: "/Users/Staff/Teachers", selectedOU: "users-staff-teachers",
+            subOUFormat: [],
+        },
+        staff: {
+            completed: true, path: "/Users/Staff/{{staff.department}}", selectedOU: "users-staff",
+            subOUFormat: [
+                { type: "text", value: "/" },
+                { type: "variable", variable: "staff.department", label: "Department" },
+            ],
+        },
         archive:  { completed: true, path: "/", selectedOU: "root", archiveAction: "move-suspend" },
         ignored:  { completed: true, path: "/", ignoredOUs: ["root"] },
     },
@@ -172,5 +189,35 @@ export const SAMPLE_STAFF = {
     sisEmail: "oswaldo.pouros@maytonlyceum.com",
     sisId: "b2345678-90ab-cdef-1234-567890abcdef",
     title: "Librarian",
+    department: "Operations",
     exampleEmail: "oswaldo.pouros@maytonlyceum.com",
 };
+
+/** SIS variable options per user type — for sub-OU format editor dropdowns */
+export const SIS_VARIABLES = {
+    students: [
+        { variable: "school_name", label: "School Name" },
+        { variable: "student.grade", label: "Grade" },
+        { variable: "student.student_number", label: "Student Number" },
+        { variable: "student.graduation_year", label: "Graduation Year" },
+        { variable: "student.state_id", label: "State ID" },
+    ],
+    teachers: [
+        { variable: "school_name", label: "School Name" },
+        { variable: "teacher.title", label: "Title" },
+        { variable: "teacher.teacher_number", label: "Teacher Number" },
+    ],
+    staff: [
+        { variable: "school_name", label: "School Name" },
+        { variable: "staff.title", label: "Title" },
+        { variable: "staff.department", label: "Department" },
+    ],
+};
+
+/** All 15 format functions — matches live Clever format editor */
+export const FORMAT_FUNCTIONS = [
+    "Concatenate", "Contains", "Conditional", "First", "Ignore If Null",
+    "Initials", "Length", "Substring", "Text After", "Text After Last",
+    "Text Before", "To Lowercase", "To Uppercase", "Trim Left",
+    "Capitalize after Delimiter",
+];
