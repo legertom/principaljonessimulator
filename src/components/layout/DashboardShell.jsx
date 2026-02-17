@@ -11,7 +11,7 @@ import GuidancePanel from "@/components/guidance/GuidancePanel";
 import { buildDashboardRoute } from "@/lib/routing";
 import styles from "./DashboardShell.module.css";
 
-function DashboardShellContent({ activeNav, children }) {
+function DashboardShellContent({ activeNav, children, showChatPanel }) {
     const router = useRouter();
     const { checkNavigationGoal } = useInstructional();
 
@@ -36,18 +36,22 @@ function DashboardShellContent({ activeNav, children }) {
                 </div>
             </div>
 
-            <div className={styles.chatPanelContainer}>
-                <GuidancePanel />
-                <ChatPanel />
-            </div>
+            {showChatPanel ? (
+                <div className={styles.chatPanelContainer}>
+                    <GuidancePanel />
+                    <ChatPanel />
+                </div>
+            ) : null}
         </div>
     );
 }
 
-export default function DashboardShell({ activeNav, children }) {
+export default function DashboardShell({ activeNav, children, showChatPanel = true }) {
     return (
         <InstructionalProvider>
-            <DashboardShellContent activeNav={activeNav}>{children}</DashboardShellContent>
+            <DashboardShellContent activeNav={activeNav} showChatPanel={showChatPanel}>
+                {children}
+            </DashboardShellContent>
         </InstructionalProvider>
     );
 }
