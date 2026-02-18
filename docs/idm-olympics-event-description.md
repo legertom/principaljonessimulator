@@ -12,8 +12,9 @@ IDM Olympics is a timed, skills-based competition where agents demonstrate IDM m
 - All participants run the same course definitions and datasets.
 
 ## Event Window (US async team)
-- Opens: **Monday 7:00 AM ET**
-- Closes: **Friday 8:30 PM ET**
+- Opens: **Monday, April 27, 2026 at 7:00 AM ET**
+- Closes: **Friday, May 1, 2026 at 8:30 PM ET**
+- This is the Monday–Friday competition window for the final week of April 2026.
 - This window supports all US time zones and async schedules.
 
 ## Attempts Policy
