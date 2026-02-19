@@ -40,6 +40,26 @@ This application adheres to strict security standards suitable for enterprise de
 -   **Synthetic Fixtures**: All data displayed (names, emails, IDs) is synthetically generated mock data found in `src/data/defaults`.
 -   **Compliance**: Safe for deployment in non-HIPAA/FERPA compliant environments as no regulated data is processed.
 
+### Security Deep Dive
+
+To address specific enterprise security concerns:
+
+1.  **Authentication Modes**:
+    -   **Credentials Provider**: Available for training and demonstration purposes to simulate admin access without external dependencies.
+    -   **Google OAuth**: Enforces strict domain validation for authorized users.
+
+2.  **Session & Cookie Security**:
+    -   **HttpOnly Cookies**: Session tokens are stored in `HttpOnly` cookies, preventing access via client-side scripts (mitigating XSS attacks).
+    -   **SameSite Policy**: Cookies use `SameSite=Lax` by default to prevent CSRF (Cross-Site Request Forgery) attacks.
+    -   **Secure Attribute**: Cookies are automatically marked `Secure` (HTTPS only) in production.
+
+3.  **XSS (Cross-Site Scripting) Protection**:
+    -   **React Auto-Escaping**: React 19 automatically escapes variables in views, preventing injection of malicious scripts.
+    -   **Sanitization**: Any raw HTML rendering (if strictly necessary) would be sanitized (though none is currently used in critical paths).
+
+4.  **CSRF Protection**:
+    -   NextAuth.js implements Double Submit Cookie pattern and safeguards all state-changing routes.
+
 ## Hosting & Deployment
 
 -   **Platform**: Vercel (recommended) or any Node.js compatible container.
