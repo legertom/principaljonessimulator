@@ -34,6 +34,7 @@ export function FilterBar({
     filters = [],
     searchPlaceholder,
     onSearchChange,
+    searchId,
     className = ""
 }) {
     return (
@@ -63,6 +64,7 @@ export function FilterBar({
                     {Icons.search}
                     <input
                         type="text"
+                        id={searchId}
                         placeholder={searchPlaceholder}
                         className={styles.searchInput}
                         onChange={(e) => onSearchChange?.(e.target.value)}

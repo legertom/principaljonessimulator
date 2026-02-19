@@ -6,8 +6,9 @@ import { Icon } from "@/components/ui/Icons";
 import { demoCustomer } from "@/data/demoIdentity";
 
 export default function GuidancePanel() {
-    const { currentStep, showHint, toggleHint, advanceStep } = useInstructional();
+    const { currentStep, showHint, coachMarksEnabled, toggleHint, advanceStep } = useInstructional();
 
+    if (!coachMarksEnabled) return null;
     if (!currentStep || (currentStep.type !== "task" && currentStep.type !== "input")) {
         return null; // Only show guidance during tasks/inputs
     }

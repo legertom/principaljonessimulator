@@ -9,5 +9,5 @@ export const userInfo = {
     name: "Tom Leger",
     firstName: "Tom",
     role: "Admin",
-    email: "tomleger+printdemo@gmail.com"
+    email: "tom.leger+maytor@clever.com"
 };

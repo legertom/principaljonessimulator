@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
+import { demoDistrict } from "@/data/demoIdentity";
 import styles from "./DataBrowser.module.css";
 import { Icon } from "@/components/ui/Icons";
 import { DataTable } from "@/components/ui/DataTable";
@@ -370,7 +371,7 @@ export default function DataBrowser() {
                     <h1>Data browser</h1>
                     <div className={styles.districtId}>
                         DISTRICT ID:
-                        <span className={styles.districtIdValue}>68759062d10d9a9ab79dbe04</span>
+                        <span id="district-id-val" className={styles.districtIdValue}>{demoDistrict.id}</span>
                     </div>
                 </div>
                 <button className={styles.exportButton}>

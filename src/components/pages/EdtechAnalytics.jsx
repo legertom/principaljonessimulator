@@ -64,9 +64,9 @@ export default function EdtechAnalytics() {
                                     </thead>
                                     <tbody>
                                         <tr><td>Clever</td><td>98%</td><td>83%</td><td>8 minutes</td></tr>
-                                        <tr><td>Newsela</td><td>67%</td><td>89%</td><td>158 minutes</td></tr>
-                                        <tr><td>CK-12 Foundation</td><td>40%</td><td>22%</td><td>166 minutes</td></tr>
-                                        <tr><td>Office 365</td><td>31%</td><td>8%</td><td>96 minutes</td></tr>
+                                        <tr><td>Waffle Wizard Academy</td><td>67%</td><td>89%</td><td>158 minutes</td></tr>
+                                        <tr><td>ZapCat Science Lab</td><td>40%</td><td>22%</td><td>166 minutes</td></tr>
+                                        <tr><td>Pencil Pals Planet</td><td>31%</td><td>8%</td><td>96 minutes</td></tr>
                                     </tbody>
                                 </table>
                             </div>

@@ -10,6 +10,12 @@
 }
 
 /* Search */
+.searchContainer {
+    position: relative;
+    width: 400px;
+    flex-shrink: 0;
+}
+
 .search {
     display: flex;
     align-items: center;
@@ -18,7 +24,13 @@
     border: 1px solid var(--gray-300);
     border-radius: 6px;
     padding: 10px 16px;
-    width: 400px;
+    width: 100%;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.searchActive {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .searchIcon {
@@ -38,6 +50,98 @@
 
 .searchInput::placeholder {
     color: var(--gray-400);
+}
+
+.clearSearchButton {
+    border: none;
+    background: transparent;
+    color: var(--gray-400);
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+}
+
+.clearSearchButton:hover {
+    color: var(--gray-600);
+}
+
+.searchResults {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+    z-index: 1200;
+    overflow: hidden;
+}
+
+.searchResultItem {
+    width: 100%;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.searchResultItem + .searchResultItem {
+    border-top: 1px solid var(--gray-100);
+}
+
+.searchResultItem:hover {
+    background: var(--gray-50);
+}
+
+.resultIcon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+.resultText {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.resultName {
+    color: var(--gray-800);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resultMeta {
+    color: var(--gray-500);
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.resultChevron {
+    color: var(--gray-400);
+    display: inline-flex;
+    align-items: center;
+}
+
+.searchNoResults {
+    padding: 14px;
+    font-size: 13px;
+    color: var(--gray-500);
 }
 
 /* Actions */

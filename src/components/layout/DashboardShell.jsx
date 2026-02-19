@@ -15,9 +15,21 @@ function DashboardShellContent({ activeNav, children, showChatPanel }) {
     const router = useRouter();
     const { checkNavigationGoal } = useInstructional();
 
-    const handleNavChange = useCallback((navId) => {
+    const handleNavChange = useCallback((navId, options = {}) => {
         checkNavigationGoal(navId);
-        router.push(buildDashboardRoute(navId));
+
+        const route = buildDashboardRoute(navId);
+        const searchParams = new URLSearchParams();
+
+        if (options.appId !== undefined && options.appId !== null) {
+            searchParams.set("appId", String(options.appId));
+        }
+
+        const targetRoute = searchParams.toString()
+            ? `${route}?${searchParams.toString()}`
+            : route;
+
+        router.push(targetRoute);
     }, [checkNavigationGoal, router]);
 
     const handleSwitchToPortal = useCallback(() => {

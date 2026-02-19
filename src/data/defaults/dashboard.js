@@ -31,17 +31,31 @@ export const awaitingAction = {
 };
 
 export const applicationStats = {
-    appsWithDataShared: 1,
-    pendingAppInvites: 0,
+    appsWithDataShared: 10,
+    pendingAppInvites: 1,
     appsWithNoDataShared: 0
 };
 
 export const pinnedApplications = [
     {
-        name: "ABCya!",
-        icon: "ABC",
+        name: "Waffle Wizard Academy",
+        icon: "WW",
         iconType: "print",
-        students: 0,
-        teachers: 0
+        students: 148,
+        teachers: 19
+    },
+    {
+        name: "SnuggleMath",
+        icon: "SM",
+        iconType: "sso",
+        students: 122,
+        teachers: 16
+    },
+    {
+        name: "ZapCat Science Lab",
+        icon: "ZC",
+        iconType: "sso",
+        students: 132,
+        teachers: 21
     }
 ];

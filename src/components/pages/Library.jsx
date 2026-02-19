@@ -27,17 +27,17 @@ function OverviewTab() {
                         <div className={`${styles.appIcon} ${styles.edmodo}`}>
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="12" r="6" fill="white"/><circle cx="12" cy="11" r="2" fill="#4a90d9"/><circle cx="20" cy="11" r="2" fill="#4a90d9"/><path d="M12 16c0 2 2 4 4 4s4-2 4-4" stroke="white" strokeWidth="1.5" fill="none"/></svg>
                         </div>
-                        <span className={styles.appName}>Edmodo</span>
+                        <span className={styles.appName}>Waffle Wizard Academy</span>
                         <button className={styles.addBtn}>ADD TO PORTAL</button>
                     </div>
                     <div className={styles.previewApp}>
-                        <div className={`${styles.appIcon} ${styles.codeorg}`}>CODE</div>
-                        <span className={styles.appName}>Code.org</span>
+                        <div className={`${styles.appIcon} ${styles.codeorg}`}>GG</div>
+                        <span className={styles.appName}>GiggleGlyphs</span>
                         <button className={styles.addBtn}>ADD TO PORTAL</button>
                     </div>
                     <div className={styles.previewApp}>
                         <div className={`${styles.appIcon} ${styles.newsela}`}>N</div>
-                        <span className={styles.appName}>Newsela</span>
+                        <span className={styles.appName}>NoodleNook Notes</span>
                         <button className={styles.addBtn}>ADD TO PORTAL</button>
                     </div>
                 </div>
@@ -90,14 +90,14 @@ function ApplicationsTab() {
     const totalPages = 47;
 
     const apps = [
-        { name: "ABCmouse for Teachers", grades: "Elementary", subjects: "ELA & ELL, Math, Science, Social Studies", status: "Allowed" },
-        { name: "CodeMonkey", grades: "Elementary, Middle", subjects: "Technology & 21st Century Skills", status: "Allowed" },
-        { name: "GradeCam", grades: "Elementary, Staff, Middle, High School", subjects: "Technology & 21st Century Skills, Assessment & Grading", status: "Allowed" },
-        { name: "Formative", grades: "Elementary, Middle, High School", subjects: "ELA & ELL, Math, Science, Social Studies, Assessment & Gradi...", status: "Allowed" },
-        { name: "CodeHS", grades: "Middle, High School", subjects: "Technology & 21st Century Skills", status: "Allowed" },
-        { name: "Book Creator", grades: "Elementary, Middle, High School", subjects: "ELA & ELL, Content Creation & Portfolios", status: "Allowed" },
-        { name: "Code.org", grades: "Elementary, Middle, High School", subjects: "Technology & 21st Century Skills", status: "Allowed" },
-        { name: "Geogebra", grades: "Elementary, Middle, High School", subjects: "Math, Science", status: "Allowed" },
+        { name: "Waffle Wizard Academy", grades: "Elementary, Middle", subjects: "Math, SEL", status: "Allowed" },
+        { name: "SnuggleMath", grades: "Elementary", subjects: "Math", status: "Allowed" },
+        { name: "Captain Crayon Quest", grades: "Elementary, Middle", subjects: "ELA, Creativity", status: "Allowed" },
+        { name: "Bumblebook Buddy", grades: "Elementary", subjects: "Reading, ELA", status: "Allowed" },
+        { name: "ZapCat Science Lab", grades: "Elementary, Middle", subjects: "Science, STEM", status: "Allowed" },
+        { name: "NoodleNook Notes", grades: "Middle, High School", subjects: "Study Skills", status: "Allowed" },
+        { name: "GiggleGlyphs", grades: "Elementary, Middle", subjects: "Language", status: "Allowed" },
+        { name: "Marshmallow Metrics", grades: "Elementary, Middle, High School", subjects: "Math, Data", status: "Allowed" },
     ];
 
     return (

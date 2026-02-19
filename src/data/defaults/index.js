@@ -22,7 +22,12 @@ import { navItems, districtInfo } from './sidebar';
 import { searchPlaceholder, userInfo } from './topNav';
 import { SYNC_STATES, syncMetadata } from './sisSync';
 import { TABS, SCHOOLS_DATA, STUDENTS_DATA, TEACHERS_DATA, STAFF_DATA, SECTIONS_DATA, TERMS_DATA, COURSES_DATA, CONTACTS_DATA } from './dataBrowser';
-import { portalApps } from './portalLobby';
+import {
+    portalApps,
+    portalCategories,
+    portalNotice,
+    portalTopNavItems
+} from './portalLobby';
 
 
 
@@ -105,6 +110,9 @@ export const defaultScenario = {
 
     // Portal Lobby — Thread C
     portalLobby: {
+        topNavItems: portalTopNavItems,
+        categories: portalCategories,
+        notice: portalNotice,
         apps: portalApps
     },
 

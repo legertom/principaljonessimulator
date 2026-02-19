@@ -1,146 +1,89 @@
 /**
  * Portal Lobby domain data
  *
- * Each app card defines its display properties and launch behavior.
- *
- * launchMode:
- *   "dashboard" — navigate into the admin dashboard at the given launchTarget page
- *   "comingSoon" — show a placeholder; the feature is not yet wired
- *
- * launchTarget:
- *   A pageComponents key (e.g. "my-applications", "sis-sync") when launchMode is "dashboard".
- *   Ignored for "comingSoon" entries.
+ * The portal home screen mirrors the real district login experience:
+ * - Top icon nav (Search / Portal / Dashboard / Notifications / Account)
+ * - Category rail on the left
+ * - Resource tiles in the main panel
  */
 
+export const portalTopNavItems = [
+    { id: "search", label: "Search", icon: "search" },
+    { id: "portal", label: "Portal", icon: "portalGrid" },
+    { id: "dashboard", label: "Dashboard", icon: "dashboardPanel" },
+    { id: "notifications", label: "Notifications", icon: "notifications" },
+    { id: "account", label: "Account", icon: "accountCircle" },
+];
+
+export const portalCategories = [
+    { id: "more-apps", label: "More Apps" },
+    { id: "district-tools", label: "District Tools" },
+    { id: "coming-soon", label: "Coming Soon" },
+];
+
+export const portalNotice = {
+    title: "We've streamlined your Portal organization experience",
+    body: [
+        "One-Stop Organizing: Quickly move resources, update sharing rules, edit, and preview the end-user Portal for teachers and students all in one place: Dashboard > Portal > Organize district portal.",
+        "Admin SSO: The Portal tab at the top of your dashboard is now focused on the apps you, as an Admin, need to access.",
+    ],
+    learnMoreLabel: "Learn more here.",
+    learnMoreHref: "#",
+};
+
+/**
+ * launchMode:
+ *   "dashboard" — navigate into the admin dashboard at the given launchTarget page
+ *   "comingSoon" — visual only; show a temporary toast
+ */
 export const portalApps = [
-    // ── Live apps (navigate to dashboard pages) ──────────────────
     {
-        id: "portal-dashboard",
-        name: "Admin Dashboard",
-        icon: "🏠",
-        iconColor: "#1e3a5f",
+        id: "waffle-wizard-academy",
+        categoryId: "more-apps",
+        name: "Waffle Wizard Academy",
+        iconText: "WW\nA",
+        iconBackground: "radial-gradient(circle at 35% 35%, #f59e0b 0%, #f97316 60%, #c2410c 100%)",
+        iconTextColor: "#ffffff",
         launchMode: "dashboard",
         launchTarget: "dashboard",
     },
     {
-        id: "portal-my-apps",
+        id: "district-dashboard",
+        categoryId: "district-tools",
+        name: "Admin Dashboard",
+        iconText: "AD",
+        iconBackground: "linear-gradient(135deg, #1946b8 0%, #1464ff 100%)",
+        iconTextColor: "#ffffff",
+        launchMode: "dashboard",
+        launchTarget: "dashboard",
+    },
+    {
+        id: "district-my-apps",
+        categoryId: "district-tools",
         name: "My Applications",
-        icon: "📦",
-        iconColor: "#6366f1",
+        iconText: "MY",
+        iconBackground: "linear-gradient(135deg, #3f4ecf 0%, #6578ff 100%)",
+        iconTextColor: "#ffffff",
         launchMode: "dashboard",
         launchTarget: "my-applications",
     },
     {
-        id: "portal-add-apps",
-        name: "Add Applications",
-        icon: "➕",
-        iconColor: "#0ea5e9",
-        launchMode: "dashboard",
-        launchTarget: "add-applications",
-    },
-    {
-        id: "portal-sis-sync",
-        name: "SIS Sync",
-        icon: "🔄",
-        iconColor: "#f59e0b",
-        launchMode: "dashboard",
-        launchTarget: "sis-sync",
-    },
-    {
-        id: "portal-data-browser",
-        name: "Data Browser",
-        icon: "🗂️",
-        iconColor: "#8b5cf6",
-        launchMode: "dashboard",
-        launchTarget: "data-browser",
-    },
-    {
-        id: "portal-admin-team",
-        name: "Admin Team",
-        icon: "👥",
-        iconColor: "#14b8a6",
-        launchMode: "dashboard",
-        launchTarget: "admin-team",
-    },
-    {
-        id: "portal-access-logs",
-        name: "Access Logs",
-        icon: "📋",
-        iconColor: "#64748b",
-        launchMode: "dashboard",
-        launchTarget: "access-logs",
-    },
-    {
-        id: "portal-sso-settings",
-        name: "SSO Settings",
-        icon: "🔐",
-        iconColor: "#ef4444",
-        launchMode: "dashboard",
-        launchTarget: "sso-settings",
-    },
-    {
-        id: "portal-badges",
-        name: "Badges",
-        icon: "🏅",
-        iconColor: "#f97316",
-        launchMode: "dashboard",
-        launchTarget: "badges",
-    },
-    {
-        id: "portal-portal-settings",
-        name: "Portal Settings",
-        icon: "⚙️",
-        iconColor: "#475569",
-        launchMode: "dashboard",
-        launchTarget: "portal-settings",
-    },
-    {
-        id: "portal-lms-connect",
-        name: "LMS Connect",
-        icon: "🔗",
-        iconColor: "#059669",
-        launchMode: "dashboard",
-        launchTarget: "lms-connect",
-    },
-    {
-        id: "portal-library",
-        name: "Library Controls",
-        icon: "📚",
-        iconColor: "#7c3aed",
-        launchMode: "dashboard",
-        launchTarget: "library-controls",
-    },
-
-    // ── Coming soon (placeholder cards) ──────────────────────────
-    {
-        id: "portal-analytics",
+        id: "coming-soon-analytics",
+        categoryId: "coming-soon",
         name: "Analytics",
-        icon: "📊",
-        iconColor: "#94a3b8",
+        iconText: "A",
+        iconBackground: "linear-gradient(135deg, #9ba6b8 0%, #c2cad7 100%)",
+        iconTextColor: "#ffffff",
         launchMode: "comingSoon",
         launchTarget: null,
     },
     {
-        id: "portal-reports",
+        id: "coming-soon-reports",
+        categoryId: "coming-soon",
         name: "Reports",
-        icon: "📈",
-        iconColor: "#94a3b8",
-        launchMode: "comingSoon",
-        launchTarget: null,
-    },
-    {
-        id: "portal-support-tools",
-        name: "Support Tools",
-        icon: "🛠️",
-        iconColor: "#94a3b8",
-        launchMode: "comingSoon",
-        launchTarget: null,
-    },
-    {
-        id: "portal-communication",
-        name: "Communication",
-        icon: "💬",
-        iconColor: "#94a3b8",
+        iconText: "R",
+        iconBackground: "linear-gradient(135deg, #9ba6b8 0%, #c2cad7 100%)",
+        iconTextColor: "#ffffff",
         launchMode: "comingSoon",
         launchTarget: null,
     },

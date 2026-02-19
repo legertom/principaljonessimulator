@@ -14,7 +14,15 @@ export default function AddApplications() {
             header: "Application",
             render: (row) => (
                 <div className={styles.appCell}>
-                    <div className={styles.appIcon}>{row.icon}</div>
+                    <div
+                        className={styles.appIcon}
+                        style={{
+                            background: row.iconBackground ?? "var(--gray-100)",
+                            color: row.iconTextColor ?? "var(--gray-800)",
+                        }}
+                    >
+                        {row.icon}
+                    </div>
                     <div className={styles.appInfo}>
                         <a href="#" className={styles.appName}>{row.name}</a>
                         <span className={styles.appType}>{row.type}</span>
@@ -66,6 +74,7 @@ export default function AddApplications() {
             <FilterBar
                 filters={filters}
                 searchPlaceholder="SEARCH"
+                searchId="app-search-input"
             />
 
             <div className={styles.tableContainer}>

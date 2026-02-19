@@ -24,6 +24,6 @@ export const demoUsers = {
 
 export const demoCustomer = {
     title: "Principal",
-    lastName: "Rowe",
-    schoolName: "Maple Grove Elementary",
+    lastName: "Jones",
+    schoolName: "Lincoln Heights Elementary",
 };
