@@ -14,7 +14,7 @@ describe("ChatPanel Component", () => {
     const mockScenario = {
         chat: {
             customerInfo: {
-                name: "Principal Jones",
+                name: "District Admin",
                 avatar: "PJ",
                 school: "Springfield Elementary",
                 badge: "District Admin"
@@ -62,9 +62,9 @@ describe("ChatPanel Component", () => {
     it("renders customer info correctly", () => {
         renderChatPanel();
 
-        expect(screen.getByText("Principal Jones")).toBeInTheDocument();
+        const adminElements = screen.getAllByText("District Admin");
+        expect(adminElements).toHaveLength(2);
         expect(screen.getByText("Springfield Elementary")).toBeInTheDocument();
-        expect(screen.getByText("District Admin")).toBeInTheDocument();
     });
 
     it("renders chat history messages", () => {

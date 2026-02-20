@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Principal Jones Simulator | Clever CS Training",
+  title: "District Simulator | Clever CS Training",
   description: "Customer Support training simulator for Clever Dashboard",
 };
 

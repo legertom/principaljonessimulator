@@ -1,10 +1,10 @@
-# Application Security Brief: Principal Jones Simulator
+# Application Security Brief: District Simulator
 
 **Date:** February 19, 2026
 **Point of Contact:** Tom Leger (tom.leger@clever.com)
 
 ## 1. Overview
-The **Principal Jones Simulator** is a training application designed to replicate the Clever Dashboard environment for school principals. Its primary purpose is to train internal staff and partners on dashboard functionality **without accessing or exposing any real student PII (Personally Identifiable Information)**.
+The **District Simulator** is a training application designed to replicate the Clever Dashboard environment for school principals. Its primary purpose is to train internal staff and partners on dashboard functionality **without accessing or exposing any real student PII (Personally Identifiable Information)**.
 
 ## 2. PII & Data Handling
 -   **Zero PII**: This application **does not** connect to any production student databases.
@@ -13,8 +13,8 @@ The **Principal Jones Simulator** is a training application designed to replicat
 
 ## 3. Architecture & Hosting
 -   **Stack**: Next.js 16 (App Router), React 19.
--   **Hosting**: Deployed on **Vercel** (serverless runtime).
--   **Source Code**: Private GitHub repository protected by organization controls.
+-   **Hosting**: Deployed on **Vercel** (Account: `tom.leger@clever.com`).
+-   **Source Code**: Public GitHub repository.
 
 ## 4. Authentication & Access Control
 Access to the application is strictly controlled via **NextAuth.js**:

@@ -19,7 +19,7 @@ export const initialMessages = [
 ];
 
 export const customerInfo = {
-    name: "Principal Jones",
+    name: "District Admin",
     avatar: "👩🏽‍💼",
     school: "Lincoln Heights Elementary",
     badge: "Clever Admin"
@@ -27,5 +27,5 @@ export const customerInfo = {
 
 export const scenarioContext = {
     icon: "📋",
-    text: "Help Principal Jones add a new teacher to the district."
+    text: "Help District Admin add a new teacher to the district."
 };

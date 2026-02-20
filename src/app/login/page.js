@@ -41,7 +41,7 @@ function LoginForm() {
                 <div className={styles.logo}>
                     <span className={styles.logoText}>Clever</span>
                 </div>
-                <h1 className={styles.title}>Principal Jones Simulator</h1>
+                <h1 className={styles.title}>District Simulator</h1>
 
                 {error && (
                     <div className={styles.error}>

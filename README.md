@@ -1,4 +1,4 @@
-# Principal Jones Simulator
+# District Simulator
 
 A training simulator for the Clever Dashboard, built with **Next.js 16 (App Router)** and **NextAuth.js**. This application replicates the experience of a school principal managing digital learning resources, designed for training purposes without exposing real student data.
 
