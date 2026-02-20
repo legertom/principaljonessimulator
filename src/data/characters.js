@@ -12,7 +12,7 @@ export const CHARACTERS = {
         id: "boss",
         firstName: "Alex",
         lastName: "Rivera",
-        role: "IDM Support Team Lead",
+        role: "Outgoing Clever Admin",
         school: null,
         avatar: "AR",
         avatarColor: "#2c3e50",
