@@ -26,6 +26,7 @@
 # misc
 .DS_Store
 *.pem
+.lint-scenarios-tmp.mjs
 
 # debug
 npm-debug.log*

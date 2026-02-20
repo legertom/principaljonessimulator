@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "e2e": "playwright test",
-    "e2e:ui": "playwright test --ui"
+    "e2e:ui": "playwright test --ui",
+    "lint:scenarios": "node scripts/lint-scenarios.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

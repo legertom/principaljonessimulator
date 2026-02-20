@@ -29,9 +29,9 @@ export const COURSES = [
                     "scenario_idm_tab_exploration",
                 ],
                 bossIntro:
-                    "Welcome to the team! Your first assignment is the IDM page. Cedar Ridge SD uses Google Workspace provisioning — you'll spend a lot of time here. Start by learning the layout: the provider card, the four tabs, and what kind of info each one shows.",
+                    "Hey — glad you're here. I'm Alex, the outgoing Clever admin for Cedar Ridge SD. My last day is Friday, so we need to move fast. First thing: the IDM page. This is where all our Google Workspace provisioning lives. Get familiar with the provider card and the four tabs — you'll live here.",
                 bossCompletion:
-                    "Solid work. You've got a good handle on the IDM page layout. Next up: the provisioning wizard.",
+                    "Nice. You know your way around the IDM page now. That's step one. Next I'll show you the provisioning wizard — that's where the real configuration happens.",
             },
 
             // ── Module 2 ──────────────────────────────────────────────
@@ -45,9 +45,9 @@ export const COURSES = [
                     "scenario_wizard_concepts",
                 ],
                 bossIntro:
-                    "Time to learn the provisioning wizard. Districts set up Google provisioning through an 8-step process. Your job is to know what each step does and how to move between them.",
+                    "OK, the provisioning wizard. This is the 8-step setup flow that controls how Clever creates and manages Google accounts. I need you to understand every step — when districts call in confused, this is usually where they're stuck.",
                 bossCompletion:
-                    "You can now walk any admin through the wizard structure. Ready for credentials.",
+                    "Good — you can navigate the wizard and explain each step. That's exactly what the support calls need. Now let's tackle credentials, which is the #1 ticket type.",
             },
 
             // ── Module 3 ──────────────────────────────────────────────
@@ -61,9 +61,9 @@ export const COURSES = [
                     "scenario_credential_building",
                 ],
                 bossIntro:
-                    "Credentials are one of the most common support requests. You'll need to read email formats, understand SIS variables, and help districts build new patterns.",
+                    "Credentials — this is the thing districts mess up most. Email formats, SIS variables, password rules. I get at least two credential tickets a day. You need to be able to read a format string and build one from scratch.",
                 bossCompletion:
-                    "Credentials done — that's one of the trickiest parts. OU management is next.",
+                    "You've got credentials down. That was the hardest knowledge piece — nice work. Next up: OUs, which is the most complex *configuration* piece.",
             },
 
             // ── Module 4 ──────────────────────────────────────────────
@@ -77,9 +77,9 @@ export const COURSES = [
                     "scenario_ou_configuration",
                 ],
                 bossIntro:
-                    "OUs — Organizational Units — control how Google organizes user accounts. You need to understand the tree structure, how Clever maps users into OUs, and the archive/ignored OU policies.",
+                    "OUs are where things get nested and confusing. Organizational Units control where Google puts each account in the directory tree. You need to understand sub-OU formats, archive OUs, and the ignored-OU policy — districts call about these constantly.",
                 bossCompletion:
-                    "OU management is the most complex part of IDM setup, and you've got it down. Two more modules to go.",
+                    "OU management is the gnarliest part of IDM, and you handled it. I'm feeling better about leaving. Two more modules and you'll be fully independent.",
             },
 
             // ── Module 5 ──────────────────────────────────────────────
@@ -92,9 +92,9 @@ export const COURSES = [
                     "scenario_group_setup",
                 ],
                 bossIntro:
-                    "Google Groups automate email lists and access controls. IDM can manage memberships automatically. This is a shorter module — focus on understanding group types and rules.",
+                    "Google Groups — shorter module, but don't skip it. IDM can auto-manage group memberships, which saves districts a ton of manual work. Know the group types and membership rules cold.",
                 bossCompletion:
-                    "Groups done. One final module: review and provisioning.",
+                    "Groups done. One final module left: review and provisioning. This is the 'go live' step — where mistakes actually cost something.",
             },
 
             // ── Module 6 ──────────────────────────────────────────────
@@ -108,9 +108,9 @@ export const COURSES = [
                     "scenario_sync_management",
                 ],
                 bossIntro:
-                    "This is the final step before changes go live. You'll learn to review configs, read preview stats, and manage sync pause/resume. This is where careful attention matters most.",
+                    "Last module. This is the review step and the actual provisioning trigger. Once you click 'provision,' real Google accounts get created, modified, or suspended. I need you to read preview stats carefully and know how to pause a sync if something looks wrong.",
                 bossCompletion:
-                    "Congratulations — you've completed IDM Fundamentals! You're now certified to handle IDM tickets independently.",
+                    "That's everything. You've completed IDM Fundamentals — you're ready to handle these tickets on your own. I'll be around for questions through Friday, but honestly? You've got this.",
             },
         ],
     },

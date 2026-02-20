@@ -37,7 +37,7 @@ describe("TicketInbox", () => {
         renderInbox();
         // Module 1 tickets
         expect(screen.getByText("Where do I find the Google sync settings?")).toBeInTheDocument();
-        expect(screen.getByText("I need to check our recent sync logs")).toBeInTheDocument();
+        expect(screen.getByText("Need to document our IDM page for the IT wiki")).toBeInTheDocument();
         // Module 2 tickets
         expect(screen.getByText("How do I set up Google provisioning?")).toBeInTheDocument();
         expect(screen.getByText("Explain the provisioning steps before we change anything")).toBeInTheDocument();
@@ -45,10 +45,10 @@ describe("TicketInbox", () => {
         expect(screen.getByText("Change student email format to first initial + last name")).toBeInTheDocument();
         expect(screen.getByText("Need to understand credential formats before making changes")).toBeInTheDocument();
         // Module 4 tickets
-        expect(screen.getByText("I need help understanding how our Google OUs are organized")).toBeInTheDocument();
+        expect(screen.getByText("Parent asking why their kid's Google account is in a specific folder")).toBeInTheDocument();
         expect(screen.getByText("Need to review archive and ignored OU policies for board presentation")).toBeInTheDocument();
         // Module 5 ticket
-        expect(screen.getByText("What are Google Groups in the provisioning wizard?")).toBeInTheDocument();
+        expect(screen.getByText("Can we automate Google Group membership through IDM?")).toBeInTheDocument();
         // Module 6 tickets
         expect(screen.getByText("Need to review provisioning setup before we go live")).toBeInTheDocument();
         expect(screen.getByText("Walk me through the entire provisioning process from start to finish")).toBeInTheDocument();
