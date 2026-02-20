@@ -1,4 +1,4 @@
-# Principal Jones Simulator — AI-First Execution Plan
+# District Simulator — AI-First Execution Plan
 
 ## Why this version exists
 This plan is optimized for **LLM implementation** (Sonnet/GPT/Opus), not human coding speed.

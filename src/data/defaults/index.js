@@ -1,5 +1,5 @@
 /**
- * Default scenario data for Principal Jones Simulator
+ * Default scenario data for District Simulator
  * 
  * This is the central export point for all domain-specific default data.
  * Each domain will be extracted from components and defined here in separate files.

@@ -23,7 +23,7 @@
 
 ### Blockers encountered
 - Overnight parity run stalled (no new writes for ~4 hours).
-- Dual local repo paths caused confusion earlier; resolved by operating in `/Users/tomleger/repo/principaljonessimulator`.
+- Dual local repo paths caused confusion earlier; resolved by operating in `/Users/tomleger/repo/principaljonessimulator` (District Simulator).
 
 ## Current status
 - `main` includes parity work through Batch 3 (`a852035`).

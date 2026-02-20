@@ -1,6 +1,6 @@
-# Implementation Prompt for Principal Jones Simulator Refactor
+# Implementation Prompt for District Simulator Refactor
 
-You are refactoring an existing Next.js 16 (App Router) + React 19 application located at `/Users/tomleger/repo/principaljonessimulator`. This is a customer support training simulator for Clever Dashboard. It simulates the Clever admin dashboard on the left and a chat panel with "Principal Jones" on the right.
+You are refactoring an existing Next.js 16 (App Router) + React 19 application located at `/Users/tomleger/repo/principaljonessimulator`. This is a customer support training simulator for Clever Dashboard. It simulates the Clever admin dashboard on the left and a chat panel with "District Admin" on the right.
 
 **Read every source file before modifying it. Do not guess at file contents.**
 
@@ -208,8 +208,8 @@ Extract from `SISSync.jsx`:
 **`src/data/defaults/chat.js`:**
 Extract from `ChatPanel.jsx`:
 - `initialMessages` array (lines 6-19)
-- `scenarioPrompt` string: "Help Principal Jones add a new teacher to the district."
-- `customerName`: "Principal Jones"
+- `scenarioPrompt` string: "Help District Admin add a new teacher to the district."
+- `customerName`: "District Admin"
 - `customerSchool`: "Lincoln Heights Elementary"
 - `customerRole`: "Clever Admin"
 
@@ -496,7 +496,7 @@ The login page should:
 - Be styled with Clever's design system (use the CSS variables from globals.css — `--clever-blue`, `--clever-navy`, `--font-sans`, etc.)
 - Center the login card vertically and horizontally on the page
 - Show the "Clever" logo text at the top (same style as sidebar logo)
-- Show app title: "Principal Jones Simulator"
+- Show app title: "District Simulator"
 - Show a "Sign in with Google" button (primary, prominent) — calls `signIn("google")`
 - Show a divider "or"
 - Show email + password fields — on submit, calls `signIn("credentials", { email, password, redirect: false })` and handles errors
@@ -526,7 +526,7 @@ import "./globals.css";
 import Providers from "@/components/Providers";
 
 export const metadata = {
-  title: "Principal Jones Simulator | Clever CS Training",
+  title: "District Simulator | Clever CS Training",
   description: "Customer Support training simulator for Clever Dashboard",
 };
 

@@ -15,7 +15,7 @@ Testing
 
 ## Architecture overview
 
-This is a Next.js App Router project (under `src/app`) that simulates the Clever Dashboard experience for training Customer Support agents interacting with "Principal Jones".
+This is a Next.js App Router project (under `src/app`) that simulates the Clever Dashboard experience for training Customer Support agents interacting with "District Admin".
 
 ### App shell and layout
 
@@ -61,6 +61,9 @@ This is a Next.js App Router project (under `src/app`) that simulates the Clever
     - Task goals (`goalRoute`, `goalAction`) that are checked against navigation or other actions.
     - Hints (`hint` objects) and `autoShowHint` flags for guidance overlays.
     - Answer validation (`correctAnswer`, `successStep`) for input-type steps.
+    - Flexible answer matching via `matchMode`: `"exact"` (default), `"includes"`, `"regex"`, `"oneOf"`.
+  - Dev-mode validation runs on module load and warns about broken step references in the browser console.
+  - **See `docs/scenario-authoring-guide.md` for the full scenario authoring reference.**
 
 ### How pieces fit together
 

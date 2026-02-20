@@ -3,7 +3,7 @@
 You are reviewing an AI-first implementation strategy for this repo.
 
 Repo path:
-`/Users/tomleger/repo/principaljonessimulator`
+The repository is located at: `/Users/tomleger/repo/principaljonessimulator` (Project Name: District Simulator)
 
 Please read these files first:
 1. `PLAN.md`

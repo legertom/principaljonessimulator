@@ -1,4 +1,4 @@
-# Sonnet Task Queue — Principal Jones Simulator
+# Sonnet Task Queue — District Simulator
 
 Use one task at a time. Do not combine tasks.
 
