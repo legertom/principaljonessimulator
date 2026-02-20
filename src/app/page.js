@@ -3,12 +3,21 @@
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import PortalLobby from "@/components/pages/PortalLobby";
-import { buildDashboardRoute, DEFAULT_DASHBOARD_PAGE } from "@/lib/routing";
+import {
+    buildApplicationDetailsRoute,
+    buildDashboardRoute,
+    DEFAULT_DASHBOARD_PAGE
+} from "@/lib/routing";
 
 export default function HomePage() {
     const router = useRouter();
 
-    const handleLaunchApp = useCallback((navTarget) => {
+    const handleLaunchApp = useCallback((navTarget, options = {}) => {
+        if (options.applicationId !== undefined && options.applicationId !== null) {
+            router.push(buildApplicationDetailsRoute(options.applicationId));
+            return;
+        }
+
         router.push(buildDashboardRoute(navTarget));
     }, [router]);
 

@@ -19,8 +19,8 @@ export const authOptions = {
                 // Hardcoded admin for initial testing
                 const user = {
                     id: "1",
-                    name: "District Admin",
-                    email: "principal@example.com",
+                    name: "Clever Admin",
+                    email: "admin@clever.com",
                     role: "admin"
                 };
 

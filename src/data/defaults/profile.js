@@ -4,11 +4,11 @@
  */
 
 export const profileData = {
-    firstName: "Tom",
-    lastName: "Leger",
-    jobTitle: "Dev Dude",
+    firstName: "Clever",
+    lastName: "Admin",
+    jobTitle: "District Admin",
     phoneNumber: "",
-    email: "tomleger+printdemo@gmail.com"
+    email: "admin@clever.com"
 };
 
 export const emailPrefs = {

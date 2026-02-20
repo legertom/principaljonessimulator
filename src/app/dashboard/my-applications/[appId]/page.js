@@ -18,7 +18,9 @@ export default function MyApplicationDetailsRoute() {
     const applications = scenario.applications?.myApplications;
 
     const rawAppId = getRouteParamValue(params?.appId);
+    const hasRouteParam = rawAppId.trim().length > 0;
     const parsedAppId = useMemo(() => parseApplicationId(rawAppId), [rawAppId]);
+    const hasApplications = Array.isArray(applications);
 
     const selectedApp = useMemo(() => {
         if (parsedAppId === null) {
@@ -30,6 +32,10 @@ export default function MyApplicationDetailsRoute() {
     }, [applications, parsedAppId]);
 
     useEffect(() => {
+        if (!hasRouteParam) {
+            return;
+        }
+
         if (parsedAppId === null) {
             router.replace(buildDashboardRoute("my-applications"));
             return;
@@ -40,12 +46,12 @@ export default function MyApplicationDetailsRoute() {
             return;
         }
 
-        if (!selectedApp) {
+        if (hasApplications && !selectedApp) {
             router.replace(buildDashboardRoute("my-applications"));
         }
-    }, [parsedAppId, rawAppId, router, selectedApp]);
+    }, [hasApplications, hasRouteParam, parsedAppId, rawAppId, router, selectedApp]);
 
-    if (!selectedApp) {
+    if (!hasRouteParam || !selectedApp) {
         return null;
     }
 

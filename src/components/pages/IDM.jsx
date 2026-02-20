@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { PageHeader, Tabs, DataTable, Modal, Pagination } from "@/components/ui";
+import { useInstructional } from "@/context/InstructionalContext";
 import { destinations, syncHistory, events as allEvents } from "@/data/defaults/idm";
 import styles from "./IDM.module.css";
 
@@ -64,6 +65,7 @@ const CopyIcon = () => (
 /* ── Component ──────────────────────────────── */
 
 export default function IDM({ onEditProvisioning }) {
+    const { checkActionGoal } = useInstructional();
     const [activeTab, setActiveTab] = useState("tasks");
 
     // Add Destination dropdown + modal
@@ -337,16 +339,30 @@ export default function IDM({ onEditProvisioning }) {
 
                 {/* ── Action Buttons ──────────────────── */}
                 <div className={styles.actionButtons}>
-                    <button className={styles.editProvisioningBtn} onClick={handleEditProvisioning}>
+                    <button
+                        className={styles.editProvisioningBtn}
+                        data-instruction-target="edit-provisioning"
+                        onClick={() => {
+                            checkActionGoal("edit-provisioning");
+                            handleEditProvisioning();
+                        }}
+                    >
                         Edit Google provisioning
                     </button>
-                    <button className={styles.pauseSyncBtn} onClick={handlePauseClick}>
+                    <button
+                        className={styles.pauseSyncBtn}
+                        data-instruction-target="pause-sync"
+                        onClick={handlePauseClick}
+                    >
                         {isPaused ? "Resume Google sync" : "Pause Google sync"}
                     </button>
                 </div>
 
                 {/* ── Tabs ────────────────────────────── */}
-                <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+                <Tabs tabs={tabs} activeTab={activeTab} onTabChange={(tabId) => {
+                    setActiveTab(tabId);
+                    checkActionGoal(`idm-tab-${tabId}`);
+                }} />
 
                 {/* ── Tasks Tab ───────────────────────── */}
                 {activeTab === "tasks" && (
@@ -388,7 +404,7 @@ export default function IDM({ onEditProvisioning }) {
 
                 {/* ── Exports Tab ──────────────────────── */}
                 {activeTab === "exports" && (
-                    <div className={styles.tabContent}>
+                    <div className={styles.tabContent} data-instruction-target="exports-tab-content">
                         <div className={styles.exportSection}>
                             <h3 className={styles.exportSectionTitle}>All Clever IDM Google Users</h3>
                             <p className={styles.exportDesc}>Clever IDM is managing 40 Google users.</p>
@@ -402,7 +418,14 @@ export default function IDM({ onEditProvisioning }) {
                             <p className={styles.exportDesc}>
                                 Download credentials for accounts created or updated in the last 10 days.
                             </p>
-                            <button className={styles.downloadLink} onClick={handleDownloadRecentAccounts}>
+                            <button
+                                className={styles.downloadLink}
+                                data-instruction-target="download-recent-accounts"
+                                onClick={() => {
+                                    checkActionGoal("download-recent-accounts");
+                                    handleDownloadRecentAccounts();
+                                }}
+                            >
                                 <DownloadIcon /> Download recent accounts
                             </button>
                         </div>

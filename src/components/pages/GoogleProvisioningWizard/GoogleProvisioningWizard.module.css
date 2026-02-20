@@ -2,8 +2,11 @@
 
 .wizardOverlay {
     position: fixed;
-    inset: 0;
-    z-index: 2000;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: var(--chat-panel-width);
+    z-index: 100;
     background: white;
     display: flex;
     flex-direction: column;
@@ -838,7 +841,7 @@
 /* ── Toast ─────────────────────────────────── */
 
 .toast {
-    position: fixed;
+    position: absolute;
     bottom: 24px;
     left: 50%;
     transform: translateX(-50%);

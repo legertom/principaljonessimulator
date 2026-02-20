@@ -36,9 +36,9 @@ function migrateCredential(cred) {
     };
 }
 
-function CredentialCard({ title, credential, onEdit }) {
+function CredentialCard({ title, credential, onEdit, userType }) {
     return (
-        <div className={styles.card}>
+        <div className={styles.card} data-instruction-target={`credential-card-${userType}`}>
             <div className={styles.cardHeader}>
                 <div className={styles.cardTitle}>
                     {title}
@@ -48,11 +48,19 @@ function CredentialCard({ title, credential, onEdit }) {
                         </span>
                     )}
                 </div>
-                <button className={styles.editBtn} onClick={onEdit}>Edit</button>
+                <button
+                    className={styles.editBtn}
+                    data-instruction-target={`edit-credential-${userType}`}
+                    onClick={onEdit}
+                >
+                    Edit
+                </button>
             </div>
             <div>
                 <div className={styles.cardLabel}>EMAIL</div>
-                <div className={styles.cardValue}>{credential.email}</div>
+                <div className={styles.cardValue} data-instruction-target={`email-format-${userType}`}>
+                    {credential.email}
+                </div>
             </div>
             <div style={{ marginTop: 12 }}>
                 <div className={styles.cardLabel}>PASSWORD</div>
@@ -290,6 +298,7 @@ function CredentialEditView({ title, userType, credential, sample, onBack, updat
                         </div>
                         <button
                             className={styles.editFormatLink}
+                            data-instruction-target={`edit-format-link-${userType}`}
                             onClick={() => setShowFormatEditor(true)}
                         >
                             Edit your format
@@ -463,6 +472,7 @@ export default function SetCredentialsStep({ state, updateState, goNext }) {
                 {state.provisionStudents && (
                     <CredentialCard
                         title="Student credentials"
+                        userType="students"
                         credential={state.credentials.students}
                         onEdit={() => setEditingType("students")}
                     />
@@ -470,6 +480,7 @@ export default function SetCredentialsStep({ state, updateState, goNext }) {
                 {state.provisionTeachers && (
                     <CredentialCard
                         title="Teacher credentials"
+                        userType="teachers"
                         credential={state.credentials.teachers}
                         onEdit={() => setEditingType("teachers")}
                     />
@@ -477,6 +488,7 @@ export default function SetCredentialsStep({ state, updateState, goNext }) {
                 {state.provisionStaff && (
                     <CredentialCard
                         title="Staff credentials"
+                        userType="staff"
                         credential={state.credentials.staff}
                         onEdit={() => setEditingType("staff")}
                     />

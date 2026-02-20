@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useScenario } from "@/context/ScenarioContext";
 import { PageHeader, InfoBanner, FilterBar, DataTable } from "@/components/ui";
+import { buildApplicationDetailsRoute } from "@/lib/routing";
 import styles from "./AddApplications.module.css";
 
 export default function AddApplications() {
@@ -24,7 +26,9 @@ export default function AddApplications() {
                         {row.icon}
                     </div>
                     <div className={styles.appInfo}>
-                        <a href="#" className={styles.appName}>{row.name}</a>
+                        <Link href={buildApplicationDetailsRoute(row.id)} className={styles.appName}>
+                            {row.name}
+                        </Link>
                         <span className={styles.appType}>{row.type}</span>
                     </div>
                 </div>

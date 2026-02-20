@@ -150,8 +150,13 @@
 
 .appCardName {
     font-size: 13px;
-    color: var(--gray-700);
+    color: var(--clever-blue);
     text-align: center;
+    text-decoration: none;
+}
+
+.appCardName:hover {
+    text-decoration: underline;
 }
 
 /* Vertical Divider */

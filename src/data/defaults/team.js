@@ -6,9 +6,9 @@
 export const teamMembers = [
     {
         id: 1,
-        name: "Tom Leger",
+        name: "Clever Admin",
         userTypeIcon: "sync",
-        email: "tom@maytonlyceum.com",
+        email: "admin@clever.com",
         roles: "Clever Admin (Owner)",
         title: "",
         mfaStatus: "Unactivated MFA",
@@ -16,9 +16,9 @@ export const teamMembers = [
     },
     {
         id: 2,
-        name: "Tom Leger",
+        name: "Clever Admin",
         userTypeIcon: "manual",
-        email: "tom.leger+mayton@clever.com",
+        email: "admin2@clever.com",
         roles: "Clever Admin",
         title: "admin",
         mfaStatus: "Unactivated MFA",

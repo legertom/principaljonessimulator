@@ -1,13 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
+import { useInstructional } from "@/context/InstructionalContext";
 import styles from "./Sidebar.module.css";
 import { Icons } from "@/components/ui/Icons";
 
 export default function Sidebar({ activeNav, onNavChange }) {
     const { scenario } = useScenario();
     const { navItems, districtInfo } = scenario.sidebar;
+    const { currentStep, showHint, coachMarksEnabled } = useInstructional();
 
     const parentByChild = useMemo(() => {
         const map = new Map();
@@ -25,6 +27,17 @@ export default function Sidebar({ activeNav, onNavChange }) {
         const parentId = parentByChild.get(activeNav);
         return parentId ?? "applications";
     });
+
+    // Auto-expand parent section when a hint targets a collapsed child nav item
+    useEffect(() => {
+        if (!coachMarksEnabled || !showHint || !currentStep?.hint?.target) return;
+
+        const hintTarget = currentStep.hint.target;
+        const parentId = parentByChild.get(hintTarget);
+        if (parentId) {
+            setExpandedItem(parentId);
+        }
+    }, [currentStep, showHint, coachMarksEnabled, parentByChild]);
 
     const activeParentId = parentByChild.get(activeNav);
     const openItemId = activeParentId ?? expandedItem;

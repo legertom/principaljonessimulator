@@ -9,7 +9,7 @@ export const accessData = [
         expand: "▼",
         statusTime: "Jan 31, 2026; 06:58:57 p.m. EST",
         finalAction: "Clever Admin",
-        userName: "Tom Leger",
+        userName: "Clever Admin",
         userType: "District Admin",
         ipAddress: "84.17.35.67",
     },

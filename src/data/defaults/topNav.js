@@ -6,8 +6,8 @@
 export const searchPlaceholder = "Search for users or applications";
 
 export const userInfo = {
-    name: "Tom Leger",
-    firstName: "Tom",
+    name: "Clever Admin",
+    firstName: "Clever",
     role: "Admin",
-    email: "tom.leger+maytor@clever.com"
+    email: "admin@clever.com"
 };

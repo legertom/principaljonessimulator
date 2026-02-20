@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { useScenario } from "@/context/ScenarioContext";
 import { PageHeader, Icons } from "@/components/ui";
+import { buildApplicationDetailsRoute } from "@/lib/routing";
 import styles from "./OrganizeDistrictPortal.module.css";
 
 export default function OrganizeDistrictPortal() {
@@ -47,11 +48,19 @@ export default function OrganizeDistrictPortal() {
                                     </div>
                                     <div
                                         className={styles.appCardIcon}
-                                        style={{ backgroundColor: app.iconColor }}
+                                        style={{
+                                            background: app.iconBackground ?? app.iconColor ?? "var(--gray-300)",
+                                            color: app.iconTextColor ?? "#ffffff",
+                                        }}
                                     >
                                         {app.icon}
                                     </div>
-                                    <span className={styles.appCardName}>{app.name}</span>
+                                    <Link
+                                        href={buildApplicationDetailsRoute(app.id)}
+                                        className={styles.appCardName}
+                                    >
+                                        {app.name}
+                                    </Link>
                                 </div>
                             ))}
                         </div>

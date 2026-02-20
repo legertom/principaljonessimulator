@@ -1,12 +1,19 @@
 "use client";
 
+import Link from "next/link";
+import { useMemo } from "react";
 import { useScenario } from "@/context/ScenarioContext";
 import { PageHeader, Icons } from "@/components/ui";
+import { buildApplicationDetailsRoute, buildDashboardRoute } from "@/lib/routing";
 import styles from "./DashboardHome.module.css";
 
 export default function DashboardHome() {
     const { scenario } = useScenario();
     const { stats, sisSync, ssoStatus, awaitingAction, applicationStats, pinnedApplications } = scenario.dashboard;
+    const applicationsByName = useMemo(() => {
+        const entries = scenario.applications?.myApplications ?? [];
+        return new Map(entries.map((app) => [app.name, app.id]));
+    }, [scenario.applications]);
 
     return (
         <div className={styles.page}>
@@ -207,13 +214,26 @@ export default function DashboardHome() {
                                     <div className={styles.appCardIcon}>
                                         <div className={app.iconType === "print" ? styles.printIcon : styles.ssoIcon2}>{app.icon}</div>
                                     </div>
-                                    <span className={styles.appName}>{app.name}</span>
-                                    <span className={styles.appArrow}>
+                                    <Link
+                                        href={applicationsByName.has(app.name)
+                                            ? buildApplicationDetailsRoute(applicationsByName.get(app.name))
+                                            : buildDashboardRoute("my-applications")}
+                                        className={styles.appName}
+                                    >
+                                        {app.name}
+                                    </Link>
+                                    <Link
+                                        href={applicationsByName.has(app.name)
+                                            ? buildApplicationDetailsRoute(applicationsByName.get(app.name))
+                                            : buildDashboardRoute("my-applications")}
+                                        className={styles.appArrow}
+                                        aria-label={`Open ${app.name}`}
+                                    >
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                             <circle cx="10" cy="10" r="9" fill="#dbeafe" />
                                             <path d="M8 6l4 4-4 4" stroke="#2563eb" strokeWidth="2" />
                                         </svg>
-                                    </span>
+                                    </Link>
                                 </div>
                                 <div className={styles.appCardStats}>
                                     <div className={styles.appCardStat}>

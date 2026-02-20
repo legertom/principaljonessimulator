@@ -1,13 +1,14 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useInstructional } from "@/context/InstructionalContext";
 import styles from "./CoachMark.module.css";
 
 export default function CoachMark() {
     const { currentStep, showHint, coachMarksEnabled } = useInstructional();
+    const [targetRect, setTargetRect] = useState(null);
 
-    const targetRect = useMemo(() => {
+    const findTarget = useCallback(() => {
         if (!coachMarksEnabled || !showHint || !currentStep?.hint || typeof document === "undefined") {
             return null;
         }
@@ -29,6 +30,25 @@ export default function CoachMark() {
             height: rect.height,
         };
     }, [coachMarksEnabled, showHint, currentStep]);
+
+    useEffect(() => {
+        // Attempt to find the target immediately
+        const rect = findTarget();
+        if (rect) {
+            setTargetRect(rect);
+            return;
+        }
+
+        // If not found (e.g., sidebar still expanding), retry after a short delay
+        if (coachMarksEnabled && showHint && currentStep?.hint?.target) {
+            const timer = setTimeout(() => {
+                setTargetRect(findTarget());
+            }, 150);
+            return () => clearTimeout(timer);
+        }
+
+        setTargetRect(null);
+    }, [findTarget, coachMarksEnabled, showHint, currentStep]);
 
     // Render Guard: Must have both rect AND valid hint data
     if (!targetRect || !currentStep?.hint) return null;

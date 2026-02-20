@@ -4,7 +4,7 @@
 **Point of Contact:** Tom Leger (tom.leger@clever.com)
 
 ## 1. Overview
-The **District Simulator** is a training application designed to replicate the Clever Dashboard environment for school principals. Its primary purpose is to train internal staff and partners on dashboard functionality **without accessing or exposing any real student PII (Personally Identifiable Information)**.
+The **District Simulator** is a training application designed to replicate the Clever Dashboard environment for school principals. Its primary purpose is to train internal staff on dashboard functionality **without accessing or exposing any real student PII (Personally Identifiable Information)**.
 
 ## 2. PII & Data Handling
 -   **Zero PII**: This application **does not** connect to any production student databases.

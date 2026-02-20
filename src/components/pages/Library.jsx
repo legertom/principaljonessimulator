@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { useScenario } from "@/context/ScenarioContext";
+import { buildApplicationDetailsRoute, buildDashboardRoute } from "@/lib/routing";
 import { Tabs, DataTable, Pagination, Icons } from "@/components/ui";
 import styles from "./Library.module.css";
 
 // Tab components
 function OverviewTab() {
+    const { scenario } = useScenario();
+    const appIdByName = useMemo(() => {
+        const entries = scenario.applications?.myApplications ?? [];
+        return new Map(entries.map((app) => [app.name, app.id]));
+    }, [scenario.applications]);
+    const getAppHref = (name) => (
+        appIdByName.has(name)
+            ? buildApplicationDetailsRoute(appIdByName.get(name))
+            : buildDashboardRoute("my-applications")
+    );
+
     return (
         <div className={styles.tabContent}>
             <p className={styles.description}>
@@ -27,17 +41,23 @@ function OverviewTab() {
                         <div className={`${styles.appIcon} ${styles.edmodo}`}>
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="12" r="6" fill="white"/><circle cx="12" cy="11" r="2" fill="#4a90d9"/><circle cx="20" cy="11" r="2" fill="#4a90d9"/><path d="M12 16c0 2 2 4 4 4s4-2 4-4" stroke="white" strokeWidth="1.5" fill="none"/></svg>
                         </div>
-                        <span className={styles.appName}>Waffle Wizard Academy</span>
+                        <Link href={getAppHref("Waffle Wizard Academy")} className={styles.appName}>
+                            Waffle Wizard Academy
+                        </Link>
                         <button className={styles.addBtn}>ADD TO PORTAL</button>
                     </div>
                     <div className={styles.previewApp}>
                         <div className={`${styles.appIcon} ${styles.codeorg}`}>GG</div>
-                        <span className={styles.appName}>GiggleGlyphs</span>
+                        <Link href={getAppHref("GiggleGlyphs")} className={styles.appName}>
+                            GiggleGlyphs
+                        </Link>
                         <button className={styles.addBtn}>ADD TO PORTAL</button>
                     </div>
                     <div className={styles.previewApp}>
                         <div className={`${styles.appIcon} ${styles.newsela}`}>N</div>
-                        <span className={styles.appName}>NoodleNook Notes</span>
+                        <Link href={getAppHref("NoodleNook Notes")} className={styles.appName}>
+                            NoodleNook Notes
+                        </Link>
                         <button className={styles.addBtn}>ADD TO PORTAL</button>
                     </div>
                 </div>
@@ -88,6 +108,16 @@ function SettingsTab() {
 function ApplicationsTab() {
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 47;
+    const { scenario } = useScenario();
+    const appIdByName = useMemo(() => {
+        const entries = scenario.applications?.myApplications ?? [];
+        return new Map(entries.map((app) => [app.name, app.id]));
+    }, [scenario.applications]);
+    const getAppHref = (name) => (
+        appIdByName.has(name)
+            ? buildApplicationDetailsRoute(appIdByName.get(name))
+            : buildDashboardRoute("my-applications")
+    );
 
     const apps = [
         { name: "Waffle Wizard Academy", grades: "Elementary, Middle", subjects: "Math, SEL", status: "Allowed" },
@@ -123,7 +153,9 @@ function ApplicationsTab() {
                             render: (row) => (
                                 <div className={styles.appCellContent}>
                                     <div className={styles.appIconSmall}>{Icons.applications}</div>
-                                    <a href="#" className={styles.link}>{row.name}</a>
+                                    <Link href={getAppHref(row.name)} className={styles.link}>
+                                        {row.name}
+                                    </Link>
                                 </div>
                             )
                         },

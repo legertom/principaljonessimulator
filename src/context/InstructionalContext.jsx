@@ -5,6 +5,98 @@ import { scenarios } from "@/data/scenarios";
 
 export const InstructionalContext = createContext();
 
+/**
+ * Flexible answer matching for input steps.
+ * @param {string} userAnswer  — trimmed user input
+ * @param {string|string[]} correctAnswer — expected answer(s)
+ * @param {string} [matchMode="exact"] — "exact" | "includes" | "regex" | "oneOf"
+ *
+ * "exact"    — case-insensitive exact match (default, backward-compatible)
+ * "includes" — correctAnswer appears anywhere in the user's response
+ * "regex"    — correctAnswer is a RegExp pattern string (case-insensitive)
+ * "oneOf"    — correctAnswer is an array; any element matches (exact, case-insensitive)
+ */
+function checkAnswer(userAnswer, correctAnswer, matchMode = "exact") {
+    const input = userAnswer.toLowerCase();
+
+    switch (matchMode) {
+        case "includes":
+            return input.includes(String(correctAnswer).toLowerCase());
+        case "regex":
+            try {
+                return new RegExp(correctAnswer, "i").test(userAnswer);
+            } catch {
+                return false;
+            }
+        case "oneOf":
+            if (!Array.isArray(correctAnswer)) return input === String(correctAnswer).toLowerCase();
+            return correctAnswer.some(a => input === String(a).toLowerCase());
+        case "exact":
+        default:
+            return input === String(correctAnswer).toLowerCase();
+    }
+}
+
+/**
+ * DEV-MODE: Validate all scenario definitions on load.
+ * Warns about broken step references, missing fields, and common mistakes.
+ */
+function validateScenarios() {
+    if (process.env.NODE_ENV !== "development") return;
+
+    scenarios.forEach((scenario) => {
+        const stepIds = new Set(scenario.steps.map(s => s.id));
+        const prefix = `[Scenario "${scenario.id}"]`;
+
+        if (!scenario.id) console.warn(`${prefix} Missing scenario id`);
+        if (!scenario.description) console.warn(`${prefix} Missing description`);
+        if (!scenario.steps?.length) console.warn(`${prefix} No steps defined`);
+
+        scenario.steps.forEach((step) => {
+            const sp = `${prefix} Step "${step.id}"`;
+
+            // Check nextStep references
+            if (step.nextStep && !stepIds.has(step.nextStep)) {
+                console.warn(`${sp} → nextStep "${step.nextStep}" does not exist`);
+            }
+            if (step.successStep && !stepIds.has(step.successStep)) {
+                console.warn(`${sp} → successStep "${step.successStep}" does not exist`);
+            }
+
+            // Check action nextStep references
+            if (step.actions) {
+                step.actions.forEach((action, i) => {
+                    if (action.nextStep && !stepIds.has(action.nextStep)) {
+                        console.warn(`${sp} → action[${i}].nextStep "${action.nextStep}" does not exist`);
+                    }
+                });
+            }
+
+            // Check required fields by type
+            if (step.type === "task" && !step.goalRoute && !step.goalAction) {
+                console.warn(`${sp} → task step needs goalRoute or goalAction`);
+            }
+            if (step.type === "input" && !step.correctAnswer) {
+                console.warn(`${sp} → input step missing correctAnswer`);
+            }
+            if (step.type === "input" && !step.successStep) {
+                console.warn(`${sp} → input step missing successStep`);
+            }
+        });
+
+        // Check chaining
+        if (scenario.nextScenario) {
+            const target = scenarios.find(s => s.id === scenario.nextScenario);
+            if (!target) {
+                console.warn(`${prefix} → nextScenario "${scenario.nextScenario}" does not exist`);
+            }
+        }
+    });
+}
+
+// Run on module load in dev
+validateScenarios();
+
 function getInitialHistory() {
     const ts = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
@@ -159,8 +251,11 @@ export function InstructionalProvider({ children }) {
             const step = scenarios.find(s => s.id === scenarioId)
                 ?.steps.find(s => s.id === stepId);
 
-            const isCorrect = step?.correctAnswer &&
-                action.text.trim().toLowerCase() === step.correctAnswer.toLowerCase();
+            const isCorrect = step?.correctAnswer && checkAnswer(
+                action.text.trim(),
+                step.correctAnswer,
+                step.matchMode
+            );
 
             setHistory(prev => [
                 ...prev,
@@ -235,17 +330,17 @@ export function InstructionalProvider({ children }) {
         }
     }, [advanceStep]);
 
-    const checkActionGoal = (actionId) => {
+    const checkActionGoal = useCallback((actionId) => {
         const scenarioId = activeScenarioIdRef.current;
         const stepId = currentStepIdRef.current;
 
         const step = scenarios.find(s => s.id === scenarioId)
             ?.steps.find(s => s.id === stepId);
 
-        if (step?.type === "task" && step.goalAction === actionId) {
-            // Future action-based goals
+        if (step?.type === "task" && step.goalAction === actionId && step.nextStep) {
+            advanceStep(step.nextStep);
         }
-    };
+    }, [advanceStep]);
 
     const value = {
         activeScenario,

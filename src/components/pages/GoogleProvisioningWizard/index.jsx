@@ -134,6 +134,7 @@ export default function GoogleProvisioningWizard({ currentStep, onStepChange, on
                                 <li key={step.id}>
                                     <button
                                         className={styles.stepItem}
+                                        data-instruction-target={`wizard-step-${step.id}`}
                                         onClick={() => goToStep(step.id)}
                                     >
                                         <span

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
 import { signOut, useSession } from "next-auth/react";
 import styles from "./PortalLobby.module.css";
@@ -28,10 +28,10 @@ export default function PortalLobby({ onLaunchApp, onEnterDashboard }) {
         topNavItems = FALLBACK_TOP_NAV_ITEMS
     } = scenario.portalLobby ?? {};
     const defaultUserInfo = scenario.topNav?.userInfo ?? {
-        name: "Tom Leger",
-        firstName: "Tom",
+        name: "Clever Admin",
+        firstName: "Clever",
         role: "Admin",
-        email: "tom.leger@clever.com"
+        email: "admin@clever.com"
     };
     const portalApps = Array.isArray(apps) ? apps : [];
     const availableCategories = Array.isArray(categories) && categories.length > 0
@@ -40,6 +40,10 @@ export default function PortalLobby({ onLaunchApp, onEnterDashboard }) {
     const navItems = Array.isArray(topNavItems) && topNavItems.length > 0
         ? topNavItems
         : FALLBACK_TOP_NAV_ITEMS;
+    const myAppIdByName = useMemo(() => {
+        const appEntries = scenario.applications?.myApplications ?? [];
+        return new Map(appEntries.map((app) => [app.name, app.id]));
+    }, [scenario.applications]);
 
     const [activeCategoryId, setActiveCategoryId] = useState(availableCategories[0]?.id ?? "");
     const [comingSoonId, setComingSoonId] = useState(null);
@@ -48,10 +52,10 @@ export default function PortalLobby({ onLaunchApp, onEnterDashboard }) {
 
     const userInfo = session?.user
         ? {
-            name: session.user.name ?? defaultUserInfo.name ?? "Tom Leger",
-            firstName: session.user.name?.split(" ")[0] ?? defaultUserInfo.firstName ?? "Tom",
+            name: session.user.name ?? defaultUserInfo.name ?? "Clever Admin",
+            firstName: session.user.name?.split(" ")[0] ?? defaultUserInfo.firstName ?? "Clever",
             role: session.user.role ?? defaultUserInfo.role ?? "Admin",
-            email: session.user.email ?? defaultUserInfo.email ?? "tom.leger@clever.com",
+            email: session.user.email ?? defaultUserInfo.email ?? "admin@clever.com",
         }
         : defaultUserInfo;
     const selectedCategoryId = availableCategories.some((category) => category.id === activeCategoryId)
@@ -78,6 +82,12 @@ export default function PortalLobby({ onLaunchApp, onEnterDashboard }) {
 
     const handleTileClick = (app) => {
         if (app.launchMode === "dashboard" && app.launchTarget) {
+            const matchingAppId = myAppIdByName.get(app.name);
+            if (matchingAppId) {
+                onLaunchApp("my-applications", { applicationId: matchingAppId });
+                return;
+            }
+
             onLaunchApp(app.launchTarget);
             return;
         }
