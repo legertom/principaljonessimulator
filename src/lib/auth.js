@@ -3,11 +3,16 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 
 export const authOptions = {
+    // Determine providers
     providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID || 'placeholder',
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'placeholder',
-        }),
+        ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+            ? [
+                GoogleProvider({
+                    clientId: process.env.GOOGLE_CLIENT_ID,
+                    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+                }),
+            ]
+            : []),
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
@@ -24,7 +29,9 @@ export const authOptions = {
                     role: "admin"
                 };
 
-                if (credentials?.email === user.email && credentials?.password === "password") {
+                const emailInput = credentials?.email?.trim().toLowerCase();
+
+                if (emailInput === user.email && credentials?.password === "password") {
                     return user;
                 }
 
@@ -33,13 +40,15 @@ export const authOptions = {
             }
         })
     ],
+    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
     session: {
         strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     callbacks: {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
-                return user?.email?.endsWith("@clever.com");
+                return !!user?.email?.endsWith("@clever.com");
             }
             return true; // Allow Credentials provider (dev)
         },
