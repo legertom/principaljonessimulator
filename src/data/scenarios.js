@@ -810,5 +810,202 @@ export const scenarios = [
                 ]
             }
         ]
+    },
+
+    // ── Scenario 3B: Credential Building Concepts ────────────────
+    {
+        id: "scenario_credential_building",
+        title: "Understanding Credential Formats",
+        description: "Help Sarah Chen understand credential formats before making changes.",
+        customerId: "sarahChen",
+        moduleId: "mod_credentials",
+        ticketSubject: "Need to understand credential formats before making changes",
+        ticketPriority: "normal",
+        ticketNumber: 1006,
+        nextScenario: null,
+        settings: {},
+
+        steps: [
+            // ── 1. Customer opens the ticket ──────────────────────
+            {
+                id: "step_cb_intro",
+                type: "message",
+                text: "Before I make changes, I want to understand the format system.",
+                sender: "customer",
+                actions: [
+                    { label: "I can help explain that. What would you like to know?", nextStep: "step_cb_user_types" }
+                ]
+            },
+            // ── 2. User types ─────────────────────────────────────
+            {
+                id: "step_cb_user_types",
+                type: "input",
+                text: "How many user types have credential configurations?",
+                sender: "customer",
+                guideMessage: "Consider the types of users configured for provisioning.",
+                correctAnswer: ["3", "three"],
+                matchMode: "oneOf",
+                successStep: "step_cb_shared_domain",
+                hint: {
+                    message: "Look at the user types configured for provisioning (Students, Teachers, Staff)."
+                },
+                autoShowHint: false
+            },
+            // ── 3. Shared domain ──────────────────────────────────
+            {
+                id: "step_cb_shared_domain",
+                type: "input",
+                text: "Do they share a domain? What is it?",
+                sender: "customer",
+                guideMessage: "Identify the shared domain across user types.",
+                correctAnswer: "maytonlyceum.com",
+                matchMode: "includes",
+                successStep: "step_cb_sis_variables",
+                hint: {
+                    message: "Check the domain used in the email formats."
+                },
+                autoShowHint: false
+            },
+            // ── 4. SIS variables ──────────────────────────────────
+            {
+                id: "step_cb_sis_variables",
+                type: "message",
+                text: "Are SIS variables the same for all types?",
+                sender: "customer",
+                actions: [
+                    { label: "They're different per type", nextStep: "step_cb_student_variable" },
+                    { label: "Yes, they use the exact same variables", nextStep: "step_cb_sis_variables_wrong" }
+                ]
+            },
+            // ── 4a. SIS variables wrong ───────────────────────────
+            {
+                id: "step_cb_sis_variables_wrong",
+                type: "message",
+                text: "Students have Student Number but teachers don't…",
+                sender: "customer",
+                actions: [
+                    { label: "You're right, they're different per type.", nextStep: "step_cb_student_variable" }
+                ]
+            },
+            // ── 5. Student variable ───────────────────────────────
+            {
+                id: "step_cb_student_variable",
+                type: "input",
+                text: "Besides First/Last Name, how many student email variables?",
+                sender: "customer",
+                guideMessage: "Count the available student email variables barring first and last name.",
+                correctAnswer: "4",
+                matchMode: "exact",
+                successStep: "step_cb_password_format",
+                hint: {
+                    message: "Count the available variables like sis_id, student_number, state_id, district_username."
+                },
+                autoShowHint: false
+            },
+            // ── 6. Password format ────────────────────────────────
+            {
+                id: "step_cb_password_format",
+                type: "message",
+                text: "What does the student password format combine?",
+                sender: "customer",
+                actions: [
+                    { label: "student number + grade + school SIS ID", nextStep: "step_cb_teacher_password" },
+                    { label: "first name + last name", nextStep: "step_cb_password_format_wrong" }
+                ]
+            },
+            // ── 6a. Password format wrong ─────────────────────────
+            {
+                id: "step_cb_password_format_wrong",
+                type: "message",
+                text: "I saw student_number and grade variables…",
+                sender: "customer",
+                actions: [
+                    { label: "Oh yes, it's student number + grade + school SIS ID.", nextStep: "step_cb_teacher_password" }
+                ]
+            },
+            // ── 7. Teacher password ───────────────────────────────
+            {
+                id: "step_cb_teacher_password",
+                type: "input",
+                text: "Betty Bauch, teacher number T001 — what's her password?",
+                sender: "customer",
+                guideMessage: "Determine the password for an existing teacher based on the format.",
+                correctAnswer: "t0010420",
+                matchMode: "exact",
+                successStep: "step_cb_fallback",
+                hint: {
+                    message: "Check the teacher password format and substitute T001 for teacher_number."
+                },
+                autoShowHint: false
+            },
+            // ── 8. Fallback ───────────────────────────────────────
+            {
+                id: "step_cb_fallback",
+                type: "message",
+                text: "What's a fallback email format?",
+                sender: "customer",
+                actions: [
+                    { label: "Used when primary produces a conflict", nextStep: "step_cb_matching" },
+                    { label: "An alternative password recovery email", nextStep: "step_cb_fallback_wrong" }
+                ]
+            },
+            // ── 8a. Fallback wrong ────────────────────────────────
+            {
+                id: "step_cb_fallback_wrong",
+                type: "message",
+                text: "Password reset is different. Fallback is about conflicts?",
+                sender: "customer",
+                actions: [
+                    { label: "Yes, it's used when the primary email format produces a conflict.", nextStep: "step_cb_matching" }
+                ]
+            },
+            // ── 9. Matching ───────────────────────────────────────
+            {
+                id: "step_cb_matching",
+                type: "message",
+                text: "What's the difference between matching and creating?",
+                sender: "customer",
+                actions: [
+                    { label: "Matching links existing Google accts via SIS email; creating builds new ones", nextStep: "step_cb_staff_email" },
+                    { label: "They both create new Google accounts", nextStep: "step_cb_matching_wrong" }
+                ]
+            },
+            // ── 9a. Matching wrong ────────────────────────────────
+            {
+                id: "step_cb_matching_wrong",
+                type: "message",
+                text: "SIS email matching sounds different from creating new ones?",
+                sender: "customer",
+                actions: [
+                    { label: "Right, matching links existing Google accts via SIS email; creating builds new ones.", nextStep: "step_cb_staff_email" }
+                ]
+            },
+            // ── 10. Staff email ───────────────────────────────────
+            {
+                id: "step_cb_staff_email",
+                type: "input",
+                text: "Oswaldo Pouros — what would his email be?",
+                sender: "customer",
+                guideMessage: "Determine the email for Oswaldo Pouros.",
+                correctAnswer: ["oswaldopouros@maytonlyceum.com", "oswaldo.pouros@maytonlyceum.com"],
+                matchMode: "oneOf",
+                successStep: "step_cb_done",
+                hint: {
+                    message: "Format uses first+last or first.last at maytonlyceum.com."
+                },
+                autoShowHint: false
+            },
+            // ── 11. Done ──────────────────────────────────────────
+            {
+                id: "step_cb_done",
+                type: "message",
+                text: "Three types, shared domain, different SIS variables… I'm confident now!",
+                sender: "customer",
+                actions: [
+                    { label: "Glad to help! Let us know if you have any other questions.", nextStep: null },
+                    { label: "You're all set! Have a great day.", nextStep: null }
+                ]
+            }
+        ]
     }
 ];
