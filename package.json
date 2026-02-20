@@ -9,9 +9,11 @@
     "lint": "eslint",
     "test": "vitest run --config vitest.config.mjs",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
     "e2e": "playwright test",
-    "e2e:ui": "playwright test --ui"
+    "e2e:ui": "playwright test --ui",
+    "lint:scenarios": "node scripts/lint-scenarios.mjs",
+    "check:protected-paths": "node scripts/check-protected-paths.mjs",
+    "verify:quality": "npm run lint && npm test && npm run lint:scenarios && npm run check:protected-paths"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
