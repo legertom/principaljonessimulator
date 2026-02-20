@@ -1,20 +1,52 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useRef } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { scenarios } from "@/data/scenarios";
+import { COURSES, SCENARIO_TO_MODULE } from "@/data/curriculum";
 
 export const InstructionalContext = createContext();
+
+// ═══════════════════════════════════════════════════════════════
+//  localStorage persistence
+// ═══════════════════════════════════════════════════════════════
+
+const STORAGE_KEY = "pjs-state";
+const STATE_VERSION = 1;
+
+function saveState(state) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            version: STATE_VERSION,
+            ...state,
+        }));
+    } catch { /* quota exceeded or private browsing */ }
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed.version !== STATE_VERSION) return null;
+        return parsed;
+    } catch {
+        return null;
+    }
+}
+
+function clearPersistedState() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  Answer matching
+// ═══════════════════════════════════════════════════════════════
 
 /**
  * Flexible answer matching for input steps.
  * @param {string} userAnswer  — trimmed user input
  * @param {string|string[]} correctAnswer — expected answer(s)
  * @param {string} [matchMode="exact"] — "exact" | "includes" | "regex" | "oneOf"
- *
- * "exact"    — case-insensitive exact match (default, backward-compatible)
- * "includes" — correctAnswer appears anywhere in the user's response
- * "regex"    — correctAnswer is a RegExp pattern string (case-insensitive)
- * "oneOf"    — correctAnswer is an array; any element matches (exact, case-insensitive)
  */
 function checkAnswer(userAnswer, correctAnswer, matchMode = "exact") {
     const input = userAnswer.toLowerCase();
@@ -37,10 +69,10 @@ function checkAnswer(userAnswer, correctAnswer, matchMode = "exact") {
     }
 }
 
-/**
- * DEV-MODE: Validate all scenario definitions on load.
- * Warns about broken step references, missing fields, and common mistakes.
- */
+// ═══════════════════════════════════════════════════════════════
+//  DEV-MODE validation
+// ═══════════════════════════════════════════════════════════════
+
 function validateScenarios() {
     if (process.env.NODE_ENV !== "development") return;
 
@@ -55,7 +87,6 @@ function validateScenarios() {
         scenario.steps.forEach((step) => {
             const sp = `${prefix} Step "${step.id}"`;
 
-            // Check nextStep references
             if (step.nextStep && !stepIds.has(step.nextStep)) {
                 console.warn(`${sp} → nextStep "${step.nextStep}" does not exist`);
             }
@@ -63,7 +94,6 @@ function validateScenarios() {
                 console.warn(`${sp} → successStep "${step.successStep}" does not exist`);
             }
 
-            // Check action nextStep references
             if (step.actions) {
                 step.actions.forEach((action, i) => {
                     if (action.nextStep && !stepIds.has(action.nextStep)) {
@@ -72,7 +102,6 @@ function validateScenarios() {
                 });
             }
 
-            // Check required fields by type
             if (step.type === "task" && !step.goalRoute && !step.goalAction) {
                 console.warn(`${sp} → task step needs goalRoute or goalAction`);
             }
@@ -84,68 +113,135 @@ function validateScenarios() {
             }
         });
 
-        // Check chaining
         if (scenario.nextScenario) {
             const target = scenarios.find(s => s.id === scenario.nextScenario);
             if (!target) {
                 console.warn(`${prefix} → nextScenario "${scenario.nextScenario}" does not exist`);
             }
         }
+
+        // Validate curriculum reference
+        if (scenario.moduleId && !SCENARIO_TO_MODULE[scenario.id]) {
+            console.warn(`${prefix} → moduleId "${scenario.moduleId}" not found in curriculum.js`);
+        }
     });
+
+    // Validate curriculum → scenario references
+    for (const course of COURSES) {
+        for (const mod of course.modules) {
+            for (const scenarioId of mod.scenarioIds) {
+                if (!scenarios.find(s => s.id === scenarioId)) {
+                    console.warn(`[Curriculum "${mod.id}"] → scenarioId "${scenarioId}" not in scenarios.js yet`);
+                }
+            }
+        }
+    }
 }
 
-// Run on module load in dev
 validateScenarios();
+
+// ═══════════════════════════════════════════════════════════════
+//  Initial history (ticket cards)
+// ═══════════════════════════════════════════════════════════════
 
 function getInitialHistory() {
     const ts = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-    // Queue ALL scenarios as ticket cards upfront
     return scenarios.map((scenario, idx) => ({
         id: Date.now() + idx,
         sender: "system",
-        text: scenario.description,
+        text: scenario.ticketSubject || scenario.description,
         timestamp: ts,
         variant: "ticket",
         scenarioId: scenario.id
     }));
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  Provider
+// ═══════════════════════════════════════════════════════════════
+
 export function InstructionalProvider({ children }) {
-    // Start with no active scenario — user picks from the ticket queue
+    const saved = useMemo(() => loadState(), []);
+
+    // ── Core state ──
     const [activeScenarioId, setActiveScenarioId] = useState(null);
     const [currentStepId, setCurrentStepId] = useState(null);
     const [history, setHistory] = useState(getInitialHistory);
     const [showHint, setShowHint] = useState(false);
-    const [coachMarksEnabled, setCoachMarksEnabled] = useState(true);
-    const [score, setScore] = useState(0);
+    const [coachMarksEnabled, setCoachMarksEnabled] = useState(saved?.coachMarksEnabled ?? true);
     const [currentNavId, setCurrentNavId] = useState(null);
-    const [completedScenarios, setCompletedScenarios] = useState(new Set());
+    const [completedScenarios, setCompletedScenarios] = useState(
+        () => new Set(saved?.completedScenarios ?? [])
+    );
 
-    // Refs to avoid stale closures in setTimeout callbacks
+    // ── Per-scenario scoring ──
+    const [scores, setScores] = useState(saved?.scores ?? {});
+
+    // ── Module completion ──
+    const [completedModules, setCompletedModules] = useState(
+        () => new Set(saved?.completedModules ?? [])
+    );
+
+    // ── Right panel view ──
+    const [rightPanelView, setRightPanelView] = useState("inbox");
+
+    // ── Refs to avoid stale closures in setTimeout callbacks ──
     const activeScenarioIdRef = useRef(activeScenarioId);
     const currentStepIdRef = useRef(currentStepId);
     const currentNavIdRef = useRef(currentNavId);
     const coachMarksEnabledRef = useRef(coachMarksEnabled);
+    const advanceStepRef = useRef();
 
-    // Keep refs in sync
-    activeScenarioIdRef.current = activeScenarioId;
-    currentStepIdRef.current = currentStepId;
-    currentNavIdRef.current = currentNavId;
-    coachMarksEnabledRef.current = coachMarksEnabled;
+    useEffect(() => {
+        activeScenarioIdRef.current = activeScenarioId;
+        currentStepIdRef.current = currentStepId;
+        currentNavIdRef.current = currentNavId;
+        coachMarksEnabledRef.current = coachMarksEnabled;
+    }, [activeScenarioId, currentStepId, currentNavId, coachMarksEnabled]);
 
-    // Derived state
+    // ── Derived state ──
     const activeScenario = scenarios.find(s => s.id === activeScenarioId);
     const currentStep = currentStepId
         ? activeScenario?.steps.find(s => s.id === currentStepId)
         : null;
     const scenarioSettings = activeScenario?.settings ?? {};
-
-    // Are we waiting for the user to pick a ticket? (no scenario in progress)
     const waitingForTicket = !currentStepId;
+
+    const globalScore = useMemo(
+        () => Object.values(scores).reduce((sum, s) => sum + (s.correct ?? 0), 0),
+        [scores]
+    );
+    const score = globalScore; // backward-compatible alias
 
     const timestamp = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+    // ═══ Persist on change ═══
+    useEffect(() => {
+        saveState({
+            completedScenarios: [...completedScenarios],
+            completedModules: [...completedModules],
+            scores,
+            coachMarksEnabled,
+        });
+    }, [completedScenarios, completedModules, scores, coachMarksEnabled]);
+
+    // ═══ Module completion check ═══
+    const checkModuleCompletion = useCallback((justCompletedId) => {
+        for (const course of COURSES) {
+            for (const mod of course.modules) {
+                if (!mod.scenarioIds.includes(justCompletedId)) continue;
+                const allDone = mod.scenarioIds.every(sid =>
+                    completedScenarios.has(sid) || sid === justCompletedId
+                );
+                if (allDone) {
+                    setCompletedModules(prev => new Set([...prev, mod.id]));
+                }
+            }
+        }
+    }, [completedScenarios]);
+
+    // ═══ Message helpers ═══
     const addMessageToHistory = useCallback((step) => {
         if (!step.text) return;
         setHistory(prev => [
@@ -160,6 +256,8 @@ export function InstructionalProvider({ children }) {
         ]);
     }, []);
 
+    // ═══ Ticket lifecycle ═══
+
     const acceptTicket = useCallback((scenarioId, guided = true) => {
         const scenario = scenarios.find(s => s.id === scenarioId);
         if (!scenario) return;
@@ -171,8 +269,14 @@ export function InstructionalProvider({ children }) {
         setActiveScenarioId(scenarioId);
         setCurrentStepId(firstStep.id);
         setShowHint(guided && !!firstStep.autoShowHint);
+        setRightPanelView("conversation");
 
-        // Add the first customer message after a short delay
+        // Initialize per-scenario scoring
+        setScores(prev => ({
+            ...prev,
+            [scenarioId]: { correct: 0, total: 0, startTime: Date.now() }
+        }));
+
         setTimeout(() => {
             if (firstStep.text) {
                 setHistory(prev => [
@@ -193,7 +297,6 @@ export function InstructionalProvider({ children }) {
         const scenarioId = activeScenarioIdRef.current;
         if (!scenarioId) return;
 
-        // Mark as skipped (treated same as completed for UI purposes)
         setCompletedScenarios(prev => new Set([...prev, scenarioId]));
         setHistory(prev => [...prev, {
             id: Date.now(),
@@ -207,11 +310,13 @@ export function InstructionalProvider({ children }) {
         setShowHint(false);
     }, []);
 
+    // ═══ Step progression ═══
+
     const advanceStep = useCallback((nextStepId) => {
         const scenarioId = activeScenarioIdRef.current;
 
         if (!nextStepId) {
-            // End of scenario — mark completed, return to ticket queue
+            // End of scenario
             setCompletedScenarios(prev => new Set([...prev, scenarioId]));
             setHistory(prev => [...prev, {
                 id: Date.now(),
@@ -220,6 +325,21 @@ export function InstructionalProvider({ children }) {
                 timestamp: timestamp(),
                 variant: "success"
             }]);
+
+            // Finalize score timing
+            setScores(prev => {
+                const s = prev[scenarioId];
+                return {
+                    ...prev,
+                    [scenarioId]: {
+                        ...s,
+                        timeMs: Date.now() - (s?.startTime ?? Date.now()),
+                    }
+                };
+            });
+
+            checkModuleCompletion(scenarioId);
+
             setActiveScenarioId(null);
             setCurrentStepId(null);
             setShowHint(false);
@@ -233,15 +353,20 @@ export function InstructionalProvider({ children }) {
             setShowHint(coachMarksEnabledRef.current && !!nextStep.autoShowHint);
             addMessageToHistory(nextStep);
 
-            // If this is a task step and user is already on the goal page, auto-advance
             if (nextStep.type === "task" && nextStep.goalRoute && nextStep.nextStep) {
                 const navId = currentNavIdRef.current;
                 if (navId === nextStep.goalRoute) {
-                    setTimeout(() => advanceStep(nextStep.nextStep), 800);
+                    setTimeout(() => advanceStepRef.current?.(nextStep.nextStep), 800);
                 }
             }
         }
-    }, [addMessageToHistory]);
+    }, [addMessageToHistory, checkModuleCompletion]);
+
+    useEffect(() => {
+        advanceStepRef.current = advanceStep;
+    }, [advanceStep]);
+
+    // ═══ Action handling ═══
 
     const handleAction = useCallback((action) => {
         const scenarioId = activeScenarioIdRef.current;
@@ -267,8 +392,20 @@ export function InstructionalProvider({ children }) {
                 }
             ]);
 
+            // Per-scenario scoring
+            setScores(prev => {
+                const s = prev[scenarioId] ?? { correct: 0, total: 0, startTime: Date.now() };
+                return {
+                    ...prev,
+                    [scenarioId]: {
+                        ...s,
+                        total: s.total + 1,
+                        correct: s.correct + (isCorrect ? 1 : 0),
+                    }
+                };
+            });
+
             if (isCorrect) {
-                setScore(prev => prev + 1);
                 setTimeout(() => advanceStep(step.successStep), 600);
             } else {
                 setHistory(prev => [
@@ -303,6 +440,8 @@ export function InstructionalProvider({ children }) {
         }
     }, [advanceStep]);
 
+    // ═══ Hints and coach marks ═══
+
     const toggleHint = () => {
         setShowHint(prev => !prev);
     };
@@ -310,11 +449,12 @@ export function InstructionalProvider({ children }) {
     const toggleCoachMarks = () => {
         setCoachMarksEnabled(prev => {
             const next = !prev;
-            // If disabling, also hide any active hint
             if (!next) setShowHint(false);
             return next;
         });
     };
+
+    // ═══ Navigation / action goal checking ═══
 
     const checkNavigationGoal = useCallback((navId) => {
         setCurrentNavId(navId);
@@ -342,14 +482,67 @@ export function InstructionalProvider({ children }) {
         }
     }, [advanceStep]);
 
+    // ═══ Replay a completed scenario ═══
+
+    const replayScenario = useCallback((scenarioId) => {
+        setCompletedScenarios(prev => {
+            const next = new Set(prev);
+            next.delete(scenarioId);
+            return next;
+        });
+        setScores(prev => {
+            const next = { ...prev };
+            delete next[scenarioId];
+            return next;
+        });
+        // Un-complete the module this scenario belongs to
+        setCompletedModules(prev => {
+            const next = new Set(prev);
+            const mod = SCENARIO_TO_MODULE[scenarioId];
+            if (mod) next.delete(mod.id);
+            return next;
+        });
+        setActiveScenarioId(null);
+        setCurrentStepId(null);
+        setShowHint(false);
+        setRightPanelView("inbox");
+    }, []);
+
+    // ═══ Return to inbox ═══
+
+    const returnToInbox = useCallback(() => {
+        setRightPanelView("inbox");
+        setActiveScenarioId(null);
+        setCurrentStepId(null);
+        setShowHint(false);
+    }, []);
+
+    // ═══ Reset all progress ═══
+
+    const resetAllProgress = useCallback(() => {
+        clearPersistedState();
+        setCompletedScenarios(new Set());
+        setCompletedModules(new Set());
+        setScores({});
+        setActiveScenarioId(null);
+        setCurrentStepId(null);
+        setShowHint(false);
+        setCoachMarksEnabled(true);
+        setRightPanelView("inbox");
+        setHistory(getInitialHistory());
+    }, []);
+
+    // ═══ Context value ═══
+
     const value = {
+        // Existing API (backward-compatible)
         activeScenario,
         scenarioSettings,
         currentStep,
         history,
         showHint,
         coachMarksEnabled,
-        score,
+        score,              // deprecated → globalScore
         waitingForTicket,
         completedScenarios,
         handleAction,
@@ -359,7 +552,17 @@ export function InstructionalProvider({ children }) {
         toggleCoachMarks,
         checkNavigationGoal,
         checkActionGoal,
-        advanceStep
+        advanceStep,
+
+        // New API
+        scores,
+        globalScore,
+        rightPanelView,
+        setRightPanelView,
+        returnToInbox,
+        replayScenario,
+        completedModules,
+        resetAllProgress,
     };
 
     return (
