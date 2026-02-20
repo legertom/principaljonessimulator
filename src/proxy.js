@@ -1,12 +1,12 @@
 import { withAuth } from "next-auth/middleware";
 
 /**
- * NextAuth Middleware.
+ * NextAuth Proxy (formerly Middleware for Next.js 16+).
  * 
  * Protects all matching routes. If a user is not authenticated,
  * they are automatically redirected to /login.
  */
-export default withAuth({
+export const proxy = withAuth({
     pages: {
         signIn: '/login', // Redirect unauthenticated users here
     },
@@ -15,7 +15,7 @@ export default withAuth({
 /**
  * Route Matcher Configuration.
  * 
- * Specifies which paths the middleware should run on.
+ * Specifies which paths the proxy should run on.
  * 
  * EXCLUDED paths (matched by negative lookahead):
  * - /login (public login page)

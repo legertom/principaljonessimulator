@@ -1,153 +1,329 @@
-import { demoCustomer, demoDistrict } from "@/data/demoIdentity";
+import { demoCustomer } from "@/data/demoIdentity";
+
+/**
+ * Training scenarios for the Help Desk Simulator.
+ *
+ * Each scenario is a sequence of steps that simulate a customer support ticket.
+ * Scenarios are grouped into modules via curriculum.js.
+ *
+ * New optional fields (consumed by the TicketInbox UI):
+ *   customerId   — key into CHARACTERS (characters.js)
+ *   moduleId     — which curriculum module owns this scenario
+ *   ticketSubject — one-line subject shown in the ticket inbox
+ *   ticketPriority — "low" | "normal" | "high"
+ *   ticketNumber — display number (e.g. 1005 → "#1005")
+ */
 
 export const scenarios = [
-    {
-        id: "scenario_find_district_id",
-        title: "Finding District ID",
-        description: `Help ${demoCustomer.title} ${demoCustomer.lastName} find the District ID.`,
-        nextScenario: "scenario_add_app",
-        settings: {
-            idmPaidView: true
-        },
-        steps: [
+    // ═══════════════════════════════════════════════════════════════
+    //  MODULE 1 — IDM Overview & Navigation
+    //  Two scenarios: page orientation + tab exploration
+    // ═══════════════════════════════════════════════════════════════
 
-            {
-                id: "step_welcome",
-                type: "message",
-                text: "Hi! I need to find our District ID for a support ticket. Do you know where it is?",
-                sender: "customer",
-                actions: [
-                    { label: "One moment, I'll find it.", nextStep: "step_nav_data_browser" },
-                    { label: "Check the 'Support tools' tab.", nextStep: "step_wrong_support" }
-                ]
-            },
-            {
-                id: "step_wrong_support",
-                type: "message",
-                text: "I looked in Support tools, but I don't see a District ID listed there.",
-                sender: "customer",
-                actions: [
-                    { label: "My apologies. It should be in the Data Browser.", nextStep: "step_nav_data_browser" },
-                    { label: "Let me look again.", nextStep: "step_nav_data_browser" }
-                ]
-            },
-            {
-                id: "step_nav_data_browser",
-                type: "task",
-                text: "Thanks, I'll be here.",
-                sender: "customer",
-                goalRoute: "data-browser",
-                nextStep: "step_locate_id",
-                guideMessage: "Navigate to the 'Data browser' page",
-                hint: {
-                    target: "data-browser",
-                    message: "Navigate to the 'Data browser' page."
-                },
-                autoShowHint: true
-            },
-            {
-                id: "step_locate_id",
-                type: "input",
-                text: null,
-                sender: "customer",
-                guideMessage: "Enter the District ID to continue",
-                correctAnswer: demoDistrict.id,
-                successStep: "step_success",
-                hint: {
-                    target: "district-id-val",
-                    message: "It's near the top of the page, labeled 'DISTRICT ID'."
-                },
-                autoShowHint: true
-            },
-            {
-                id: "step_success",
-                type: "message",
-                text: "That's exactly right! Thank you for finding that.",
-                sender: "customer",
-                actions: [
-                    { label: "Happy to help!", nextStep: null },
-                    { label: `You're welcome, ${demoCustomer.title} ${demoCustomer.lastName}.`, nextStep: null }
-                ]
-            }
-        ]
-    },
+    // ── Scenario 1A: IDM Page Orientation ────────────────────────
     {
-        id: "scenario_add_app",
-        title: "Adding an Application",
-        description: `Help ${demoCustomer.title} ${demoCustomer.lastName} add the Waffle Wizard Academy application.`,
-        nextScenario: "scenario_idm_credentials",
+        id: "scenario_idm_orientation",
+        title: "IDM Page Orientation",
+        description: "Help Principal Jones find and understand the IDM page layout.",
+        customerId: "principalJones",
+        moduleId: "mod_overview",
+        ticketSubject: "Where do I find the Google sync settings?",
+        ticketPriority: "normal",
+        ticketNumber: 1001,
+        nextScenario: null,
         settings: {},
+
         steps: [
+            // ── 1. Customer opens the ticket ──────────────────────
             {
-                id: "step_add_app_request",
+                id: "step_orient_intro",
                 type: "message",
-                text: "Hi again! My teachers want to start using Waffle Wizard Academy with their students. Can you help me add it to our district?",
+                text: "Hi! I heard we use Clever IDM for managing Google accounts. Where do I find that in the dashboard?",
                 sender: "customer",
                 actions: [
-                    { label: "Sure! I'll walk you through it.", nextStep: "step_nav_add_apps" },
-                    { label: "I know where to find it.", nextStep: "step_direct_answer" }
-                ]
+                    { label: "Let me pull up the IDM page for you.", nextStep: "step_orient_nav_idm" },
+                ],
             },
+            // ── 2. Navigate to IDM ───────────────────────────────
             {
-                id: "step_direct_answer",
-                type: "input",
-                text: "Great — what's the name of the page I should go to?",
-                sender: "customer",
-                guideMessage: "Which page in the dashboard lets you add new applications?",
-                correctAnswer: "add applications",
-                successStep: "step_nav_add_apps",
-                hint: {
-                    target: "add-applications",
-                    message: "Look under 'Applications' in the sidebar."
-                },
-                autoShowHint: false
-            },
-            {
-                id: "step_nav_add_apps",
+                id: "step_orient_nav_idm",
                 type: "task",
-                text: "OK, let me know when you're on the right page!",
+                text: "Great, I'll wait while you navigate there.",
                 sender: "customer",
-                goalRoute: "add-applications",
-                nextStep: "step_find_app",
-                guideMessage: "Navigate to 'Add applications' under Applications in the sidebar.",
+                goalRoute: "idm",
+                nextStep: "step_orient_provider",
+                guideMessage: "Navigate to the IDM page under User management.",
                 hint: {
-                    target: "add-applications",
-                    message: "Click 'Add applications' in the sidebar under Applications."
+                    target: "idm",
+                    message: "Click 'IDM' in the sidebar under User management.",
                 },
-                autoShowHint: true
+                autoShowHint: true,
             },
+            // ── 3. Identify the provider ─────────────────────────
             {
-                id: "step_find_app",
-                type: "input",
-                text: "I can see the app library. Now, what's the name of the app we're looking for?",
-                sender: "customer",
-                guideMessage: "Type the name of the application to find it.",
-                correctAnswer: "waffle wizard academy",
-                successStep: "step_add_app_success",
-                hint: {
-                    target: "app-search-input",
-                    message: "Use the search bar to find 'Waffle Wizard Academy'."
-                },
-                autoShowHint: true
-            },
-            {
-                id: "step_add_app_success",
+                id: "step_orient_provider",
                 type: "message",
-                text: "That's the one! Thank you for helping me find and add Waffle Wizard Academy. My teachers will be thrilled!",
+                text: "OK, I can see the page. What provider is shown on the provider card?",
                 sender: "customer",
                 actions: [
-                    { label: "Happy to help!", nextStep: null },
-                    { label: `You're welcome, ${demoCustomer.title} ${demoCustomer.lastName}.`, nextStep: null }
-                ]
-            }
-        ]
+                    { label: "Google Workspace", nextStep: "step_orient_status" },
+                    { label: "Microsoft Entra ID", nextStep: "step_orient_provider_wrong" },
+                    { label: "Both Google and Microsoft", nextStep: "step_orient_provider_wrong" },
+                ],
+            },
+            // ── 3a. Wrong provider branch ────────────────────────
+            {
+                id: "step_orient_provider_wrong",
+                type: "message",
+                text: "Hmm, that doesn't look right. Take another look at the provider card — what logo and name do you see?",
+                sender: "customer",
+                actions: [
+                    { label: "Google Workspace", nextStep: "step_orient_status" },
+                ],
+            },
+            // ── 4. Provider card status ──────────────────────────
+            {
+                id: "step_orient_status",
+                type: "input",
+                text: "Good — Google Workspace. What status does the provider card show?",
+                sender: "customer",
+                guideMessage: "Read the status badge on the Google Workspace provider card.",
+                correctAnswer: "active",
+                matchMode: "includes",
+                successStep: "step_orient_last_sync",
+                hint: {
+                    target: "google-provider-card",
+                    message: "Look at the status badges on the provider card.",
+                },
+                autoShowHint: true,
+            },
+            // ── 5. Last sync timestamp ───────────────────────────
+            {
+                id: "step_orient_last_sync",
+                type: "input",
+                text: "When was the last sync? You should see a timestamp below the provider card.",
+                sender: "customer",
+                guideMessage: "Find the last sync timestamp displayed below the provider card.",
+                correctAnswer: ["02/16/2026", "feb 16", "february 16", "2/16/2026", "feb 16, 2026"],
+                matchMode: "oneOf",
+                successStep: "step_orient_issues",
+                hint: {
+                    target: "last-sync-timestamp",
+                    message: "Check the sync timestamp text below the provider card.",
+                },
+                autoShowHint: false,
+            },
+            // ── 6. Issues count ──────────────────────────────────
+            {
+                id: "step_orient_issues",
+                type: "input",
+                text: "How many issues does the provider card show?",
+                sender: "customer",
+                guideMessage: "Look at the stats row on the provider card for the Issue count.",
+                correctAnswer: "1",
+                matchMode: "exact",
+                successStep: "step_orient_managed",
+                hint: {
+                    target: "google-provider-card",
+                    message: "Check the Issue stat on the provider card.",
+                },
+                autoShowHint: false,
+            },
+            // ── 7. Managed users count ───────────────────────────
+            {
+                id: "step_orient_managed",
+                type: "input",
+                text: "Last question about the overview — how many Google users is IDM managing? You should see a notification about it.",
+                sender: "customer",
+                guideMessage: "Find the notification card that mentions how many Google users IDM manages.",
+                correctAnswer: "40",
+                matchMode: "exact",
+                successStep: "step_orient_done",
+                hint: {
+                    target: "managed-users-notification",
+                    message: "Look at the notification card in the Tasks tab.",
+                },
+                autoShowHint: false,
+            },
+            // ── 8. Done ──────────────────────────────────────────
+            {
+                id: "step_orient_done",
+                type: "message",
+                text: "Now I know where to find IDM and what the provider card tells us. Thanks for the walkthrough!",
+                sender: "customer",
+                actions: [
+                    { label: "You're welcome! Feel free to reach out if you have more questions.", nextStep: null },
+                ],
+            },
+        ],
     },
+
+    // ── Scenario 1B: Exploring IDM Tabs ──────────────────────────
+    {
+        id: "scenario_idm_tab_exploration",
+        title: "Exploring IDM Tabs",
+        description: "Help Sarah Chen navigate and understand each IDM tab.",
+        customerId: "sarahChen",
+        moduleId: "mod_overview",
+        ticketSubject: "I need to check our recent sync logs",
+        ticketPriority: "normal",
+        ticketNumber: 1002,
+        nextScenario: null,
+        settings: {},
+
+        steps: [
+            // ── 1. Customer opens the ticket ──────────────────────
+            {
+                id: "step_tabs_intro",
+                type: "message",
+                text: "Hi there! Can you walk me through the IDM tabs? I want to understand what each one shows so I know where to look when troubleshooting.",
+                sender: "customer",
+                actions: [
+                    { label: "Sure, let's start with Sync History.", nextStep: "step_tabs_click_sync" },
+                ],
+            },
+            // ── 2. Click Sync History tab ────────────────────────
+            {
+                id: "step_tabs_click_sync",
+                type: "task",
+                text: "Go ahead and click on the Sync History tab.",
+                sender: "customer",
+                goalAction: "idm-tab-sync-history",
+                nextStep: "step_tabs_sync_count",
+                guideMessage: "Click the 'Sync History' tab on the IDM page.",
+                hint: {
+                    message: "Click the 'Sync History' tab near the top of the page.",
+                },
+                autoShowHint: true,
+            },
+            // ── 3. Count sync records ────────────────────────────
+            {
+                id: "step_tabs_sync_count",
+                type: "input",
+                text: "How many sync records are shown in the table?",
+                sender: "customer",
+                guideMessage: "Count the number of rows in the Sync History table.",
+                correctAnswer: "14",
+                matchMode: "exact",
+                successStep: "step_tabs_sync_issues",
+                hint: {
+                    message: "Count all the rows in the Sync History table.",
+                },
+                autoShowHint: false,
+            },
+            // ── 4. Issues per sync ───────────────────────────────
+            {
+                id: "step_tabs_sync_issues",
+                type: "input",
+                text: "And how many issues does each sync show?",
+                sender: "customer",
+                guideMessage: "Look at the Issues column in the Sync History table.",
+                correctAnswer: "1",
+                matchMode: "exact",
+                successStep: "step_tabs_click_exports",
+                hint: {
+                    message: "Check the Issues column — what number appears on each row?",
+                },
+                autoShowHint: false,
+            },
+            // ── 5. Click Exports tab ─────────────────────────────
+            {
+                id: "step_tabs_click_exports",
+                type: "task",
+                text: "Good. Now let's check the Exports tab.",
+                sender: "customer",
+                goalAction: "idm-tab-exports",
+                nextStep: "step_tabs_exports_sftp",
+                guideMessage: "Click the 'Exports' tab.",
+                hint: {
+                    message: "Click the 'Exports' tab near the top of the page.",
+                },
+                autoShowHint: true,
+            },
+            // ── 6. SFTP question ─────────────────────────────────
+            {
+                id: "step_tabs_exports_sftp",
+                type: "message",
+                text: "Is there an option for automated export on this tab?",
+                sender: "customer",
+                actions: [
+                    { label: "Yes, there's an SFTP toggle for automated exports.", nextStep: "step_tabs_click_events" },
+                    { label: "No, there are no automated export options.", nextStep: "step_tabs_exports_wrong" },
+                ],
+            },
+            // ── 6a. Wrong SFTP answer ────────────────────────────
+            {
+                id: "step_tabs_exports_wrong",
+                type: "message",
+                text: "Look more carefully — there should be an SFTP section at the bottom of the Exports tab.",
+                sender: "customer",
+                actions: [
+                    { label: "Yes, I see the SFTP toggle now for enabling automated exports.", nextStep: "step_tabs_click_events" },
+                ],
+            },
+            // ── 7. Click Events tab ──────────────────────────────
+            {
+                id: "step_tabs_click_events",
+                type: "task",
+                text: "Last one — open the Events tab.",
+                sender: "customer",
+                goalAction: "idm-tab-events",
+                nextStep: "step_tabs_events_student",
+                guideMessage: "Click the 'Events' tab.",
+                hint: {
+                    message: "Click the 'Events' tab near the top of the page.",
+                },
+                autoShowHint: true,
+            },
+            // ── 8. Find first Student event ──────────────────────
+            {
+                id: "step_tabs_events_student",
+                type: "input",
+                text: "Find the first Student event in the list. What's the student's name?",
+                sender: "customer",
+                guideMessage: "Look through the events list for the first entry with a Student user type.",
+                correctAnswer: ["janelle rodriguez", "janelle", "rodriguez"],
+                matchMode: "oneOf",
+                successStep: "step_tabs_done",
+                hint: {
+                    target: "events-tab-content",
+                    message: "Look at the User column — the first two events are Staff and Teacher. Find the Student event after those.",
+                },
+                autoShowHint: false,
+            },
+            // ── 9. Done ──────────────────────────────────────────
+            {
+                id: "step_tabs_done",
+                type: "message",
+                text: "Great, now I know how to check sync status and find specific events. This will be really helpful for troubleshooting. Thanks!",
+                sender: "customer",
+                actions: [
+                    { label: "Happy to help! The Events tab is great for tracking individual user changes.", nextStep: null },
+                ],
+            },
+        ],
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    //  MODULE 3 — Credential Configuration
+    //  (legacy scenario, promoted from the original scenario chain)
+    // ═══════════════════════════════════════════════════════════════
     {
         id: "scenario_idm_credentials",
         title: "Changing IDM Student Email Format",
         description: `Help ${demoCustomer.title} ${demoCustomer.lastName} change the student email format in Clever IDM from first name + last name to first initial + last name.`,
+
+        // ── New metadata ──
+        customerId: "principalJones",
+        moduleId: "mod_credentials",
+        ticketSubject: "Change student email format to first initial + last name",
+        ticketPriority: "normal",
+        ticketNumber: 1005,
+
+        // ── Legacy fields cleaned up ──
         nextScenario: null,
         settings: {},
+
         steps: [
             // ── 1. Customer opens the ticket ──────────────────────────
             {

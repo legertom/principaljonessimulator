@@ -296,7 +296,7 @@ export default function IDM({ onEditProvisioning }) {
                 </div>
 
                 {/* ── Google Workspace Card ───────────── */}
-                <div className={styles.providerCard}>
+                <div className={styles.providerCard} data-instruction-target="google-provider-card">
                     <div className={styles.providerHeader}>
                         <div className={styles.providerName}>
                             <GoogleIcon />
@@ -333,7 +333,7 @@ export default function IDM({ onEditProvisioning }) {
                 </div>
 
                 {/* ── Last Sync Timestamp ─────────────── */}
-                <p className={styles.syncTimestamp}>
+                <p className={styles.syncTimestamp} data-instruction-target="last-sync-timestamp">
                     Your last Google accounts sync was processed on 02/16/2026 at 4:45AM
                 </p>
 
@@ -373,7 +373,7 @@ export default function IDM({ onEditProvisioning }) {
                                 <DownloadIcon /> Download user emails
                             </button>
                         </div>
-                        <div className={styles.notificationCard}>
+                        <div className={styles.notificationCard} data-instruction-target="managed-users-notification">
                             <span className={styles.successBadge}>
                                 <CheckIcon /> Success
                             </span>
@@ -460,7 +460,7 @@ export default function IDM({ onEditProvisioning }) {
 
                 {/* ── Events Tab ───────────────────────── */}
                 {activeTab === "events" && (
-                    <div className={styles.tabContent}>
+                    <div className={styles.tabContent} data-instruction-target="events-tab-content">
                         {/* Date Filters */}
                         <div className={styles.eventsFilterRow}>
                             <label className={styles.dateFilterLabel}>
