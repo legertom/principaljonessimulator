@@ -336,9 +336,17 @@ In development, the system automatically validates all scenarios on load and war
 - Broken `nextScenario` chains
 
 Check the browser console for warnings like:
-```
 [Scenario "scenario_my_new"] Step "step_foo" → nextStep "step_typo" does not exist
 ```
+
+### Automated CI Quality Guardrails (`npm run lint:scenarios`)
+
+A strict static analyzer (`scripts/lint-scenarios.mjs`) runs in CI. Your scenario will fail if it violates these rules:
+
+1. **Unique IDs**: Every scenario must have a unique `id`, and every step must have a unique `id` within that scenario.
+2. **Valid References**: All references (`nextStep`, `successStep`, etc.) must point to a step that actually exists in the same scenario array.
+3. **Task Density**: To ensure interactivity, **at least 40%** of the steps in any scenario must be `task` or `input` steps. If your scenario is mostly passive `message` steps, the linter will reject it.
+4. **Input Schemas**: `input` steps must define a `correctAnswer`.
 
 ---
 
