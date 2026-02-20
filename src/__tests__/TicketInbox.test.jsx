@@ -35,23 +35,25 @@ describe("TicketInbox", () => {
         expect(screen.getByText("Change student email format to first initial + last name")).toBeInTheDocument();
     });
 
-    it("skips un-authored scenarios without crashing", () => {
-        // Modules 1-2 have scenarios in curriculum but not in scenarios.js
-        // TicketInbox should not crash and should skip rendering them
+    it("renders Module 1 scenarios now that they are authored", () => {
         renderInbox();
-        // Module 1's header should NOT appear (no authored scenarios)
-        expect(screen.queryByText("IDM Overview & Navigation")).not.toBeInTheDocument();
+        // Module 1 has two authored scenarios — its header should appear
+        expect(screen.getByText("IDM Overview & Navigation")).toBeInTheDocument();
+        // Both Module 1 ticket subjects should render
+        expect(screen.getByText("Where do I find the Google sync settings?")).toBeInTheDocument();
+        expect(screen.getByText("I need to check our recent sync logs")).toBeInTheDocument();
     });
 
     it("un-authored modules auto-satisfy prerequisites (Fix 1)", () => {
         // Module 3 has prerequisites: mod_provisioning_basics → mod_overview
-        // Both have zero authored scenarios → auto-satisfied
-        // Module 3 ticket should NOT be locked
+        // Module 1 is now authored (2 scenarios), but Module 2 still has zero authored scenarios → auto-satisfied
+        // Module 3 ticket should NOT be locked since Module 2 auto-satisfies
         renderInbox();
         const ticket = screen.getByText("Change student email format to first initial + last name");
         expect(ticket).toBeInTheDocument();
-        // Should show "Open" status, not locked label
-        expect(screen.getByText("Open")).toBeInTheDocument();
+        // Module 3 ticket should be among the "Open" tickets (not locked)
+        const openLabels = screen.getAllByText("Open");
+        expect(openLabels.length).toBeGreaterThanOrEqual(1);
         expect(screen.queryByText("Complete previous modules to unlock")).not.toBeInTheDocument();
     });
 
