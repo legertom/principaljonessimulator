@@ -89,6 +89,7 @@ const defaultContext = {
     replayScenario: vi.fn(),
     scenarioJustCompleted: null,
     scores: {},
+    visitedStepIds: new Set(["step_nav"]),
 };
 
 function renderInvestigation(overrides = {}) {
@@ -123,6 +124,7 @@ describe("InvestigationView", () => {
     it("renders choice buttons for checkpoint step", () => {
         renderInvestigation({
             currentStep: mockScenario.steps[1], // checkpoint
+            visitedStepIds: new Set(["step_nav", "step_check"]),
         });
         expect(screen.getByText("Is the Google integration healthy?")).toBeInTheDocument();
         expect(screen.getByText("Active with 1 issue")).toBeInTheDocument();
@@ -133,6 +135,7 @@ describe("InvestigationView", () => {
         const mockAction = vi.fn();
         renderInvestigation({
             currentStep: mockScenario.steps[1],
+            visitedStepIds: new Set(["step_nav", "step_check"]),
             handleAction: mockAction,
         });
         fireEvent.click(screen.getByText("Active with 1 issue"));
@@ -144,6 +147,7 @@ describe("InvestigationView", () => {
     it("renders input field for observe/freetext step", () => {
         renderInvestigation({
             currentStep: mockScenario.steps[3], // observe step
+            visitedStepIds: new Set(["step_nav", "step_check", "step_input"]),
         });
         expect(screen.getByText("When was the last sync?")).toBeInTheDocument();
         expect(screen.getByPlaceholderText("Type your answer")).toBeInTheDocument();
@@ -153,6 +157,7 @@ describe("InvestigationView", () => {
         const mockAction = vi.fn();
         renderInvestigation({
             currentStep: mockScenario.steps[3],
+            visitedStepIds: new Set(["step_nav", "step_check", "step_input"]),
             handleAction: mockAction,
         });
         const textarea = screen.getByPlaceholderText("Type your answer");
@@ -167,6 +172,7 @@ describe("InvestigationView", () => {
     it("renders resolution step with report-back badge", () => {
         renderInvestigation({
             currentStep: mockScenario.steps[4], // resolution
+            visitedStepIds: new Set(["step_nav", "step_check", "step_input", "step_resolve"]),
         });
         expect(screen.getByText(/Report back to Principal Jones/)).toBeInTheDocument();
         expect(screen.getByText("Choose the best summary:")).toBeInTheDocument();
@@ -177,6 +183,7 @@ describe("InvestigationView", () => {
     it("shows completion card when scenario is just completed", () => {
         renderInvestigation({
             currentStep: null,
+            visitedStepIds: new Set(["step_nav", "step_check", "step_input", "step_resolve"]),
             scenarioJustCompleted: {
                 scenarioId: "scenario_test_investigation",
                 scores: { correct: 3, total: 4, timeMs: 180000 },
@@ -204,5 +211,33 @@ describe("InvestigationView", () => {
     it("shows hint toggle when coach marks are enabled and step has hint", () => {
         renderInvestigation();
         expect(screen.getByText("Show Hint")).toBeInTheDocument();
+    });
+
+    it("marks only visited steps as completed, not all steps before current index", () => {
+        // User went step_nav → step_input (skipping step_check and step_wrong).
+        // The engine's visitedStepIds only contains the steps actually visited.
+        // The old index-based logic would mark ALL steps 0-2 as completed.
+        // The new visited-set logic only marks actually-visited steps.
+        const { container } = renderInvestigation({
+            currentStep: mockScenario.steps[3], // step_input (observe)
+            visitedStepIds: new Set(["step_nav", "step_input"]),
+        });
+        const listItems = container.querySelectorAll("[role='listitem']");
+
+        // step_nav (0) — visited → completed
+        expect(listItems[0].className).toMatch(/step_completed/);
+
+        // step_check (1) — NOT visited → future
+        expect(listItems[1].className).toMatch(/step_future/);
+
+        // step_wrong (2) — NOT visited → future
+        expect(listItems[2].className).toMatch(/step_future/);
+
+        // step_input (3) — current
+        expect(listItems[3].getAttribute("aria-current")).toBe("step");
+        expect(listItems[3].className).toMatch(/step_current/);
+
+        // step_resolve (4) — future
+        expect(listItems[4].className).toMatch(/step_future/);
     });
 });

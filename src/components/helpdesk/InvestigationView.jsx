@@ -39,24 +39,33 @@ export default function InvestigationView() {
     const currentStepRef = useRef(null);
     const prevStepIdRef = useRef(currentStep?.id);
 
+    // Visited step IDs are tracked in the engine (InstructionalContext) and
+    // exposed via context — no local effect needed. This ensures wrong-branch
+    // steps that were never visited are not marked completed.
+    const { visitedStepIds } = useInstructional();
+
     // Build normalized step list with completion status
     const stepList = useMemo(() => {
         if (!activeScenario?.steps) return [];
-        const currentIdx = activeScenario.steps.findIndex(s => s.id === currentStep?.id);
 
-        return activeScenario.steps.map((step, idx) => {
+        return activeScenario.steps.map((step) => {
             const norm = normalizeStep(step);
             let status = "future";
-            if (scenarioJustCompleted || (currentIdx >= 0 && idx < currentIdx)) {
-                status = "completed";
-            } else if (idx === currentIdx) {
+
+            if (scenarioJustCompleted) {
+                // After completion, all visited steps are completed
+                status = visitedStepIds.has(step.id) ? "completed" : "future";
+            } else if (step.id === currentStep?.id) {
                 status = "current";
+            } else if (visitedStepIds.has(step.id)) {
+                status = "completed";
             }
+
             return { ...norm, _status: status, _originalStep: step };
         });
-    }, [activeScenario, currentStep, scenarioJustCompleted]);
+    }, [activeScenario, currentStep, scenarioJustCompleted, visitedStepIds]);
 
-    // Reset input when step changes — tracked via ref to avoid setState in useEffect
+    // Reset input when step changes — ref-tracked to avoid setState in useEffect
     if (currentStep?.id !== prevStepIdRef.current) {
         prevStepIdRef.current = currentStep?.id;
         if (inputValue !== "") {

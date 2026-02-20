@@ -253,6 +253,11 @@ export function InstructionalProvider({ children }) {
     // ── Explicit completion state (Fix 2 — no message-variant inference) ──
     const [scenarioJustCompleted, setScenarioJustCompleted] = useState(null);
 
+    // ── Visited step IDs for InvestigationView checklist ──
+    // Tracks which steps the trainee actually visited (not index-based).
+    // Prevents wrong-branch steps from showing as completed.
+    const [visitedStepIds, setVisitedStepIds] = useState(() => new Set());
+
     // ── Refs to avoid stale closures in setTimeout callbacks ──
     const activeScenarioIdRef = useRef(activeScenarioId);
     const currentStepIdRef = useRef(currentStepId);
@@ -351,6 +356,7 @@ export function InstructionalProvider({ children }) {
         setRightPanelView(panelView);
         setConversationHistory([]);
         setScenarioJustCompleted(null);
+        setVisitedStepIds(new Set([firstStep.id]));
 
         // Initialize per-scenario scoring
         setScores(prev => ({
@@ -394,6 +400,7 @@ export function InstructionalProvider({ children }) {
         setShowHint(false);
         setRightPanelView("inbox");
         setScenarioJustCompleted(null);
+        setVisitedStepIds(new Set());
     }, []);
 
     // ═══ Step progression ═══
@@ -443,6 +450,7 @@ export function InstructionalProvider({ children }) {
         const nextStep = scenario?.steps.find(s => s.id === nextStepId);
         if (nextStep) {
             setCurrentStepId(nextStepId);
+            setVisitedStepIds(prev => new Set([...prev, nextStepId]));
             setShowHint(coachMarksEnabledRef.current && !!nextStep.autoShowHint);
             addMessageToHistory(nextStep);
 
@@ -614,6 +622,7 @@ export function InstructionalProvider({ children }) {
         setCurrentStepId(null);
         setShowHint(false);
         setRightPanelView("inbox");
+        setVisitedStepIds(new Set());
     }, []);
 
     // ═══ Return to inbox ═══
@@ -625,6 +634,7 @@ export function InstructionalProvider({ children }) {
         setShowHint(false);
         setConversationHistory([]);
         setScenarioJustCompleted(null);
+        setVisitedStepIds(new Set());
     }, []);
 
     // ═══ Reset all progress ═══
@@ -642,6 +652,7 @@ export function InstructionalProvider({ children }) {
         setTicketHistory(getInitialHistory());
         setConversationHistory([]);
         setScenarioJustCompleted(null);
+        setVisitedStepIds(new Set());
     }, []);
 
     // ═══ Context value ═══
@@ -679,6 +690,7 @@ export function InstructionalProvider({ children }) {
         completedModules,
         resetAllProgress,
         normalizedCurrentStep,
+        visitedStepIds,
     };
 
     return (
