@@ -1,11 +1,34 @@
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+// Simple in-memory rate limiter for credential brute-force protection
+const RATE_LIMIT_WINDOW_MS = process.env.AUTH_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000;
+const MAX_ATTEMPTS = process.env.AUTH_MAX_ATTEMPTS || 5;
+const loginAttempts = new Map();
+
+function isRateLimited(identifier) {
+    if (process.env.NODE_ENV === 'test') return false; // Disable limiter in test environment
+
+    const now = Date.now();
+    const attempts = loginAttempts.get(identifier) || [];
+    const recentAttempts = attempts.filter(time => now - time < RATE_LIMIT_WINDOW_MS);
+
+    if (recentAttempts.length >= MAX_ATTEMPTS) {
+        return true;
+    }
+
+    recentAttempts.push(now);
+    loginAttempts.set(identifier, recentAttempts);
+    return false;
+}
 
 export const authOptions = {
     // Determine providers
     providers: [
-        ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+        ...(process.env.GOOGLE_CLIENT_ID &&
+            process.env.GOOGLE_CLIENT_SECRET &&
+            process.env.GOOGLE_CLIENT_ID !== "YOUR_GOOGLE_CLIENT_ID" &&
+            process.env.GOOGLE_CLIENT_SECRET !== "YOUR_GOOGLE_CLIENT_SECRET"
             ? [
                 GoogleProvider({
                     clientId: process.env.GOOGLE_CLIENT_ID,
@@ -19,7 +42,15 @@ export const authOptions = {
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials) {
+            async authorize(credentials, req) {
+                const emailInput = credentials?.email?.trim().toLowerCase();
+                const ip = req?.headers?.['x-forwarded-for'] || req?.connection?.remoteAddress || 'unknown-ip';
+                const identifier = `${emailInput}-${ip}`;
+
+                if (isRateLimited(identifier)) {
+                    throw new Error("Too many login attempts. Please try again later.");
+                }
+
                 // Placeholder logic until user persistence is wired up
                 // Hardcoded admin for initial testing
                 const user = {
@@ -29,9 +60,8 @@ export const authOptions = {
                     role: "admin"
                 };
 
-                const emailInput = credentials?.email?.trim().toLowerCase();
-
                 if (emailInput === user.email && credentials?.password === "password") {
+                    loginAttempts.delete(identifier); // Reset attempts on success
                     return user;
                 }
 
@@ -63,6 +93,18 @@ export const authOptions = {
                 session.user.role = token.role;
             }
             return session;
+        },
+        async redirect({ url, baseUrl }) {
+            // Allows relative callback URLs
+            if (url.startsWith("/")) {
+                return new URL(url, baseUrl).toString()
+            }
+            // Allows callback URLs on the same origin
+            else if (new URL(url).origin === baseUrl) {
+                return url
+            }
+            // Fallback to baseUrl
+            return baseUrl
         }
     },
     pages: {

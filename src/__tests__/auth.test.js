@@ -112,4 +112,40 @@ describe('auth.js Configuration', () => {
             expect(session.user.role).toBe('admin');
         });
     });
+
+    describe('Security and Hardening', () => {
+        it('should safely handle relative redirects', async () => {
+            const result = await authOptions.callbacks.redirect({ url: '/dashboard', baseUrl: 'http://localhost:3000' });
+            expect(result).toBe('http://localhost:3000/dashboard');
+        });
+
+        it('should safely handle same-origin absolute redirects', async () => {
+            const result = await authOptions.callbacks.redirect({ url: 'http://localhost:3000/settings', baseUrl: 'http://localhost:3000' });
+            expect(result).toBe('http://localhost:3000/settings');
+        });
+
+        it('should fallback to baseUrl for untrusted cross-origin redirects', async () => {
+            const result = await authOptions.callbacks.redirect({ url: 'https://evil.com/phishing', baseUrl: 'http://localhost:3000' });
+            expect(result).toBe('http://localhost:3000');
+        });
+
+        it('should bypass rate limiter when NODE_ENV is test', async () => {
+            const credentialsProvider = authOptions.providers.find(p => p.name === 'Credentials' || p.options?.name === 'Credentials');
+            const options = credentialsProvider.options || credentialsProvider;
+            const originalEnv = process.env.NODE_ENV;
+            process.env.NODE_ENV = 'test';
+
+            // Should not throw even after 10 attempts
+            for (let i = 0; i < 10; i++) {
+                try {
+                    await options.authorize({ email: 'wrong@clever.com', password: 'bad' }, { headers: {} });
+                } catch (e) {
+                    // Ignore normal rejections
+                }
+            }
+            const result = await options.authorize({ email: 'admin@clever.com', password: 'password' }, { headers: {} });
+            expect(result.email).toBe('admin@clever.com');
+            process.env.NODE_ENV = originalEnv;
+        });
+    });
 });
