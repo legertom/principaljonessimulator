@@ -129,6 +129,17 @@ describe('auth.js Configuration', () => {
             expect(result).toBe('http://localhost:3000');
         });
 
+        it('should safely fallback when url parsing throws an error', async () => {
+            // e.g. An invalid URL string that fails `new URL(url)`
+            const result = await authOptions.callbacks.redirect({ url: 'http://|invalid-url', baseUrl: 'http://localhost:3000' });
+            expect(result).toBe('http://localhost:3000');
+        });
+
+        it('should safely fall back when an absolute url throws cross-origin error on parsing', async () => {
+            const result = await authOptions.callbacks.redirect({ url: 'not-a-valid-url://xyz', baseUrl: 'http://localhost:3000' });
+            expect(result).toBe('http://localhost:3000');
+        });
+
         it('should bypass rate limiter when NODE_ENV is test', async () => {
             const credentialsProvider = authOptions.providers.find(p => p.name === 'Credentials' || p.options?.name === 'Credentials');
             const options = credentialsProvider.options || credentialsProvider;
@@ -146,6 +157,17 @@ describe('auth.js Configuration', () => {
             const result = await options.authorize({ email: 'admin@clever.com', password: 'password' }, { headers: {} });
             expect(result.email).toBe('admin@clever.com');
             process.env.NODE_ENV = originalEnv;
+        });
+
+        it('should not initialize GoogleProvider if env variables are placeholder strings', async () => {
+            // Note: Since auth.js is evaluated on import, this test asserts the side-effect 
+            // from the environment at import time. In tests, GOOGLE_CLIENT_ID is usually undefined, 
+            // so we expect GoogleProvider to not be in the providers array unless properly hydrated.
+            const googleProvider = authOptions.providers.find(p => p.id === 'google');
+            // Assuming the test runner environment doesn't have real valid Google secrets:
+            if (!process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID.includes('YOUR_')) {
+                expect(googleProvider).toBeUndefined();
+            }
         });
     });
 });

@@ -2,8 +2,8 @@ import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 // Simple in-memory rate limiter for credential brute-force protection
-const RATE_LIMIT_WINDOW_MS = process.env.AUTH_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000;
-const MAX_ATTEMPTS = process.env.AUTH_MAX_ATTEMPTS || 5;
+const RATE_LIMIT_WINDOW_MS = parseInt(process.env.AUTH_RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000;
+const MAX_ATTEMPTS = parseInt(process.env.AUTH_MAX_ATTEMPTS, 10) || 5;
 const loginAttempts = new Map();
 
 function isRateLimited(identifier) {
@@ -28,7 +28,9 @@ export const authOptions = {
         ...(process.env.GOOGLE_CLIENT_ID &&
             process.env.GOOGLE_CLIENT_SECRET &&
             process.env.GOOGLE_CLIENT_ID !== "YOUR_GOOGLE_CLIENT_ID" &&
-            process.env.GOOGLE_CLIENT_SECRET !== "YOUR_GOOGLE_CLIENT_SECRET"
+            process.env.GOOGLE_CLIENT_SECRET !== "YOUR_GOOGLE_CLIENT_SECRET" &&
+            process.env.GOOGLE_CLIENT_ID !== "placeholder_id" &&
+            process.env.GOOGLE_CLIENT_SECRET !== "placeholder_secret"
             ? [
                 GoogleProvider({
                     clientId: process.env.GOOGLE_CLIENT_ID,
@@ -95,13 +97,18 @@ export const authOptions = {
             return session;
         },
         async redirect({ url, baseUrl }) {
-            // Allows relative callback URLs
-            if (url.startsWith("/")) {
-                return new URL(url, baseUrl).toString()
-            }
-            // Allows callback URLs on the same origin
-            else if (new URL(url).origin === baseUrl) {
-                return url
+            // Defensively try/catch new URL parsing
+            try {
+                // Allows relative callback URLs
+                if (url.startsWith("/")) {
+                    return new URL(url, baseUrl).toString()
+                }
+                // Allows callback URLs on the same origin
+                else if (new URL(url).origin === baseUrl) {
+                    return url
+                }
+            } catch (error) {
+                // Ignore parse errors and fallback immediately
             }
             // Fallback to baseUrl
             return baseUrl
