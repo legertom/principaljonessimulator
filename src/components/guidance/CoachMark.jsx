@@ -23,6 +23,17 @@ export default function CoachMark() {
         if (!element) return null;
 
         const rect = element.getBoundingClientRect();
+
+        // Verify the element is actually visible and not behind a fixed overlay
+        // (e.g. the provisioning wizard covering the sidebar). elementFromPoint
+        // ignores pointer-events:none layers like the CoachMark itself.
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const topEl = document.elementFromPoint(centerX, centerY);
+        if (topEl && !element.contains(topEl) && !topEl.contains(element)) {
+            return null;
+        }
+
         return {
             top: rect.top,
             left: rect.left,
