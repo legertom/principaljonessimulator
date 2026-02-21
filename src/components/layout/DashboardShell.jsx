@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { InstructionalProvider, useInstructional } from "@/context/InstructionalContext";
 import { DataVariantProvider } from "@/context/DataVariantContext";
 import Sidebar from "@/components/layout/Sidebar";
@@ -13,6 +13,7 @@ import styles from "./DashboardShell.module.css";
 
 function DashboardShellContent({ activeNav, children, showChatPanel }) {
     const router = useRouter();
+    const pathname = usePathname();
     const { checkNavigationGoal, activeScenarioId, currentStep, rightPanelView } = useInstructional();
 
     const handleNavChange = useCallback((navId, options = {}) => {
@@ -43,10 +44,12 @@ function DashboardShellContent({ activeNav, children, showChatPanel }) {
         const inTicketFlow = rightPanelView === "investigation" || rightPanelView === "conversation";
 
         if (!activeScenarioId || !inTicketFlow || !goalRoute) return;
-        if (goalRoute === activeNav) return;
 
-        router.push(buildDashboardRoute(goalRoute));
-    }, [activeScenarioId, rightPanelView, currentStep?.goalRoute, activeNav, router]);
+        const targetRoute = buildDashboardRoute(goalRoute);
+        if (pathname === targetRoute) return;
+
+        router.push(targetRoute);
+    }, [activeScenarioId, rightPanelView, currentStep?.goalRoute, pathname, router]);
 
     return (
         <div className={styles.appContainer}>
