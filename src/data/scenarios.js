@@ -55,8 +55,8 @@ export const scenarios = [
                 question: "What identity provider is configured on this IDM page?",
                 choices: [
                     { label: "Google Workspace", nextStep: "step_orient_health", correct: true },
-                    { label: "Microsoft Entra ID", nextStep: "step_orient_provider_wrong", correct: false },
-                    { label: "Both Google and Microsoft", nextStep: "step_orient_provider_wrong", correct: false },
+                    { label: "Microsoft Entra ID", nextStep: "step_orient_provider_wrong", unguidedNextStep: "step_orient_health", correct: false },
+                    { label: "Both Google and Microsoft", nextStep: "step_orient_provider_wrong", unguidedNextStep: "step_orient_health", correct: false },
                 ],
                 hint: {
                     target: "google-provider-card",
@@ -112,7 +112,7 @@ export const scenarios = [
                 question: "Looking at the sync history, are syncs running regularly or has there been a gap?",
                 choices: [
                     { label: "Syncs are running regularly — the most recent one was within the last few days", nextStep: "step_orient_nav_tasks", correct: true },
-                    { label: "Syncs have stopped — the last one was weeks ago", nextStep: "step_orient_sync_wrong", correct: false },
+                    { label: "Syncs have stopped — the last one was weeks ago", nextStep: "step_orient_sync_wrong", unguidedNextStep: "step_orient_nav_tasks", correct: false },
                 ],
                 hint: {
                     message: "Check the dates in the Sync History table — are they recent and consistent?",
@@ -223,8 +223,8 @@ export const scenarios = [
                 question: "Looking at the Sync History tab, what's the overall health of the sync process?",
                 choices: [
                     { label: "All syncs completed successfully, though each has a minor issue flagged", nextStep: "step_tabs_click_exports", correct: true },
-                    { label: "Multiple syncs have failed — there are serious problems", nextStep: "step_tabs_sync_wrong", correct: false },
-                    { label: "There's no sync history — syncing hasn't been set up", nextStep: "step_tabs_sync_wrong", correct: false },
+                    { label: "Multiple syncs have failed — there are serious problems", nextStep: "step_tabs_sync_wrong", unguidedNextStep: "step_tabs_click_exports", correct: false },
+                    { label: "There's no sync history — syncing hasn't been set up", nextStep: "step_tabs_sync_wrong", unguidedNextStep: "step_tabs_click_exports", correct: false },
                 ],
                 hint: {
                     message: "Look at the Status column in the Sync History table — are they showing success or failure?",
@@ -263,7 +263,7 @@ export const scenarios = [
                 question: "What export capabilities does the Exports tab offer?",
                 choices: [
                     { label: "Manual CSV downloads plus an SFTP option for automated exports", nextStep: "step_tabs_click_events", correct: true },
-                    { label: "Only manual downloads — there's no automation option", nextStep: "step_tabs_exports_wrong", correct: false },
+                    { label: "Only manual downloads — there's no automation option", nextStep: "step_tabs_exports_wrong", unguidedNextStep: "step_tabs_click_events", correct: false },
                 ],
                 hint: {
                     target: "exports-tab-content",
@@ -303,7 +303,7 @@ export const scenarios = [
                 question: "What kind of information does the Events tab show?",
                 choices: [
                     { label: "Individual user-level changes — account creations, updates, and which user types were affected", nextStep: "step_tabs_nav_tasks", correct: true },
-                    { label: "Only system-level errors and warnings, not individual user changes", nextStep: "step_tabs_events_wrong", correct: false },
+                    { label: "Only system-level errors and warnings, not individual user changes", nextStep: "step_tabs_events_wrong", unguidedNextStep: "step_tabs_nav_tasks", correct: false },
                 ],
                 hint: {
                     target: "events-tab-content",
@@ -405,7 +405,7 @@ export const scenarios = [
                 question: "The first wizard step is 'Connect to Google.' Is Google already connected for this district?",
                 choices: [
                     { label: "Yes — the Connect step shows Google is already connected and authorized", nextStep: "step_wn_nav_mgmt", correct: true },
-                    { label: "No — Google still needs to be set up", nextStep: "step_wn_connection_wrong", correct: false },
+                    { label: "No — Google still needs to be set up", nextStep: "step_wn_connection_wrong", unguidedNextStep: "step_wn_nav_mgmt", correct: false },
                 ],
                 hint: {
                     target: "wizard-step-connect",
@@ -446,7 +446,7 @@ export const scenarios = [
                 question: "What management level is this district using? This determines how much Clever controls in Google.",
                 choices: [
                     { label: "Full provisioning — Clever manages accounts, OUs, and groups", nextStep: "step_wn_nav_users", correct: true },
-                    { label: "Password-Only — Clever just manages passwords for existing accounts", nextStep: "step_wn_level_wrong", correct: false },
+                    { label: "Password-Only — Clever just manages passwords for existing accounts", nextStep: "step_wn_level_wrong", unguidedNextStep: "step_wn_nav_users", correct: false },
                 ],
                 hint: {
                     message: "Look at which management level option is currently selected.",
@@ -571,7 +571,7 @@ export const scenarios = [
                 question: "Step 1 is 'Connect to Google.' What does this step actually do?",
                 choices: [
                     { label: "It links Clever to your Google Workspace domain via OAuth so Clever can manage accounts", nextStep: "step_wc_nav_mgmt", correct: true },
-                    { label: "It imports all Google users into Clever's database", nextStep: "step_wc_connect_wrong", correct: false },
+                    { label: "It imports all Google users into Clever's database", nextStep: "step_wc_connect_wrong", unguidedNextStep: "step_wc_nav_mgmt", correct: false },
                 ],
                 hint: {
                     target: "wizard-step-connect",
@@ -668,7 +668,7 @@ export const scenarios = [
                 question: "What are Organizational Units (OUs) used for in Google Workspace?",
                 choices: [
                     { label: "Organizing user accounts into a folder structure so you can apply different policies and management rules per group", nextStep: "step_wc_nav_preview", correct: true },
-                    { label: "Tracking student attendance and grade information", nextStep: "step_wc_ous_wrong", correct: false },
+                    { label: "Tracking student attendance and grade information", nextStep: "step_wc_ous_wrong", unguidedNextStep: "step_wc_nav_preview", correct: false },
                 ],
                 hint: {
                     message: "OUs are a Google concept — they organize accounts for policy management.",
@@ -708,7 +708,7 @@ export const scenarios = [
                 question: "What happens at the Preview and Provision step?",
                 choices: [
                     { label: "You see a preview of all changes (accounts to create, update, archive) before they're applied to Google — nothing happens until you click Provision", nextStep: "step_wc_resolution", correct: true },
-                    { label: "It automatically syncs everything immediately with no review step", nextStep: "step_wc_preview_wrong", correct: false },
+                    { label: "It automatically syncs everything immediately with no review step", nextStep: "step_wc_preview_wrong", unguidedNextStep: "step_wc_resolution", correct: false },
                 ],
                 hint: {
                     message: "Is Preview a review step or an automatic action?",
@@ -826,7 +826,7 @@ export const scenarios = [
                 question: "Where would you click to change the student email format?",
                 choices: [
                     { label: "Click the 'Edit' button on the Student credentials card, then 'Edit your format' in the email section", nextStep: "step_cred_compute_email", correct: true },
-                    { label: "Go to the SIS sync settings to change how names are imported", nextStep: "step_cred_where_wrong", correct: false },
+                    { label: "Go to the SIS sync settings to change how names are imported", nextStep: "step_cred_where_wrong", unguidedNextStep: "step_cred_compute_email", correct: false },
                 ],
                 hint: {
                     target: "edit-credential-students",
@@ -938,7 +938,7 @@ export const scenarios = [
                 question: "Looking at the credential cards, are the same SIS variables available for all user types when building email formats?",
                 choices: [
                     { label: "No — each user type has its own SIS variables plus shared ones like First Name and Last Name", nextStep: "step_cb_domain_check", correct: true },
-                    { label: "Yes — every user type uses the same set of variables", nextStep: "step_cb_sis_wrong", correct: false },
+                    { label: "Yes — every user type uses the same set of variables", nextStep: "step_cb_sis_wrong", unguidedNextStep: "step_cb_domain_check", correct: false },
                 ],
                 hint: {
                     target: "credential-card-students",
@@ -981,7 +981,7 @@ export const scenarios = [
                 question: "Looking at the student password format, what SIS data does it combine?",
                 choices: [
                     { label: "Student number + grade + school SIS ID — three variables concatenated", nextStep: "step_cb_teacher_password", correct: true },
-                    { label: "Student's first name and birthday", nextStep: "step_cb_password_wrong", correct: false },
+                    { label: "Student's first name and birthday", nextStep: "step_cb_password_wrong", unguidedNextStep: "step_cb_teacher_password", correct: false },
                 ],
                 hint: {
                     target: "credential-card-students",
@@ -1023,7 +1023,7 @@ export const scenarios = [
                 question: "There's an option to add a 'fallback' email format. What is a fallback format used for?",
                 choices: [
                     { label: "It's used when the primary format produces a duplicate — if two users would get the same email, the fallback creates a unique alternative", nextStep: "step_cb_matching_concept", correct: true },
-                    { label: "It's the email address used when users forget their password", nextStep: "step_cb_fallback_wrong", correct: false },
+                    { label: "It's the email address used when users forget their password", nextStep: "step_cb_fallback_wrong", unguidedNextStep: "step_cb_matching_concept", correct: false },
                 ],
                 hint: {
                     message: "Think about what happens when two students have the same name — their emails would conflict.",
@@ -1049,7 +1049,7 @@ export const scenarios = [
                 question: "The credentials step mentions 'matching' and 'creating' emails. What's the difference?",
                 choices: [
                     { label: "Matching links existing Google accounts to Clever users by SIS email. Creating builds new email addresses for users who don't have a Google account yet.", nextStep: "step_cb_staff_compute", correct: true },
-                    { label: "They're the same thing — both create new Google accounts", nextStep: "step_cb_matching_wrong", correct: false },
+                    { label: "They're the same thing — both create new Google accounts", nextStep: "step_cb_matching_wrong", unguidedNextStep: "step_cb_staff_compute", correct: false },
                 ],
                 hint: {
                     message: "One is about finding existing accounts, the other is about making new ones.",
@@ -1166,7 +1166,7 @@ export const scenarios = [
                 question: "Looking at the student OU configuration, how are students organized into the Google directory?",
                 choices: [
                     { label: "Students are placed into /Students/{{school_name}}/{{student.grade}} — organized by school, then by grade level", nextStep: "step_on_rogelio_path", correct: true },
-                    { label: "Students are placed into a flat /Students OU with no sub-organization", nextStep: "step_on_student_wrong", correct: false },
+                    { label: "Students are placed into a flat /Students OU with no sub-organization", nextStep: "step_on_student_wrong", unguidedNextStep: "step_on_rogelio_path", correct: false },
                 ],
                 hint: {
                     message: "Look at the student OU path — does it have variables (curly braces) indicating sub-organization?",
@@ -1207,7 +1207,7 @@ export const scenarios = [
                 question: "Do teachers have dynamic sub-OUs like students, or a fixed path?",
                 choices: [
                     { label: "Teachers have a fixed path — /Users/Staff/Teachers with no dynamic variables", nextStep: "step_on_staff_structure", correct: true },
-                    { label: "Teachers are organized by subject area, like /Teachers/{{subject}}", nextStep: "step_on_teacher_wrong", correct: false },
+                    { label: "Teachers are organized by subject area, like /Teachers/{{subject}}", nextStep: "step_on_teacher_wrong", unguidedNextStep: "step_on_staff_structure", correct: false },
                 ],
                 hint: {
                     message: "Check the teacher OU configuration — does it have variables or just a static path?",
@@ -1233,7 +1233,7 @@ export const scenarios = [
                 question: "How are staff accounts organized into OUs?",
                 choices: [
                     { label: "Staff use sub-OUs organized by department — /Users/Staff/{{staff.department}}", nextStep: "step_on_oswaldo_path", correct: true },
-                    { label: "Staff all go into one flat OU with no sub-organization", nextStep: "step_on_staff_wrong", correct: false },
+                    { label: "Staff all go into one flat OU with no sub-organization", nextStep: "step_on_staff_wrong", unguidedNextStep: "step_on_oswaldo_path", correct: false },
                 ],
                 hint: {
                     message: "Check the staff OU path — does it have a department variable?",
@@ -1360,7 +1360,7 @@ export const scenarios = [
                 question: "There are three archive actions available. What's the difference between 'move-suspend' and 'move-suspend-archive'?",
                 choices: [
                     { label: "Move-suspend moves the account and suspends it. Move-suspend-archive does the same but also triggers Google's archive feature, which releases the user's license.", nextStep: "step_oc_ignored_handling", correct: true },
-                    { label: "They're the same thing — just different labels for the same action", nextStep: "step_oc_archive_wrong", correct: false },
+                    { label: "They're the same thing — just different labels for the same action", nextStep: "step_oc_archive_wrong", unguidedNextStep: "step_oc_ignored_handling", correct: false },
                 ],
                 hint: {
                     message: "The third word 'archive' triggers an additional Google feature. What does it do?",
@@ -1401,7 +1401,7 @@ export const scenarios = [
                 question: "What's the fundamental difference between archive and ignored users? The board will need a clear distinction.",
                 choices: [
                     { label: "Archive is for users who departed the district (no longer in SIS). Ignored users are still in the SIS but their Google accounts are managed manually outside IDM.", nextStep: "step_oc_teacher_path", correct: true },
-                    { label: "Archive and ignored are the same — both are for inactive users", nextStep: "step_oc_archive_ignored_wrong", correct: false },
+                    { label: "Archive and ignored are the same — both are for inactive users", nextStep: "step_oc_archive_ignored_wrong", unguidedNextStep: "step_oc_teacher_path", correct: false },
                 ],
                 hint: {
                     message: "One category is about users who left entirely, the other is about users still in the system but managed differently.",
@@ -1427,7 +1427,7 @@ export const scenarios = [
                 question: "For the presentation: do teachers have dynamic sub-OUs or a fixed path?",
                 choices: [
                     { label: "Teachers have a fixed path — /Users/Staff/Teachers with no dynamic variables", nextStep: "step_oc_resolution", correct: true },
-                    { label: "Teachers are organized by subject area into sub-OUs", nextStep: "step_oc_teacher_wrong", correct: false },
+                    { label: "Teachers are organized by subject area into sub-OUs", nextStep: "step_oc_teacher_wrong", unguidedNextStep: "step_oc_resolution", correct: false },
                 ],
                 hint: {
                     message: "Check the teacher OU configuration — is there a variable in the path?",
@@ -1572,7 +1572,7 @@ export const scenarios = [
                 question: "What's the difference between IDM-managed groups and groups created manually in Google Admin?",
                 choices: [
                     { label: "IDM-managed groups are automatically synced — members added/removed based on SIS data. Manual groups exist independently and IDM doesn't touch them.", nextStep: "step_gs_zero_impact", correct: true },
-                    { label: "There's no difference — IDM manages all Google Groups automatically", nextStep: "step_gs_managed_wrong", correct: false },
+                    { label: "There's no difference — IDM manages all Google Groups automatically", nextStep: "step_gs_managed_wrong", unguidedNextStep: "step_gs_zero_impact", correct: false },
                 ],
                 hint: {
                     message: "Pre-existing Google Groups were created before IDM. Does IDM control those too?",
@@ -1598,7 +1598,7 @@ export const scenarios = [
                 question: "Since we have 0 rules, what happens with groups during each sync?",
                 choices: [
                     { label: "Nothing — IDM completely skips group management. No groups are created or modified.", nextStep: "step_gs_resolution", correct: true },
-                    { label: "IDM still syncs all existing Google Groups even with 0 rules", nextStep: "step_gs_zero_wrong", correct: false },
+                    { label: "IDM still syncs all existing Google Groups even with 0 rules", nextStep: "step_gs_zero_wrong", unguidedNextStep: "step_gs_resolution", correct: false },
                 ],
                 hint: {
                     message: "With no rules telling IDM what to do, what would it do?",
@@ -1672,7 +1672,7 @@ export const scenarios = [
                 question: "You're now on the Summary step. What is this step for?",
                 choices: [
                     { label: "A read-only review of every configuration choice across the wizard, with Edit buttons to jump back and make changes", nextStep: "step_rp_nav_preview", correct: true },
-                    { label: "This is where you input all your final settings before provisioning", nextStep: "step_rp_summary_wrong", correct: false },
+                    { label: "This is where you input all your final settings before provisioning", nextStep: "step_rp_summary_wrong", unguidedNextStep: "step_rp_nav_preview", correct: false },
                 ],
                 hint: {
                     message: "Notice there are no input fields — only a display of settings and Edit links.",
@@ -1742,7 +1742,7 @@ export const scenarios = [
                 question: "What's the difference between a 'Matched' account and a 'Created' account in this preview?",
                 choices: [
                     { label: "Matched = IDM linked a Clever user to an existing Google account. Created = IDM will build a brand-new Google account.", nextStep: "step_rp_sync_issues", correct: true },
-                    { label: "They're the same thing — both create new Google accounts", nextStep: "step_rp_match_wrong", correct: false },
+                    { label: "They're the same thing — both create new Google accounts", nextStep: "step_rp_match_wrong", unguidedNextStep: "step_rp_sync_issues", correct: false },
                 ],
                 hint: {
                     message: "The preview lists them separately because they're different operations — one links, the other builds.",
@@ -1798,7 +1798,7 @@ export const scenarios = [
                 question: "The preview has a 'Conflicts' row. What does a conflict mean in this context?",
                 choices: [
                     { label: "A user's email is already taken by another Clever IDM user, blocking account creation or matching — a duplicate email issue", nextStep: "step_rp_safe_to_provision", correct: true },
-                    { label: "Two different wizard settings disagree with each other", nextStep: "step_rp_conflicts_wrong", correct: false },
+                    { label: "Two different wizard settings disagree with each other", nextStep: "step_rp_conflicts_wrong", unguidedNextStep: "step_rp_safe_to_provision", correct: false },
                 ],
                 hint: {
                     message: "Conflicts are about user accounts, not wizard settings. Think about duplicate emails.",
@@ -1895,7 +1895,7 @@ export const scenarios = [
                 question: "You've jumped from step 1 to step 7. What role does Summary play in the pipeline?",
                 choices: [
                     { label: "It's a read-only review of every configuration choice, with Edit buttons to jump back — the safety check before Preview", nextStep: "step_sm_nav_preview", correct: true },
-                    { label: "It's where you enter your final configuration settings", nextStep: "step_sm_summary_wrong", correct: false },
+                    { label: "It's where you enter your final configuration settings", nextStep: "step_sm_summary_wrong", unguidedNextStep: "step_sm_nav_preview", correct: false },
                 ],
                 hint: {
                     message: "Summary has no input fields — it's a review page with Edit links.",
@@ -1950,7 +1950,7 @@ export const scenarios = [
                 question: "You can see the Provision button on this page. What actually happens when you click it?",
                 choices: [
                     { label: "It applies all configured changes to Google Workspace — creating, updating, and archiving accounts based on the preview data", nextStep: "step_sm_nav_idm", correct: true },
-                    { label: "It just saves your settings and closes the wizard", nextStep: "step_sm_provision_wrong", correct: false },
+                    { label: "It just saves your settings and closes the wizard", nextStep: "step_sm_provision_wrong", unguidedNextStep: "step_sm_nav_idm", correct: false },
                 ],
                 hint: {
                     message: "Provision is the action step — it makes real changes in Google Workspace.",
@@ -1989,7 +1989,7 @@ export const scenarios = [
                 question: "Lisa asked about stopping syncs in an emergency. You can see the Pause Sync button on the IDM page. When would you use it?",
                 choices: [
                     { label: "When something goes wrong during a sync — like incorrect accounts being created or credentials being overwritten — Pause Sync stops all future syncs until you investigate and resume", nextStep: "step_sm_resolution", correct: true },
-                    { label: "You use it to permanently disconnect Google Workspace from Clever", nextStep: "step_sm_pause_wrong", correct: false },
+                    { label: "You use it to permanently disconnect Google Workspace from Clever", nextStep: "step_sm_pause_wrong", unguidedNextStep: "step_sm_resolution", correct: false },
                 ],
                 hint: {
                     message: "Pause is temporary, not permanent. Think emergency stop, not disconnect.",

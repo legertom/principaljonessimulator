@@ -9,6 +9,7 @@ export const scenarios = [
                 id: "s3", type: "checkpoint",
                 choices: [
                     { label: "Missing correct bool", nextStep: "s1" }, // missing `correct: true/false`
+                    { label: "Missing unguided branch", nextStep: "s1", correct: false }, // should require unguidedNextStep
                     { label: "Missing ref", correct: false } // missing nextStep
                 ]
             }

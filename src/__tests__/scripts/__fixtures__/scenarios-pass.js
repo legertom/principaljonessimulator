@@ -16,7 +16,7 @@ export const scenarios = [
                 type: "checkpoint",
                 choices: [
                     { label: "Valid", correct: true, nextStep: "s5" },
-                    { label: "Invalid", correct: false, nextStep: "s5" }
+                    { label: "Invalid", correct: false, nextStep: "s5", unguidedNextStep: "s5" }
                 ]
             },
             { id: "s5", type: "message" }
