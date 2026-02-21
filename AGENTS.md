@@ -11,7 +11,9 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 Testing
 
-- There is currently no `test` script defined in `package.json` and no test framework configured. If you add tests, document how to run the full suite and a single test here.
+- Run unit tests: `npm test`
+- Watch unit tests: `npm run test:watch`
+- Run a single test file: `npm test -- src/__tests__/CoachMark.test.jsx`
 
 ## Architecture overview
 
