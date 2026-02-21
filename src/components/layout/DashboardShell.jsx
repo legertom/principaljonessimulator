@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { InstructionalProvider, useInstructional } from "@/context/InstructionalContext";
 import { DataVariantProvider } from "@/context/DataVariantContext";
@@ -8,13 +8,14 @@ import Sidebar from "@/components/layout/Sidebar";
 import TopNav from "@/components/layout/TopNav";
 import CoachMark from "@/components/guidance/CoachMark";
 import RightPanel from "@/components/helpdesk/RightPanel";
-import { buildApplicationDetailsRoute, buildDashboardRoute } from "@/lib/routing";
+import { buildApplicationDetailsRoute, buildDashboardRoute, DEFAULT_DASHBOARD_PAGE } from "@/lib/routing";
 import styles from "./DashboardShell.module.css";
 
 function DashboardShellContent({ activeNav, children, showChatPanel }) {
     const router = useRouter();
     const pathname = usePathname();
-    const { checkNavigationGoal, activeScenarioId, normalizedCurrentStep, rightPanelView } = useInstructional();
+    const { checkNavigationGoal, activeScenarioId, rightPanelView } = useInstructional();
+    const prevScenarioIdRef = useRef(activeScenarioId);
 
     const handleNavChange = useCallback((navId, options = {}) => {
         checkNavigationGoal(navId);
@@ -36,20 +37,20 @@ function DashboardShellContent({ activeNav, children, showChatPanel }) {
         router.push("/");
     }, [router]);
 
-    // If the active instructional step requires a route goal, ensure the user
-    // is on that page even when they accept a ticket from a different layout
-    // (e.g. deep inside provisioning wizard).
+    // When a new ticket is accepted, navigate to the dashboard homepage so the
+    // user starts from a clean state (e.g. exits the provisioning wizard).
     useEffect(() => {
-        const goalRoute = normalizedCurrentStep?.goalRoute;
-        const inTicketFlow = rightPanelView === "investigation" || rightPanelView === "conversation";
+        const prev = prevScenarioIdRef.current;
+        prevScenarioIdRef.current = activeScenarioId;
 
-        if (!activeScenarioId || !inTicketFlow || !goalRoute) return;
+        // Only act on the transition from no-scenario → active-scenario
+        if (prev || !activeScenarioId) return;
 
-        const targetRoute = buildDashboardRoute(goalRoute);
-        if (pathname === targetRoute) return;
-
-        router.push(targetRoute);
-    }, [activeScenarioId, rightPanelView, normalizedCurrentStep?.goalRoute, pathname, router]);
+        const homePath = buildDashboardRoute(DEFAULT_DASHBOARD_PAGE);
+        if (pathname !== homePath) {
+            router.push(homePath);
+        }
+    }, [activeScenarioId, pathname, router]);
 
     return (
         <div className={styles.appContainer}>
