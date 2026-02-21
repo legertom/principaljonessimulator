@@ -49,6 +49,7 @@ describe('lint-scenarios.mjs', () => {
         expect(output).toContain('Scenario is missing an id.');
         expect(output).toContain('references "nextStep" -> "missing_step"');
         expect(output).toContain("must explicitly set boolean 'correct'");
+        expect(output).toContain("must set 'unguidedNextStep' for Phase 4");
         expect(output).toContain("missing a navigation reference");
     });
 

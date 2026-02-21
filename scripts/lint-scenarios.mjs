@@ -141,6 +141,12 @@ scenarios.forEach((scenario) => {
                         reportError(scenario.id, `Step "${step.id}" choice[${idx}] must explicitly set boolean 'correct' unless step.scored is false.`);
                     }
                 }
+
+                // Phase 4 contract: in non-resolution steps, wrong choices with a nextStep
+                // must define unguidedNextStep so unguided mode has explicit branching.
+                if (step.type !== 'resolution' && choice.correct === false && choice.nextStep != null && choice.unguidedNextStep == null) {
+                    reportError(scenario.id, `Step "${step.id}" choice[${idx}] is wrong-path and must set 'unguidedNextStep' for Phase 4.`);
+                }
             });
         }
 
