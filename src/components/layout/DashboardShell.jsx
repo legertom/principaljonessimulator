@@ -14,7 +14,8 @@ import styles from "./DashboardShell.module.css";
 function DashboardShellContent({ activeNav, children, showChatPanel }) {
     const router = useRouter();
     const pathname = usePathname();
-    const { checkNavigationGoal, activeScenarioId, rightPanelView } = useInstructional();
+    const { checkNavigationGoal, activeScenario, rightPanelView } = useInstructional();
+    const activeScenarioId = activeScenario?.id ?? null;
     const prevScenarioIdRef = useRef(activeScenarioId);
 
     const handleNavChange = useCallback((navId, options = {}) => {
