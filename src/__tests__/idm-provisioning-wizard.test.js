@@ -674,7 +674,7 @@ describe("Credential format state mutations", () => {
                 students: {
                     ...original,
                     emailFormat: newFormat,
-                    email: "{{name.first}}.{{name.last}}@maytonlyceum.com",
+                    email: "{{name.first}}.{{name.last}}@cedarridgesd.org",
                     emailTokens: ["{{name.first}}", "{{name.last}}"],
                 },
             },

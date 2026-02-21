@@ -7,7 +7,7 @@ export const initialMessages = [
     {
         id: 1,
         sender: "customer",
-        text: "Hi, I just started as the new Principal at Lincoln Heights Elementary and I've been assigned to manage Clever for our district.",
+        text: "Hi, I just started as the new Principal at Cedar Ridge Elementary and I've been assigned to manage Clever for our district.",
         timestamp: "2:30 PM",
     },
     {
@@ -21,7 +21,7 @@ export const initialMessages = [
 export const customerInfo = {
     name: "District Admin",
     avatar: "👩🏽‍💼",
-    school: "Lincoln Heights Elementary",
+    school: "Cedar Ridge Elementary",
     badge: "Clever Admin"
 };
 

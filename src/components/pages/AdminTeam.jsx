@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useSession } from "next-auth/react";
 import { useScenario } from "@/context/ScenarioContext";
 import styles from "./AdminTeam.module.css";
 import { Icons, Icon } from "@/components/ui/Icons";
@@ -14,7 +15,20 @@ import { Modal } from "@/components/ui/Modal";
 
 export default function AdminTeam() {
     const { scenario } = useScenario();
-    const { members: teamMembers, pageActionsMenu, rowActionsMenu } = scenario.team;
+    const { data: session } = useSession();
+    const { members: rawTeamMembers, pageActionsMenu, rowActionsMenu } = scenario.team;
+
+    const teamMembers = useMemo(() => {
+        if (!session?.user) return rawTeamMembers;
+        return rawTeamMembers.map(member => {
+            if (!member.isOwner) return member;
+            return {
+                ...member,
+                name: session.user.name ?? member.name,
+                email: session.user.email ?? member.email,
+            };
+        });
+    }, [rawTeamMembers, session]);
 
     const [activeActionsMenu, setActiveActionsMenu] = useState(null);
     const [pageActionsOpen, setPageActionsOpen] = useState(false);

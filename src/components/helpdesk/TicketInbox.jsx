@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useInstructional } from "@/context/InstructionalContext";
 import { scenarios } from "@/data/scenarios";
 import { COURSES } from "@/data/curriculum";
@@ -92,6 +92,15 @@ export default function TicketInbox() {
         return { mod, locked, complete };
     });
 
+    // ── Open ticket count (for badge) ──
+    const openTicketCount = useMemo(() => {
+        return moduleStates.reduce((count, { mod, locked }) => {
+            if (locked) return count;
+            const authored = mod.scenarioIds.filter(sid => scenarios.find(s => s.id === sid));
+            return count + authored.filter(sid => !completedScenarios.has(sid)).length;
+        }, 0);
+    }, [moduleStates, completedScenarios]);
+
     // ── Boss message logic ──
     // Find the first unlocked, incomplete module with authored scenarios
     const currentModule = moduleStates.find(({ locked, complete, mod }) => {
@@ -123,6 +132,9 @@ export default function TicketInbox() {
                 <div className={styles.headerTitle}>
                     <span className={styles.headerIcon}>📥</span>
                     <span>Help Desk</span>
+                    {openTicketCount > 0 && (
+                        <span className={styles.openBadge}>{openTicketCount}</span>
+                    )}
                 </div>
                 <div className={styles.headerRight}>
                     <span className={styles.scoreBadge}>⭐ {globalScore}</span>

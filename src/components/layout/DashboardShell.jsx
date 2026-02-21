@@ -8,13 +8,14 @@ import Sidebar from "@/components/layout/Sidebar";
 import TopNav from "@/components/layout/TopNav";
 import CoachMark from "@/components/guidance/CoachMark";
 import RightPanel from "@/components/helpdesk/RightPanel";
+import TicketToast from "@/components/notifications/TicketToast";
 import { buildApplicationDetailsRoute, buildDashboardRoute, DEFAULT_DASHBOARD_PAGE } from "@/lib/routing";
 import styles from "./DashboardShell.module.css";
 
 function DashboardShellContent({ activeNav, children, showChatPanel }) {
     const router = useRouter();
     const pathname = usePathname();
-    const { checkNavigationGoal, activeScenario, rightPanelView } = useInstructional();
+    const { checkNavigationGoal, activeScenario, rightPanelView, pendingNotifications, dismissNotification } = useInstructional();
     const activeScenarioId = activeScenario?.id ?? null;
     const prevScenarioIdRef = useRef(activeScenarioId);
 
@@ -70,6 +71,14 @@ function DashboardShellContent({ activeNav, children, showChatPanel }) {
                     <RightPanel />
                 </div>
             ) : null}
+
+            <TicketToast
+                notifications={pendingNotifications}
+                onDismiss={dismissNotification}
+                onClickNotification={(notification) => {
+                    dismissNotification(notification.id);
+                }}
+            />
         </div>
     );
 }

@@ -35,9 +35,9 @@ export const DEFAULT_PROVISIONING_STATE = {
     credentials: {
         students: {
             completed: true,
-            email: "{{name.first}}{{name.last}}@maytonlyceum.com",
+            email: "{{name.first}}{{name.last}}@cedarridgesd.org",
             password: "{{student.student_number}}{{student.grade}}{{school.sis_id}}",
-            domain: "maytonlyceum.com",
+            domain: "cedarridgesd.org",
             emailTokens: ["{{name.first}}", "{{name.last}}"],
             emailFormat: [
                 { type: "variable", variable: "name.first", label: "First Name" },
@@ -48,9 +48,9 @@ export const DEFAULT_PROVISIONING_STATE = {
         },
         teachers: {
             completed: true,
-            email: "{{name.first}}{{name.last}}@maytonlyceum.com",
+            email: "{{name.first}}{{name.last}}@cedarridgesd.org",
             password: "{{teacher.teacher_number}}0420",
-            domain: "maytonlyceum.com",
+            domain: "cedarridgesd.org",
             emailTokens: ["{{name.first}}", "{{name.last}}"],
             emailFormat: [
                 { type: "variable", variable: "name.first", label: "First Name" },
@@ -61,9 +61,9 @@ export const DEFAULT_PROVISIONING_STATE = {
         },
         staff: {
             completed: true,
-            email: "{{name.first}}{{name.last}}@maytonlyceum.com",
+            email: "{{name.first}}{{name.last}}@cedarridgesd.org",
             password: "{{staff.title}}{{school.sis_id}}",
-            domain: "maytonlyceum.com",
+            domain: "cedarridgesd.org",
             emailTokens: ["{{name.first}}", "{{name.last}}"],
             emailFormat: [
                 { type: "variable", variable: "name.first", label: "First Name" },
@@ -138,7 +138,7 @@ export const DEFAULT_PROVISIONING_STATE = {
 export const GOOGLE_ORG_UNITS = [
     {
         id: "root",
-        name: "Fort Virgilfield Elementary School",
+        name: "Cedar Ridge Elementary",
         path: "/",
         children: [
             { id: "devices", name: "Devices", path: "/Devices", children: [] },
@@ -149,11 +149,11 @@ export const GOOGLE_ORG_UNITS = [
                 children: [
                     {
                         id: "students-treutelside",
-                        name: "Treutelside Middle School",
-                        path: "/Students/Treutelside Middle School",
+                        name: "Cedar Ridge Middle School",
+                        path: "/Students/Cedar Ridge Middle School",
                         children: [
-                            { id: "students-treutelside-7", name: "7", path: "/Students/Treutelside Middle School/7", children: [] },
-                            { id: "students-treutelside-8", name: "8", path: "/Students/Treutelside Middle School/8", children: [] },
+                            { id: "students-treutelside-7", name: "7", path: "/Students/Cedar Ridge Middle School/7", children: [] },
+                            { id: "students-treutelside-8", name: "8", path: "/Students/Cedar Ridge Middle School/8", children: [] },
                         ],
                     },
                 ],
@@ -188,7 +188,7 @@ export const ARCHIVE_ACTIONS = [
 /** Sample student for credential + OU preview */
 export const SAMPLE_STUDENT = {
     name: "Rogelio Waelchi",
-    sisEmail: "rogelio_waelchi63@maytonlyceum.com",
+    sisEmail: "rogelio_waelchi63@cedarridgesd.org",
     sisId: "b8452e96-7f29-4890-bde9-beb2996bee71",
     districtUsername: "",
     districtPassword: "",
@@ -196,28 +196,28 @@ export const SAMPLE_STUDENT = {
     birthday: "05/12/2013",
     stateId: "XVLLJSDS8AUP",
     studentNumber: "000001",
-    exampleEmail: "rogeliowaelchi@maytonlyceum.com",
-    school: "Treutelside Middle School",
+    exampleEmail: "rogeliowaelchi@cedarridgesd.org",
+    school: "Cedar Ridge Middle School",
     grade: "7th Grade",
 };
 
 export const SAMPLE_TEACHER = {
     name: "Betty Bauch",
-    sisEmail: "betty.bauch@maytonlyceum.com",
+    sisEmail: "betty.bauch@cedarridgesd.org",
     sisId: "a1234567-89ab-cdef-0123-456789abcdef",
     teacherNumber: "T001",
-    exampleEmail: "betty.bauch@maytonlyceum.com",
-    school: "Treutelside Middle School",
+    exampleEmail: "betty.bauch@cedarridgesd.org",
+    school: "Cedar Ridge Middle School",
     title: "Ms.",
 };
 
 export const SAMPLE_STAFF = {
     name: "Oswaldo Pouros",
-    sisEmail: "oswaldo.pouros@maytonlyceum.com",
+    sisEmail: "oswaldo.pouros@cedarridgesd.org",
     sisId: "b2345678-90ab-cdef-1234-567890abcdef",
     title: "Librarian",
     department: "Operations",
-    exampleEmail: "oswaldo.pouros@maytonlyceum.com",
+    exampleEmail: "oswaldo.pouros@cedarridgesd.org",
 };
 
 /** SIS variable options per user type — for sub-OU format editor dropdowns */

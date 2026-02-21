@@ -36,7 +36,7 @@ const STEP_COMPONENTS = {
     preview: PreviewStep,
 };
 
-export default function GoogleProvisioningWizard({ currentStep, onStepChange, onExit }) {
+export default function GoogleProvisioningWizard({ currentStep, onStepChange, onExit, onProvisionComplete }) {
     const [localStep, setLocalStep] = useState(WIZARD_STEPS[0].id);
     const [wizardState, setWizardState] = useState(() => {
         try {
@@ -192,6 +192,7 @@ export default function GoogleProvisioningWizard({ currentStep, onStepChange, on
                             goToStep={goToStep}
                             setToast={setToast}
                             onExit={onExit}
+                            onProvisionComplete={onProvisionComplete}
                         />
                     )}
                 </div>

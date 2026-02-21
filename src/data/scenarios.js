@@ -755,7 +755,7 @@ export const scenarios = [
         ticketSubject: "Change student email format to first initial + last name",
         ticketPriority: "normal",
         ticketNumber: 1005,
-        ticketMessage: `Hi! We decided to change student emails from first name + last name (like rogeliowaelchi@maytonlyceum.com) to first initial + last name (like rwaelchi@maytonlyceum.com). Can you figure out where that setting is and what the new format would look like?`,
+        ticketMessage: `Hi! We decided to change student emails from first name + last name (like rogeliowaelchi@cedarridgesd.org) to first initial + last name (like rwaelchi@cedarridgesd.org). Can you figure out where that setting is and what the new format would look like?`,
         nextScenario: null,
         settings: {},
 
@@ -809,7 +809,7 @@ export const scenarios = [
                 checklistLabel: "Read the current student email format",
                 question: "What is the current email format shown on the Student credentials card?",
                 guideMessage: "Look at the Student credentials card and read the EMAIL field.",
-                correctAnswer: ["{{name.first}}{{name.last}}@maytonlyceum.com", "name.first name.last", "first name last name", "firstname lastname"],
+                correctAnswer: ["{{name.first}}{{name.last}}@cedarridgesd.org", "name.first name.last", "first name last name", "firstname lastname"],
                 matchMode: "oneOf",
                 successStep: "step_cred_where_to_edit",
                 hint: {
@@ -851,11 +851,11 @@ export const scenarios = [
                 type: "observe",
                 checklistLabel: "Compute the new email for a sample student",
                 question: "Using the sample student Rogelio Waelchi, what would his email look like with the new first-initial + last-name format?",
-                guideMessage: "First initial of 'Rogelio' = 'r', last name = 'waelchi', domain = 'maytonlyceum.com'.",
-                correctAnswer: "rwaelchi@maytonlyceum.com",
+                guideMessage: "First initial of 'Rogelio' = 'r', last name = 'waelchi', domain = 'cedarridgesd.org'.",
+                correctAnswer: "rwaelchi@cedarridgesd.org",
                 successStep: "step_cred_resolution",
                 hint: {
-                    message: "First initial of 'Rogelio' = 'r', last name = 'waelchi' → rwaelchi@maytonlyceum.com",
+                    message: "First initial of 'Rogelio' = 'r', last name = 'waelchi' → rwaelchi@cedarridgesd.org",
                 },
                 autoShowHint: false,
             },
@@ -866,7 +866,7 @@ export const scenarios = [
                 checklistLabel: "Report back to Principal Jones",
                 question: "Choose the best response to send back to Principal Jones:",
                 choices: [
-                    { label: "The student email format is in the Credentials step (step 4) of the provisioning wizard. Currently it's firstname+lastname@maytonlyceum.com. To change it, click Edit on the Student card, then 'Edit your format.' The new format would produce emails like rwaelchi@maytonlyceum.com.", nextStep: null, correct: true },
+                    { label: "The student email format is in the Credentials step (step 4) of the provisioning wizard. Currently it's firstname+lastname@cedarridgesd.org. To change it, click Edit on the Student card, then 'Edit your format.' The new format would produce emails like rwaelchi@cedarridgesd.org.", nextStep: null, correct: true },
                     { label: "Email formats can't be changed in the wizard. You'd need to contact Clever support to update the domain configuration.", nextStep: null, correct: false },
                 ],
             },
@@ -964,7 +964,7 @@ export const scenarios = [
                 checklistLabel: "Identify the email domain",
                 question: "What email domain do all three user types share?",
                 guideMessage: "Check the email format on any credential card — what comes after the @ sign?",
-                correctAnswer: "maytonlyceum.com",
+                correctAnswer: "cedarridgesd.org",
                 matchMode: "includes",
                 successStep: "step_cb_password_assess",
                 hint: {
@@ -1073,12 +1073,12 @@ export const scenarios = [
                 type: "observe",
                 checklistLabel: "Compute a sample staff email",
                 question: "Using the current format, what would staff member Oswaldo Pouros's email address be?",
-                guideMessage: "The format is {{name.first}}{{name.last}}@maytonlyceum.com. Substitute the name.",
-                correctAnswer: ["oswaldopouros@maytonlyceum.com", "oswaldo.pouros@maytonlyceum.com"],
+                guideMessage: "The format is {{name.first}}{{name.last}}@cedarridgesd.org. Substitute the name.",
+                correctAnswer: ["oswaldopouros@cedarridgesd.org", "oswaldo.pouros@cedarridgesd.org"],
                 matchMode: "oneOf",
                 successStep: "step_cb_resolution",
                 hint: {
-                    message: "First name + last name + @domain: oswaldopouros@maytonlyceum.com",
+                    message: "First name + last name + @domain: oswaldopouros@cedarridgesd.org",
                 },
                 autoShowHint: false,
             },
@@ -1089,7 +1089,7 @@ export const scenarios = [
                 checklistLabel: "Report back to Sarah Chen",
                 question: "Choose the best summary of the credential system to send to Sarah:",
                 choices: [
-                    { label: "All three user types (students, teachers, staff) share the maytonlyceum.com domain but have different SIS variables per type. Passwords use SIS data (student number+grade for students, teacher number for teachers). Fallback formats handle duplicate emails. Matching links existing Google accounts by SIS email, while creating builds new addresses.", nextStep: null, correct: true },
+                    { label: "All three user types (students, teachers, staff) share the cedarridgesd.org domain but have different SIS variables per type. Passwords use SIS data (student number+grade for students, teacher number for teachers). Fallback formats handle duplicate emails. Matching links existing Google accounts by SIS email, while creating builds new addresses.", nextStep: null, correct: true },
                     { label: "All user types use the same SIS variables and the same password format. There's no difference between matching and creating accounts.", nextStep: null, correct: false },
                 ],
             },
@@ -1111,7 +1111,7 @@ export const scenarios = [
         ticketSubject: "Parent asking why their kid's Google account is in a specific folder",
         ticketPriority: "normal",
         ticketNumber: 1007,
-        ticketMessage: "A parent called asking why their kid's Google account is in a folder called 'Treutelside Middle School.' Can you figure out how student accounts get organized into Google OUs and trace where a specific student would end up? I also need to understand teacher and staff placement.",
+        ticketMessage: "A parent called asking why their kid's Google account is in a folder called 'Cedar Ridge Middle School.' Can you figure out how student accounts get organized into Google OUs and trace where a specific student would end up? I also need to understand teacher and staff placement.",
         nextScenario: null,
         settings: {},
 
@@ -1189,13 +1189,13 @@ export const scenarios = [
                 id: "step_on_rogelio_path",
                 type: "observe",
                 checklistLabel: "Trace a student's resolved OU path",
-                question: "Rogelio Waelchi attends Treutelside Middle School, 7th grade. Using the template, what would his resolved OU path be?",
-                guideMessage: "Substitute school=Treutelside Middle School and grade=7th Grade into /Students/{{school_name}}/{{student.grade}}.",
+                question: "Rogelio Waelchi attends Cedar Ridge Middle School, 7th grade. Using the template, what would his resolved OU path be?",
+                guideMessage: "Substitute school=Cedar Ridge Middle School and grade=7th Grade into /Students/{{school_name}}/{{student.grade}}.",
                 correctAnswer: ["/students/treutelside middle school/7th grade", "/students/treutelside middle school/7"],
                 matchMode: "oneOf",
                 successStep: "step_on_teacher_path",
                 hint: {
-                    message: "Substitute the variables: /Students/Treutelside Middle School/7th Grade",
+                    message: "Substitute the variables: /Students/Cedar Ridge Middle School/7th Grade",
                 },
                 autoShowHint: false,
             },
@@ -1271,9 +1271,9 @@ export const scenarios = [
                 id: "step_on_resolution",
                 type: "resolution",
                 checklistLabel: "Report back to Lisa Wilson",
-                question: "Choose the best explanation for Lisa about why a student's account is in the 'Treutelside Middle School' folder:",
+                question: "Choose the best explanation for Lisa about why a student's account is in the 'Cedar Ridge Middle School' folder:",
                 choices: [
-                    { label: "Student accounts are organized by school then grade. The 'Treutelside Middle School' folder is part of the path /Students/Treutelside Middle School/{{grade}}. Teachers go to a fixed /Users/Staff/Teachers path, and staff are organized by department.", nextStep: null, correct: true },
+                    { label: "Student accounts are organized by school then grade. The 'Cedar Ridge Middle School' folder is part of the path /Students/Cedar Ridge Middle School/{{grade}}. Teachers go to a fixed /Users/Staff/Teachers path, and staff are organized by department.", nextStep: null, correct: true },
                     { label: "Google randomly assigns accounts to folders. There's no pattern — the parent shouldn't worry about it.", nextStep: null, correct: false },
                 ],
             },
@@ -2133,7 +2133,7 @@ export const scenarios = [
             dataOverrides: {
                 idm: {
                     events: [
-                        { date: "Feb 20, 2026; 04:45:53 a.m.", event: "Failed", destination: "Google Workspace", user: "Betty Bauch", sisId: "teacher-4455", destinationUsername: "betty.bauch@maytonlyceum.com", userType: "Teacher", modifiedFields: [{ field: "Error", value: "Primary email already exists in Google" }] },
+                        { date: "Feb 20, 2026; 04:45:53 a.m.", event: "Failed", destination: "Google Workspace", user: "Betty Bauch", sisId: "teacher-4455", destinationUsername: "betty.bauch@cedarridgesd.org", userType: "Teacher", modifiedFields: [{ field: "Error", value: "Primary email already exists in Google" }] },
                     ],
                 },
             },

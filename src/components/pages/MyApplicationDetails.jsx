@@ -16,17 +16,17 @@ const TABS = [
 
 const SCHOOL_ROWS = [
     {
-        name: "Fort Virgilfield Elementary School",
+        name: "Cedar Ridge Elementary",
         schoolId: "5fb9220d-9b0f-4d32-a248-6492457c3890",
         grades: "K - 5",
     },
     {
-        name: "Santa Rosa Elementary School",
+        name: "Cedar Ridge High School",
         schoolId: "d95145ba-e71b-4c8c-9786-010a58e36c31",
         grades: "K - 5",
     },
     {
-        name: "Treutelside Middle School",
+        name: "Cedar Ridge Middle School",
         schoolId: "1d5209a0-83a2-4b6e-9251-ee4ad8831eea",
         grades: "6 - 8",
     },

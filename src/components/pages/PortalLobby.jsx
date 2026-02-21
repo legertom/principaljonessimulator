@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useScenario } from "@/context/ScenarioContext";
 import { signOut, useSession } from "next-auth/react";
+import WelcomeOverlay, { shouldShowWelcome } from "@/components/onboarding/WelcomeOverlay";
 import styles from "./PortalLobby.module.css";
 import { Icon } from "@/components/ui/Icons";
 
@@ -48,6 +49,7 @@ export default function PortalLobby({ onLaunchApp, onEnterDashboard }) {
     const [activeCategoryId, setActiveCategoryId] = useState(availableCategories[0]?.id ?? "");
     const [comingSoonId, setComingSoonId] = useState(null);
     const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+    const [showWelcome, setShowWelcome] = useState(() => shouldShowWelcome());
     const accountMenuRef = useRef(null);
 
     const userInfo = session?.user
@@ -246,6 +248,15 @@ export default function PortalLobby({ onLaunchApp, onEnterDashboard }) {
                     </main>
                 </div>
             </div>
+
+            {showWelcome && (
+                <WelcomeOverlay
+                    onEnterDashboard={() => {
+                        setShowWelcome(false);
+                        onEnterDashboard();
+                    }}
+                />
+            )}
         </div>
     );
 }

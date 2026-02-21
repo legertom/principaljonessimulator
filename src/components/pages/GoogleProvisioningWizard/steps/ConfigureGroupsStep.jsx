@@ -31,14 +31,14 @@ const GROUP_DIRECTORY = {
         {
             id: "elementary-staff-teachers",
             name: "Elementary School Staff & Teachers",
-            email: "elementary@maytonlyceum.com",
+            email: "elementary@cedarridgesd.org",
             members: 0,
             type: "Mailing Group",
         },
         {
             id: "grade-7-homeroom",
             name: "Grade 7 Homeroom",
-            email: "grade7@maytonlyceum.com",
+            email: "grade7@cedarridgesd.org",
             members: 28,
             type: "Security Group",
         },
@@ -47,7 +47,7 @@ const GROUP_DIRECTORY = {
         {
             id: "teachers-all",
             name: "All Teachers",
-            email: "teachers@maytonlyceum.com",
+            email: "teachers@cedarridgesd.org",
             members: 10,
             type: "Mailing Group",
         },
@@ -56,7 +56,7 @@ const GROUP_DIRECTORY = {
         {
             id: "staff-operations",
             name: "Operations Staff",
-            email: "operations@maytonlyceum.com",
+            email: "operations@cedarridgesd.org",
             members: 6,
             type: "Mailing Group",
         },

@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import { useScenario } from "@/context/ScenarioContext";
+import { useInstructional } from "@/context/InstructionalContext";
 import { PageHeader, Icons } from "@/components/ui";
 import { buildApplicationDetailsRoute, buildDashboardRoute } from "@/lib/routing";
 import styles from "./DashboardHome.module.css";
 
 export default function DashboardHome() {
     const { scenario } = useScenario();
+    const { idmSetupComplete } = useInstructional();
     const { stats, sisSync, ssoStatus, awaitingAction, applicationStats, pinnedApplications } = scenario.dashboard;
     const applicationsByName = useMemo(() => {
         const entries = scenario.applications?.myApplications ?? [];
@@ -137,44 +139,46 @@ export default function DashboardHome() {
                     </div>
                 </div>
 
-                {/* IDM Card — matches live IDM status row */}
-                <div className={styles.idmCard}>
-                    <div className={styles.idmHeader}>
-                        <span className={styles.idmLabel}>IDM</span>
-                        <span className={`${styles.statusBadge} ${styles.success}`}>
-                            <span className={styles.dot}>●</span> Successful
-                        </span>
-                    </div>
-                    <div className={styles.idmBody}>
-                        <div className={styles.idmProvider}>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <circle cx="10" cy="10" r="9" fill="white" stroke="#e5e7eb" />
-                                <path d="M15 10.2A5 5 0 0 0 10.1 5l-.1.01V10h5z" fill="#4285f4" />
-                                <path d="M10 5a5 5 0 0 0-3.5 8.6L10 10V5z" fill="#ea4335" />
-                                <path d="M6.5 13.6A5 5 0 0 0 10 15v-5L6.5 13.6z" fill="#fbbc05" />
-                                <path d="M10 15a5 5 0 0 0 5-4.8H10V15z" fill="#34a853" />
-                            </svg>
-                            <span>Google</span>
+                {/* IDM Card — only shown after provisioning is complete */}
+                {idmSetupComplete && (
+                    <div className={styles.idmCard}>
+                        <div className={styles.idmHeader}>
+                            <span className={styles.idmLabel}>IDM</span>
+                            <span className={`${styles.statusBadge} ${styles.success}`}>
+                                <span className={styles.dot}>●</span> Successful
+                            </span>
                         </div>
-                        <span className={styles.idmTime}>
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ verticalAlign: 'middle', marginRight: 4 }}>
-                                <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                                <path d="M7 4v3l2 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                            </svg>
-                            4 hours ago
-                        </span>
-                        <span className={styles.idmStat}>Created: <strong>0</strong></span>
-                        <span className={styles.idmStat}>Updated: <strong>0</strong></span>
-                        <span className={styles.idmStat}>Archived: <strong>0</strong></span>
-                        <span className={styles.idmStat}>Issues: <strong>1</strong></span>
-                        <div className={styles.cardArrowInline}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="11" fill="#dbeafe" />
-                                <path d="M10 8l4 4-4 4" stroke="#2563eb" strokeWidth="2" />
-                            </svg>
+                        <div className={styles.idmBody}>
+                            <div className={styles.idmProvider}>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="10" r="9" fill="white" stroke="#e5e7eb" />
+                                    <path d="M15 10.2A5 5 0 0 0 10.1 5l-.1.01V10h5z" fill="#4285f4" />
+                                    <path d="M10 5a5 5 0 0 0-3.5 8.6L10 10V5z" fill="#ea4335" />
+                                    <path d="M6.5 13.6A5 5 0 0 0 10 15v-5L6.5 13.6z" fill="#fbbc05" />
+                                    <path d="M10 15a5 5 0 0 0 5-4.8H10V15z" fill="#34a853" />
+                                </svg>
+                                <span>Google</span>
+                            </div>
+                            <span className={styles.idmTime}>
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ verticalAlign: 'middle', marginRight: 4 }}>
+                                    <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                                    <path d="M7 4v3l2 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                                </svg>
+                                4 hours ago
+                            </span>
+                            <span className={styles.idmStat}>Created: <strong>0</strong></span>
+                            <span className={styles.idmStat}>Updated: <strong>0</strong></span>
+                            <span className={styles.idmStat}>Archived: <strong>0</strong></span>
+                            <span className={styles.idmStat}>Issues: <strong>1</strong></span>
+                            <div className={styles.cardArrowInline}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="11" fill="#dbeafe" />
+                                    <path d="M10 8l4 4-4 4" stroke="#2563eb" strokeWidth="2" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
                 {/* Applications Section */}
                 <div className={styles.applicationsSection}>

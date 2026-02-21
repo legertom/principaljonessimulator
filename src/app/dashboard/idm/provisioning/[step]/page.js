@@ -3,6 +3,7 @@
 import { useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import GoogleProvisioningWizard from "@/components/pages/GoogleProvisioningWizard";
+import { useInstructional } from "@/context/InstructionalContext";
 import {
     buildDashboardRoute,
     buildProvisioningRoute,
@@ -13,6 +14,7 @@ import {
 export default function ProvisioningWizardRoute() {
     const params = useParams();
     const router = useRouter();
+    const { setIdmSetupComplete } = useInstructional();
 
     const rawStep = getRouteParamValue(params?.step);
     const normalizedStep = useMemo(() => parseProvisioningStep(rawStep), [rawStep]);
@@ -28,6 +30,7 @@ export default function ProvisioningWizardRoute() {
             currentStep={normalizedStep}
             onStepChange={(nextStep) => router.push(buildProvisioningRoute(nextStep))}
             onExit={() => router.push(buildDashboardRoute("idm"))}
+            onProvisionComplete={() => setIdmSetupComplete(true)}
         />
     );
 }

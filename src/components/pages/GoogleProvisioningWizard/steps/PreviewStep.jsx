@@ -30,7 +30,7 @@ const InfoIcon = () => (
     </svg>
 );
 
-export default function PreviewStep({ state, setToast, onExit }) {
+export default function PreviewStep({ state, setToast, onExit, onProvisionComplete }) {
     const { preview } = state;
 
     const handleDownload = () => {
@@ -46,6 +46,7 @@ export default function PreviewStep({ state, setToast, onExit }) {
     };
 
     const handleProvision = () => {
+        onProvisionComplete?.();
         setToast("Provisioning started! Google accounts are being created. Returning to IDM...");
         setTimeout(() => onExit(), 2500);
     };

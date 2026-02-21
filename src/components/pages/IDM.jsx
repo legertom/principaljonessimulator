@@ -65,12 +65,19 @@ const CopyIcon = () => (
 /* ── Component ──────────────────────────────── */
 
 export default function IDM({ onEditProvisioning }) {
-    const { checkActionGoal } = useInstructional();
+    const { checkActionGoal, idmSetupComplete } = useInstructional();
     const { resolvedData } = useDataVariant();
     const idm = resolvedData?.idm ?? {};
-    const destinations = idm.destinations ?? [];
+    const configuredDestinations = idm.destinations ?? [];
     const syncHistory = idm.syncHistory ?? [];
     const allEvents = idm.events ?? [];
+
+    // Before IDM is set up, show all destinations including Google Workspace.
+    // After setup, only show the non-Google options (Google is already configured).
+    const destinations = idmSetupComplete ? configuredDestinations : [
+        "Google Workspace",
+        ...configuredDestinations,
+    ];
     const [activeTab, setActiveTab] = useState("tasks");
 
     // Add Destination dropdown + modal
@@ -144,8 +151,13 @@ export default function IDM({ onEditProvisioning }) {
 
     /* ── Add Destination handlers ────────────── */
     const handleDestinationSelect = (dest) => {
-        setSelectedDestination(dest);
         setShowDestDropdown(false);
+        // If Google Workspace is selected before setup, go straight to the wizard
+        if (dest === "Google Workspace" && !idmSetupComplete) {
+            onEditProvisioning?.();
+            return;
+        }
+        setSelectedDestination(dest);
         setShowAddModal(true);
     };
 
@@ -300,77 +312,97 @@ export default function IDM({ onEditProvisioning }) {
                     )}
                 </div>
 
-                {/* ── Google Workspace Card ───────────── */}
-                <div className={styles.providerCard} data-instruction-target="google-provider-card">
-                    <div className={styles.providerHeader}>
-                        <div className={styles.providerName}>
-                            <GoogleIcon />
-                            <span>Google Workspace</span>
-                        </div>
-                        <div className={styles.providerBadges}>
-                            <span className={styles.activeBadge}>
-                                <CheckIcon /> Active
-                            </span>
-                            <span className={styles.issueBadge}>
-                                <WarningIcon /> Issue
-                            </span>
-                        </div>
+                {/* ── Empty state when IDM not yet set up ── */}
+                {!idmSetupComplete && (
+                    <div className={styles.emptyCard} style={{ marginTop: 16, textAlign: "center", padding: "40px 24px" }}>
+                        <p style={{ fontSize: 15, color: "#374151", marginBottom: 8 }}>
+                            <strong>No destinations configured yet.</strong>
+                        </p>
+                        <p style={{ fontSize: 13, color: "#6b7280" }}>
+                            Use the &ldquo;Add new destination&rdquo; button above to set up Google Workspace for your district.
+                        </p>
                     </div>
+                )}
 
-                    <div className={styles.statsGrid}>
-                        <div className={styles.statItem}>
-                            <span className={styles.statLabel}>Create</span>
-                            <span className={styles.statValue}>0</span>
+                {/* ── Google Workspace Card (only after setup) ── */}
+                {idmSetupComplete && (
+                    <div className={styles.providerCard} data-instruction-target="google-provider-card">
+                        <div className={styles.providerHeader}>
+                            <div className={styles.providerName}>
+                                <GoogleIcon />
+                                <span>Google Workspace</span>
+                            </div>
+                            <div className={styles.providerBadges}>
+                                <span className={styles.activeBadge}>
+                                    <CheckIcon /> Active
+                                </span>
+                                <span className={styles.issueBadge}>
+                                    <WarningIcon /> Issue
+                                </span>
+                            </div>
                         </div>
-                        <div className={styles.statItem}>
-                            <span className={styles.statLabel}>Update</span>
-                            <span className={styles.statValue}>0</span>
-                        </div>
-                        <div className={styles.statItem}>
-                            <span className={styles.statLabel}>Archive</span>
-                            <span className={styles.statValue}>0</span>
-                        </div>
-                        <div className={styles.statItem}>
-                            <span className={styles.statLabel}>Issue</span>
-                            <span className={styles.statValue}>1</span>
+
+                        <div className={styles.statsGrid}>
+                            <div className={styles.statItem}>
+                                <span className={styles.statLabel}>Create</span>
+                                <span className={styles.statValue}>0</span>
+                            </div>
+                            <div className={styles.statItem}>
+                                <span className={styles.statLabel}>Update</span>
+                                <span className={styles.statValue}>0</span>
+                            </div>
+                            <div className={styles.statItem}>
+                                <span className={styles.statLabel}>Archive</span>
+                                <span className={styles.statValue}>0</span>
+                            </div>
+                            <div className={styles.statItem}>
+                                <span className={styles.statLabel}>Issue</span>
+                                <span className={styles.statValue}>1</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
                 {/* ── Last Sync Timestamp ─────────────── */}
-                <p className={styles.syncTimestamp} data-instruction-target="last-sync-timestamp">
-                    Your last Google accounts sync was processed on 02/16/2026 at 4:45AM
-                </p>
+                {idmSetupComplete && (
+                    <p className={styles.syncTimestamp} data-instruction-target="last-sync-timestamp">
+                        Your last Google accounts sync was processed on 02/16/2026 at 4:45AM
+                    </p>
+                )}
 
                 {/* ── Action Buttons ──────────────────── */}
-                <div className={styles.actionButtons}>
-                    <button
-                        className={styles.editProvisioningBtn}
-                        data-instruction-target="edit-provisioning"
-                        onClick={() => {
-                            checkActionGoal("edit-provisioning");
-                            handleEditProvisioning();
-                        }}
-                    >
-                        Edit Google provisioning
-                    </button>
-                    <button
-                        className={styles.pauseSyncBtn}
-                        data-instruction-target="pause-sync"
-                        onClick={handlePauseClick}
-                    >
-                        {isPaused ? "Resume Google sync" : "Pause Google sync"}
-                    </button>
-                </div>
+                {idmSetupComplete && (
+                    <div className={styles.actionButtons}>
+                        <button
+                            className={styles.editProvisioningBtn}
+                            data-instruction-target="edit-provisioning"
+                            onClick={() => {
+                                checkActionGoal("edit-provisioning");
+                                handleEditProvisioning();
+                            }}
+                        >
+                            Edit Google provisioning
+                        </button>
+                        <button
+                            className={styles.pauseSyncBtn}
+                            data-instruction-target="pause-sync"
+                            onClick={handlePauseClick}
+                        >
+                            {isPaused ? "Resume Google sync" : "Pause Google sync"}
+                        </button>
+                    </div>
+                )}
 
-                {/* ── Tabs ────────────────────────────── */}
-                <Tabs tabs={tabs} activeTab={activeTab} onTabChange={(tabId) => {
-                    setActiveTab(tabId);
-                    checkActionGoal(`idm-tab-${tabId}`);
-                }} />
+                {/* ── Tabs (only after setup) ─────────── */}
+                {idmSetupComplete && (
+                    <Tabs tabs={tabs} activeTab={activeTab} onTabChange={(tabId) => {
+                        setActiveTab(tabId);
+                        checkActionGoal(`idm-tab-${tabId}`);
+                    }} />
+                )}
 
                 {/* ── Tasks Tab ───────────────────────── */}
-                {activeTab === "tasks" && (
+                {idmSetupComplete && activeTab === "tasks" && (
                     <div className={styles.tabContent}>
                         <div className={styles.sectionHeaderRow}>
                             <h2 className={styles.sectionTitle}>Notifications</h2>
@@ -400,7 +432,7 @@ export default function IDM({ onEditProvisioning }) {
                 )}
 
                 {/* ── Sync History Tab ─────────────────── */}
-                {activeTab === "sync-history" && (
+                {idmSetupComplete && activeTab === "sync-history" && (
                     <div className={styles.tabContent}>
                         <h2 className={styles.sectionTitle}>Sync History</h2>
                         <DataTable columns={syncHistoryColumns} data={syncHistory} />
@@ -408,7 +440,7 @@ export default function IDM({ onEditProvisioning }) {
                 )}
 
                 {/* ── Exports Tab ──────────────────────── */}
-                {activeTab === "exports" && (
+                {idmSetupComplete && activeTab === "exports" && (
                     <div className={styles.tabContent} data-instruction-target="exports-tab-content">
                         <div className={styles.exportSection}>
                             <h3 className={styles.exportSectionTitle}>All Clever IDM Google Users</h3>
@@ -464,7 +496,7 @@ export default function IDM({ onEditProvisioning }) {
                 )}
 
                 {/* ── Events Tab ───────────────────────── */}
-                {activeTab === "events" && (
+                {idmSetupComplete && activeTab === "events" && (
                     <div className={styles.tabContent} data-instruction-target="events-tab-content">
                         {/* Date Filters */}
                         <div className={styles.eventsFilterRow}>

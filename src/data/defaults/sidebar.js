@@ -90,5 +90,5 @@ export const navItems = [
 ];
 
 export const districtInfo = {
-    name: "#DEMO Store Code (Dev) Sand..."
+    name: "#DEMO Cedar Ridge SD (Sandbox)..."
 };

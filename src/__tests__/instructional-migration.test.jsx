@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { migrateV1toV2, migrateState, resolveChoiceTarget, scoreModeKey } from "@/context/InstructionalContext";
+import { migrateV1toV2, migrateV2toV3, migrateState, resolveChoiceTarget, scoreModeKey } from "@/context/InstructionalContext";
 
 describe("Phase 4 migration and branching", () => {
   it("migrateV1toV2 wraps legacy flat score into guided bucket", () => {
@@ -18,9 +18,29 @@ describe("Phase 4 migration and branching", () => {
     });
   });
 
-  it("migrateState handles mixed legacy/malformed score entries safely", () => {
+  it("migrateV2toV3 adds idmSetupComplete based on progress", () => {
+    const v2WithProgress = {
+      version: 2,
+      completedScenarios: ["s1"],
+    };
+    const v2Fresh = {
+      version: 2,
+      completedScenarios: [],
+    };
+
+    const withProgress = migrateV2toV3(v2WithProgress);
+    expect(withProgress.version).toBe(3);
+    expect(withProgress.idmSetupComplete).toBe(true);
+
+    const fresh = migrateV2toV3(v2Fresh);
+    expect(fresh.version).toBe(3);
+    expect(fresh.idmSetupComplete).toBe(false);
+  });
+
+  it("migrateState handles full v1→v3 chain with mixed score entries", () => {
     const v1 = {
       version: 1,
+      completedScenarios: [],
       scores: {
         a: { correct: 1, total: 2, startTime: 1 },
         b: { guided: { correct: 2, total: 2, startTime: 2 }, unguided: null },
@@ -29,7 +49,8 @@ describe("Phase 4 migration and branching", () => {
     };
 
     const migrated = migrateState(v1);
-    expect(migrated.version).toBe(2);
+    expect(migrated.version).toBe(3);
+    expect(migrated.idmSetupComplete).toBe(false);
     expect(migrated.scores.a).toEqual({
       guided: { correct: 1, total: 2, startTime: 1 },
       unguided: null,

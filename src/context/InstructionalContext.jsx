@@ -11,7 +11,7 @@ export const InstructionalContext = createContext();
 // ═══════════════════════════════════════════════════════════════
 
 const STORAGE_KEY = "pjs-state";
-const STATE_VERSION = 2;
+const STATE_VERSION = 3;
 
 // ═══════════════════════════════════════════════════════════════
 //  State migration — chainable v(N)→v(N+1) transformers
@@ -49,9 +49,23 @@ export function migrateV1toV2(state) {
     return migrated;
 }
 
+/**
+ * Migrate v2 → v3: add idmSetupComplete flag.
+ * Existing users (who have progress) get `true` so they don't see the empty IDM state.
+ * New users get `false` via initial state defaults.
+ */
+export function migrateV2toV3(state) {
+    const migrated = { ...state, version: 3 };
+    // If user has any completed scenarios, they've already seen the configured IDM
+    const hasProgress = Array.isArray(state.completedScenarios) && state.completedScenarios.length > 0;
+    migrated.idmSetupComplete = hasProgress;
+    return migrated;
+}
+
 /** Ordered migration chain. Each entry: [fromVersion, migrator]. */
 const MIGRATIONS = [
     [1, migrateV1toV2],
+    [2, migrateV2toV3],
 ];
 
 /**
@@ -364,6 +378,12 @@ export function InstructionalProvider({ children }) {
         () => new Set(saved?.completedModules ?? [])
     );
 
+    // ── IDM setup complete flag ──
+    const [idmSetupComplete, setIdmSetupComplete] = useState(saved?.idmSetupComplete ?? false);
+
+    // ── Ticket notifications ──
+    const [pendingNotifications, setPendingNotifications] = useState([]);
+
     // ── Right panel view ──
     const [rightPanelView, setRightPanelView] = useState("inbox");
 
@@ -425,23 +445,73 @@ export function InstructionalProvider({ children }) {
             completedModules: [...completedModules],
             scores,
             coachMarksEnabled,
+            idmSetupComplete,
         });
-    }, [completedScenarios, completedModules, scores, coachMarksEnabled]);
+    }, [completedScenarios, completedModules, scores, coachMarksEnabled, idmSetupComplete]);
+
+    // ═══ Notification helper ═══
+    const dismissNotification = useCallback((notificationId) => {
+        setPendingNotifications(prev => prev.filter(n => n.id !== notificationId));
+    }, []);
 
     // ═══ Module completion check ═══
     const checkModuleCompletion = useCallback((justCompletedId) => {
+        const newlyCompletedModuleIds = [];
+
         for (const course of COURSES) {
             for (const mod of course.modules) {
                 if (!mod.scenarioIds.includes(justCompletedId)) continue;
                 const allDone = mod.scenarioIds.every(sid =>
                     completedScenarios.has(sid) || sid === justCompletedId
                 );
-                if (allDone) {
-                    setCompletedModules(prev => new Set([...prev, mod.id]));
+                if (allDone && !completedModules.has(mod.id)) {
+                    newlyCompletedModuleIds.push(mod.id);
                 }
             }
         }
-    }, [completedScenarios]);
+
+        if (newlyCompletedModuleIds.length === 0) return;
+
+        // Update completed modules
+        setCompletedModules(prev => {
+            const next = new Set(prev);
+            newlyCompletedModuleIds.forEach(id => next.add(id));
+            return next;
+        });
+
+        // Check for newly unlocked modules and push toast notifications
+        const updatedCompleted = new Set([...completedModules, ...newlyCompletedModuleIds]);
+        const newNotifications = [];
+
+        for (const course of COURSES) {
+            for (const candidate of course.modules) {
+                if (updatedCompleted.has(candidate.id)) continue;
+                if (!candidate.prerequisites.some(preId => newlyCompletedModuleIds.includes(preId))) continue;
+
+                const allPrereqsMet = candidate.prerequisites.every(preId => updatedCompleted.has(preId));
+                if (!allPrereqsMet) continue;
+
+                // This module is newly unlocked — notify for each authored scenario
+                const authoredScenarios = candidate.scenarioIds
+                    .map(sid => scenarios.find(s => s.id === sid))
+                    .filter(Boolean);
+
+                for (const scenario of authoredScenarios) {
+                    newNotifications.push({
+                        id: `notif-${scenario.id}-${Date.now()}`,
+                        scenarioId: scenario.id,
+                        customerId: scenario.customerId,
+                        subject: scenario.ticketSubject || scenario.description,
+                        moduleId: candidate.id,
+                    });
+                }
+            }
+        }
+
+        if (newNotifications.length > 0) {
+            setPendingNotifications(prev => [...prev, ...newNotifications]);
+        }
+    }, [completedScenarios, completedModules]);
 
     // ═══ Message helpers ═══
     const addMessageToHistory = useCallback((step) => {
@@ -784,6 +854,7 @@ export function InstructionalProvider({ children }) {
 
     const resetAllProgress = useCallback(() => {
         clearPersistedState();
+        try { localStorage.removeItem("cedarridge-welcome-seen"); } catch { /* ignore */ }
         setCompletedScenarios(new Set());
         setCompletedModules(new Set());
         setScores({});
@@ -791,6 +862,8 @@ export function InstructionalProvider({ children }) {
         setCurrentStepId(null);
         setShowHint(false);
         setCoachMarksEnabled(true);
+        setIdmSetupComplete(false);
+        setPendingNotifications([]);
         setRightPanelView("inbox");
         setTicketHistory(getInitialHistory());
         setConversationHistory([]);
@@ -819,6 +892,14 @@ export function InstructionalProvider({ children }) {
         checkNavigationGoal,
         checkActionGoal,
         advanceStep,
+
+        // IDM setup
+        idmSetupComplete,
+        setIdmSetupComplete,
+
+        // Notifications
+        pendingNotifications,
+        dismissNotification,
 
         // New API
         ticketHistory,

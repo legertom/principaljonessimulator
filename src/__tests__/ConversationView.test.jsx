@@ -56,9 +56,9 @@ function renderConversation(overrides = {}) {
 describe("ConversationView", () => {
     it("renders customer info from characters.js", () => {
         renderConversation();
-        // principalJones → "Principal Jones", school "Lincoln Heights Elementary"
+        // principalJones → "Principal Jones", school "Cedar Ridge Elementary"
         expect(screen.getByText("Principal Jones")).toBeInTheDocument();
-        expect(screen.getByText("Lincoln Heights Elementary")).toBeInTheDocument();
+        expect(screen.getByText("Cedar Ridge Elementary")).toBeInTheDocument();
     });
 
     it("renders conversation messages", () => {
@@ -73,14 +73,14 @@ describe("ConversationView", () => {
         renderConversation({ handleAction: mockAction });
 
         const textarea = screen.getByPlaceholderText("Type your response");
-        fireEvent.change(textarea, { target: { value: "rwaelchi@maytonlyceum.com" } });
+        fireEvent.change(textarea, { target: { value: "rwaelchi@cedarridgesd.org" } });
 
         const sendBtn = screen.getByText("Send");
         fireEvent.click(sendBtn);
 
         expect(mockAction).toHaveBeenCalledWith({
             type: "submitted_answer",
-            text: "rwaelchi@maytonlyceum.com",
+            text: "rwaelchi@cedarridgesd.org",
         });
     });
 

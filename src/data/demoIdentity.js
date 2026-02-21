@@ -25,5 +25,5 @@ export const demoUsers = {
 export const demoCustomer = {
     title: "Principal",
     lastName: "Jones",
-    schoolName: "Lincoln Heights Elementary",
+    schoolName: "Cedar Ridge Elementary",
 };
